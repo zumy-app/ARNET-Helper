@@ -84,20 +84,25 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 100,
               child: Row(
                 children: [
-                  Container( child: Text(
-                    'Access expires in',
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                  Container(
+                    child: Text(
+                      'Access expires in',
+                      style:
+                          TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                    ),
+                    alignment: Alignment.topLeft,
                   ),
-                  alignment: Alignment.topLeft,),
                   const Center(
                       child: Text(
                     '183 Days',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
                   )),
-                  Container(child: Text(
-                    'On 2/22/2023',
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                  ),
+                  Container(
+                      child: Text(
+                        'On 2/22/2023',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, fontSize: 15),
+                      ),
                       alignment: Alignment.bottomRight)
                 ],
               ),
@@ -105,6 +110,45 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.green[100],
                   borderRadius: BorderRadius.circular(20)),
             ),
+            Container(
+              height: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      'DoD Cyber Awareness Challenge Training',
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ),
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Text(
+                            'Annual Requirement',
+                            style:
+                            TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                          ),
+
+                        ),
+                        Container(
+                          child: Text(
+                            'Expires On 2/22/2023',
+                            style:
+                            TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                          ),
+
+                        )
+
+                      ],),
+                ],
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.green[100],
+                  borderRadius: BorderRadius.circular(20)),
+            )
           ],
         ) // This trailing comma makes auto-formatting nicer for build methods.
         );
