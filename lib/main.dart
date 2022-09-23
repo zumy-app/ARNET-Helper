@@ -92,16 +92,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Column(
           children: <Widget>[
-            new Summary(),
-            SizedBox(height: 10),
+            new Padding(padding:   EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Center(child: Summary(),),),
+
             Expanded(
               child:ListView.builder(
+                shrinkWrap: true,
                 // Let the ListView know how many items it needs to build.
                 itemCount: items.length,
                 // Provide a builder function. This is where the magic happens.
                 // Convert each item into a widget based on the type of item it is.
                 itemBuilder: (context, index) {
-                  return Requirement( title: items[index]['title'],frequency: items[index]['frequency'], info: items[index]['info']);
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Center(
+                      child: Requirement( title: items[index]['title'],frequency: items[index]['frequency'], info: items[index]['info'])
+                    ),
+                  );
                 },
               ),
 
@@ -122,6 +129,7 @@ class Summary extends StatelessWidget {
       child: Row(
         children: [
           Container(
+            padding: EdgeInsets.all(4),
             child: Text(
               'Access expires in',
               style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
