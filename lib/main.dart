@@ -71,86 +71,123 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+    List items = [
+      {
+        "title": "DoD Cyber Awareness Challenge Training",
+        "frequency": "Annual Requirement",
+        "info": "Expires On 2/22/2023"
+      },
+      {
+        "title": "Personally Identifiable Information (PII) V5",
+        "frequency": "Once as updated",
+        "info": "Last Taken on 2/22/2023"
+      }
+    ];
     return Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: ListView(
-          padding: const EdgeInsets.all(8),
+        body: Column(
           children: <Widget>[
-            Container(
-              height: 100,
-              child: Row(
-                children: [
-                  Container(
-                    child: Text(
-                      'Access expires in',
-                      style:
-                          TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                    ),
-                    alignment: Alignment.topLeft,
-                  ),
-                  const Center(
-                      child: Text(
-                    '183 Days',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                  )),
-                  Container(
-                      child: Text(
-                        'On 2/22/2023',
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic, fontSize: 15),
-                      ),
-                      alignment: Alignment.bottomRight)
-                ],
+            new Summary(),
+            SizedBox(height: 10),
+            Expanded(
+              child:ListView.builder(
+                // Let the ListView know how many items it needs to build.
+                itemCount: items.length,
+                // Provide a builder function. This is where the magic happens.
+                // Convert each item into a widget based on the type of item it is.
+                itemBuilder: (context, index) {
+                  return Requirement( title: items[index]['title'],frequency: items[index]['frequency'], info: items[index]['info']);
+                },
               ),
-              decoration: BoxDecoration(
-                  color: Colors.green[100],
-                  borderRadius: BorderRadius.circular(20)),
-            ),
-            Container(
-              height: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Text(
-                      'DoD Cyber Awareness Challenge Training',
-                      style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Text(
-                            'Annual Requirement',
-                            style:
-                            TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                          ),
 
-                        ),
-                        Container(
-                          child: Text(
-                            'Expires On 2/22/2023',
-                            style:
-                            TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                          ),
-
-                        )
-
-                      ],),
-                ],
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.green[100],
-                  borderRadius: BorderRadius.circular(20)),
             )
           ],
         ) // This trailing comma makes auto-formatting nicer for build methods.
         );
+  }
+}
+
+class Summary extends StatelessWidget {
+  const Summary({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      child: Row(
+        children: [
+          Container(
+            child: Text(
+              'Access expires in',
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+            ),
+            alignment: Alignment.topLeft,
+          ),
+          const Center(
+              child: Text(
+            '183 Days',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+          )),
+          Container(
+              child: Text(
+                'On 2/22/2023',
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+              ),
+              alignment: Alignment.bottomRight)
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: Colors.green[100], borderRadius: BorderRadius.circular(20)),
+    );
+  }
+}
+
+class Requirement extends StatelessWidget {
+   final String title;
+   final String frequency;
+   final String info;
+
+   Requirement({ required this.title, required this.frequency, required this.info});
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: 100,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Text(
+              this.title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Text(
+                 this.frequency,
+                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                ),
+              ),
+              Container(
+                child: Text(
+                  this.info,
+                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: Colors.green[100], borderRadius: BorderRadius.circular(20)),
+    );
   }
 }
