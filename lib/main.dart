@@ -80,40 +80,57 @@ class _MyHomePageState extends State<MyHomePage> {
 
     List items = [
       {
+        "title": "Army IT User Agreement",
+        "frequency": "Annual Requirement",
+        "footer": "Last uploaded on",
+        "date": "3/11/2022"
+      },
+      {
+        "title": "DD 2875",
+        "frequency": "Annual Requirement",
+        "footer": "Last uploaded on",
+        "date": "3/25/2022"
+      },
+      {
         "title": "DoD Cyber Awareness Challenge Training",
         "frequency": "Annual Requirement",
-        "footer": "Expires On",
-        "date": "2/22/2023"
+        "footer": "Last Taken On",
+        "date": "3/11/2022"
       },
+
       {
         "title": "Personally Identifiable Information (PII) V5",
         "frequency": "Once as updated",
+        "version":3,
         "footer": "Last Taken on",
-        "date": "2/22/2023"
+        "date": "5/18/2021"
       },
       {
         "title": "PED and Removable Storage ",
         "frequency": "Once as updated",
         "footer": "Last Taken on",
-        "date": ""
+        "version":2,
+        "date": "5/18/2021"
       },
       {
         "title": "Safe Home Computing",
         "frequency": "Once as updated",
         "footer": "Last Taken on",
-        "date": ""
+        "date": "4/11/2021"
       },
       {
         "title": "Social Networking",
         "frequency": "Once as updated",
         "footer": "Last Taken on",
-        "date": ""
+        "version":2.1,
+        "date": "12/27/2021"
       },
       {
         "title": "Phishing Awareness ",
         "frequency": "Once as updated",
         "footer": "Last Taken on",
-        "date": ""
+        "version":5,
+        "date": "1/13/2022"
       }
     ];
 
