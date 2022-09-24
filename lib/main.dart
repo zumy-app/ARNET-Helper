@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           children: <Widget>[
             new Padding(padding:   EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: Center(child: Summary(),),),
+            child: Center(child:Summary(header: "Access expires in", eta:"183 Days", date: "On 2/22/2023")),),
 
             Expanded(
               child:ListView.builder(
@@ -120,8 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Summary extends StatelessWidget {
-  const Summary({Key? key}) : super(key: key);
-
+  final String header;
+  final String eta;
+  final String date;
+  const Summary({Key? key, required this.header, required this.eta, required this.date}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,19 +133,19 @@ class Summary extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(4),
             child: Text(
-              'Access expires in',
+              this.header,
               style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
             ),
             alignment: Alignment.topLeft,
           ),
-          const Center(
+           Center(
               child: Text(
-            '183 Days',
+            this.eta,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           )),
           Container(
               child: Text(
-                'On 2/22/2023',
+                this.date,
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
               alignment: Alignment.bottomRight)
