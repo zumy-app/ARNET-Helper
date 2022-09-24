@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,19 +49,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<String> entries = <String>['A', 'B', 'C'];
@@ -73,70 +61,219 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     Map summary = {
       'header': "Access expires in",
-      'eta':"183",
+      'eta': "183",
       'footer': "On",
       'date': "2/22/2023"
     };
 
     List items = [
       {
+        "title": "Sign in to ARNET",
+        "id": 1,
+        //Must match the corresponding ID in the rules list to find the applicable rules
+        "frequencyText": "Monthly Requirement",
+        "footer": "Last Signed in on",
+        "date": "9/24/2022"
+      },
+      {
         "title": "Army IT User Agreement",
-        "frequency": "Annual Requirement",
+        "id": 2,
+        "frequencyText": "Annual Requirement",
         "footer": "Last uploaded on",
         "date": "3/11/2022"
       },
       {
         "title": "DD 2875",
-        "frequency": "Annual Requirement",
+        "id": 3,
+        "frequencyText": "Annual Requirement",
         "footer": "Last uploaded on",
         "date": "3/25/2022"
       },
       {
         "title": "DoD Cyber Awareness Challenge Training",
-        "frequency": "Annual Requirement",
+        "id": 4,
+        "frequencyText": "Annual Requirement",
         "footer": "Last Taken On",
         "date": "3/11/2022"
       },
-
       {
         "title": "Personally Identifiable Information (PII) V5",
-        "frequency": "Once as updated",
-        "version":3,
+        "id": 5,
+        "frequencyText": "Once as updated",
+        "completedVersion": 3,
         "footer": "Last Taken on",
         "date": "5/18/2021"
       },
       {
         "title": "PED and Removable Storage ",
-        "frequency": "Once as updated",
+        "id": 6,
+        "frequencyText": "Once as updated",
         "footer": "Last Taken on",
-        "version":2,
+        "completedVersion": 2,
         "date": "5/18/2021"
       },
       {
         "title": "Safe Home Computing",
-        "frequency": "Once as updated",
+        "id": 7,
+        "frequencyText": "Once as updated",
         "footer": "Last Taken on",
+        "completedVersion": -1,
         "date": "4/11/2021"
       },
       {
         "title": "Social Networking",
-        "frequency": "Once as updated",
+        "id": 8,
+        "frequencyText": "Once as updated",
         "footer": "Last Taken on",
-        "version":2.1,
+        "completedVersion": 2.1,
         "date": "12/27/2021"
       },
       {
         "title": "Phishing Awareness ",
-        "frequency": "Once as updated",
+        "id": 9,
+        "frequencyText": "Once as updated",
         "footer": "Last Taken on",
-        "version":5,
+        "completedVersion": 5,
         "date": "1/13/2022"
       }
     ];
 
+    List rules = [
+      {
+        "title": "Sign in to ARNET",
+        "id": 1,
+        "frequency": 30, //in days
+        "frequencyText": "Monthly Requirement",
+        "notes": "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
+      },
+      {
+        "title": "Army IT User Agreement",
+        "id": 2,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "notes": "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
+      },
+      {
+        "title": "DD 2875",
+        "id": 3,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "notes": "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
+      },
+      {
+        "title": "DoD Cyber Awareness Challenge Training",
+        "id": 4,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "notes": "https://cs.signal.army.mil OR https://jkodirect.jten.mil"
+      },
+      {
+        "title": "Personally Identifiable Information (PII) V5",
+        "id": 5,
+        "frequency": 364,
+        "frequencyText": "Once as updated",
+        "notes": """https://iatraining.us.army.mil
+https://jkosupport.jten.mil 
+DOD-US1366 Or 
+https://cyber.mil/cyber-training/training-catalog/
+Identifying and Safeguarding Personally Identifiable Information (PII)"""
+      },
+      {
+        "title": "PED and Removable Storage ",
+        "id": 6,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "version": 2,
+        "notes": "Not Currently Available"
+      },
+      {
+        "title": "Safe Home Computing",
+        "id": 7,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "version": "NA",
+        "notes": "Not Currently Available"
+      },
+      {
+        "title": "Social Networking",
+        "id": 8,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "version": 4,
+        "notes": """https://iatraining.us.army.mil
+https://jkosupport.jten.mil 
+PAC-J7-US001-08
+Or 
+https://cyber.mil/cyber-training/training-catalog/
+Social Networking and Your Online Identity"""
+      },
+      {
+        "title": "Phishing Awareness ",
+        "id": 9,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "version": 6,
+        "notes": """https://jkosupport.jten.mil 
+SOC-AFR-0100-SOCAFRICA
+Or 
+https://cyber.mil/cyber-training/training-catalog/
+Phishing and Social Engineering: Virtual Communication Awareness Training"""
 
+      }
+    ];
 
+    final df = DateFormat('MM/dd/yy');
+    num findDueDays(src, target) {
+      //No due date
+      if (target.containsKey("version")) {
+        return -1;
+      } else {
+        final from = df.parse(src.date);
+        final to = from.add(target['duration']);
+        return (to.difference(from).inHours / 24).round();
+      }
+    }
 
+    findColor(num dueDays, frequency) {
+      //Eg: An annual requirement, anything above a month
+      if (frequency > 35) {
+        if (dueDays < 0) return Colors.red[100];
+        if (dueDays < 31) return Colors.amber[100];
+        if (dueDays < 365) return Colors.green[100];
+      }
+      //Eg: Monthly requirement
+      if (frequency > 0) {
+        if (dueDays < 0) return Colors.red[100];
+        if (dueDays < 7) return Colors.amber[100];
+        if (dueDays < 14) return Colors.green[100];
+      }
+      //Eg: No annual/monthly requirement. Only take the most recent version
+      if (frequency < 0) {
+        if (dueDays < 0) return Colors.red[100];
+        if (dueDays < 7) return Colors.amber[100];
+        if (dueDays < 14) return Colors.green[100];
+      }
+    }
+
+    List calc(List user, List rules) {
+      List resp = [];
+      user.forEach((src) {
+        final target = rules.firstWhere((element) => element.id == src.id);
+        if (target != null) {
+          var dueDays = findDueDays(src, target);
+          final result = {
+            "title": target['title'],
+            "id": target['id'],
+            "frequency": target['frequency'],
+            "frequencyText": target['frequencyText'],
+            "dueIn": dueDays,
+            "color": findColor(dueDays, target['frequency']),
+            "notes": target['notes']
+          };
+        }
+      });
+      return [];
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -146,11 +283,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Column(
           children: <Widget>[
-            new Padding(padding:   EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: Center(child:Summary(header: summary['header'], eta:summary['eta'], footer: summary['footer'],date:summary['date'] ,)),),
-
+            new Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Center(
+                  child: Summary(
+                header: summary['header'],
+                eta: summary['eta'],
+                footer: summary['footer'],
+                date: summary['date'],
+              )),
+            ),
             Expanded(
-              child:ListView.builder(
+              child: ListView.builder(
                 shrinkWrap: true,
                 // Let the ListView know how many items it needs to build.
                 itemCount: items.length,
@@ -160,12 +304,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: Center(
-                      child: Requirement( title: items[index]['title'],frequency: items[index]['frequency'], footer: items[index]['footer'], date: items[index]['date'])
-                    ),
+                        child: Requirement(
+                            title: items[index]['title'],
+                            frequency: items[index]['frequencyText'],
+                            footer: items[index]['footer'],
+                            date: items[index]['date'])),
                   );
                 },
               ),
-
             )
           ],
         ) // This trailing comma makes auto-formatting nicer for build methods.
@@ -178,7 +324,15 @@ class Summary extends StatelessWidget {
   final String eta;
   final String footer;
   final String date;
-  const Summary({Key? key, required this.header, required this.eta, required this.date, required this.footer}) : super(key: key);
+
+  const Summary(
+      {Key? key,
+      required this.header,
+      required this.eta,
+      required this.date,
+      required this.footer})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -193,9 +347,9 @@ class Summary extends StatelessWidget {
             ),
             alignment: Alignment.topLeft,
           ),
-           Center(
+          Center(
               child: Text(
-           "${ this.eta} days",
+            "${this.eta} days",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           )),
           Container(
@@ -213,13 +367,17 @@ class Summary extends StatelessWidget {
 }
 
 class Requirement extends StatelessWidget {
-   final String title;
-   final String frequency;
-   final String footer;
-   final String date;
+  final String title;
+  final String frequency;
+  final String footer;
+  final String date;
 
-  const Requirement({super.key, required this.title, required this.frequency, required this.footer, required this.date});
-
+  const Requirement(
+      {super.key,
+      required this.title,
+      required this.frequency,
+      required this.footer,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -239,13 +397,13 @@ class Requirement extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                 this.frequency,
+                  this.frequency,
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               ),
               Container(
                 child: Text(
-                 "${this.footer} ${this.date}",
+                  "${this.footer} ${this.date}",
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               )
