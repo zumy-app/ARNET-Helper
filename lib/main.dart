@@ -71,19 +71,56 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    Map summary = {
+      'header': "Access expires in",
+      'eta':"183",
+      'footer': "On",
+      'date': "2/22/2023"
+    };
 
     List items = [
       {
         "title": "DoD Cyber Awareness Challenge Training",
         "frequency": "Annual Requirement",
-        "info": "Expires On 2/22/2023"
+        "footer": "Expires On",
+        "date": "2/22/2023"
       },
       {
         "title": "Personally Identifiable Information (PII) V5",
         "frequency": "Once as updated",
-        "info": "Last Taken on 2/22/2023"
+        "footer": "Last Taken on",
+        "date": "2/22/2023"
+      },
+      {
+        "title": "PED and Removable Storage ",
+        "frequency": "Once as updated",
+        "footer": "Last Taken on",
+        "date": ""
+      },
+      {
+        "title": "Safe Home Computing",
+        "frequency": "Once as updated",
+        "footer": "Last Taken on",
+        "date": ""
+      },
+      {
+        "title": "Social Networking",
+        "frequency": "Once as updated",
+        "footer": "Last Taken on",
+        "date": ""
+      },
+      {
+        "title": "Phishing Awareness ",
+        "frequency": "Once as updated",
+        "footer": "Last Taken on",
+        "date": ""
       }
     ];
+
+
+
+
+
     return Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
@@ -93,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           children: <Widget>[
             new Padding(padding:   EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: Center(child:Summary(header: "Access expires in", eta:"183 Days", date: "On 2/22/2023")),),
+            child: Center(child:Summary(header: summary['header'], eta:summary['eta'], footer: summary['footer'],date:summary['date'] ,)),),
 
             Expanded(
               child:ListView.builder(
@@ -106,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Padding(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: Center(
-                      child: Requirement( title: items[index]['title'],frequency: items[index]['frequency'], info: items[index]['info'])
+                      child: Requirement( title: items[index]['title'],frequency: items[index]['frequency'], footer: items[index]['footer'], date: items[index]['date'])
                     ),
                   );
                 },
@@ -122,8 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
 class Summary extends StatelessWidget {
   final String header;
   final String eta;
+  final String footer;
   final String date;
-  const Summary({Key? key, required this.header, required this.eta, required this.date}) : super(key: key);
+  const Summary({Key? key, required this.header, required this.eta, required this.date, required this.footer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,7 +169,7 @@ class Summary extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(4),
+            padding: EdgeInsets.all(3),
             child: Text(
               this.header,
               style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
@@ -140,12 +178,12 @@ class Summary extends StatelessWidget {
           ),
            Center(
               child: Text(
-            this.eta,
+           "${ this.eta} days",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           )),
           Container(
               child: Text(
-                this.date,
+                "${this.footer} ${this.date} ",
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
               alignment: Alignment.bottomRight)
@@ -160,9 +198,11 @@ class Summary extends StatelessWidget {
 class Requirement extends StatelessWidget {
    final String title;
    final String frequency;
-   final String info;
+   final String footer;
+   final String date;
 
-   Requirement({ required this.title, required this.frequency, required this.info});
+  const Requirement({super.key, required this.title, required this.frequency, required this.footer, required this.date});
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +228,7 @@ class Requirement extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  this.info,
+                 "${this.footer} ${this.date}",
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               )
