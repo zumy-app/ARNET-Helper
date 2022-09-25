@@ -144,21 +144,24 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 1,
         "frequency": 30, //in days
         "frequencyText": "Monthly Requirement",
-        "notes": "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
+        "notes":
+            "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
       },
       {
         "title": "Army IT User Agreement",
         "id": 2,
         "frequency": 364,
         "frequencyText": "Annual Requirement",
-        "notes": "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
+        "notes":
+            "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
       },
       {
         "title": "DD 2875",
         "id": 3,
         "frequency": 364,
         "frequencyText": "Annual Requirement",
-        "notes": "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
+        "notes":
+            "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
       },
       {
         "title": "DoD Cyber Awareness Challenge Training",
@@ -218,11 +221,11 @@ SOC-AFR-0100-SOCAFRICA
 Or 
 https://cyber.mil/cyber-training/training-catalog/
 Phishing and Social Engineering: Virtual Communication Awareness Training"""
-
       }
     ];
 
     final df = DateFormat('MM/dd/yy');
+    final today = new DateTime.now();
     num findDueDays(src, target) {
       //No due date
       if (target.containsKey("version")) {
@@ -230,45 +233,46 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       } else {
         final from = df.parse(src['date']);
         final to = from.add(Duration(days: target['frequency']));
-        return (to.difference(from).inHours / 24).round();
+        return (to.difference(today).inHours / 24).round();
       }
     }
 
-    findColor(num dueDays, frequency) {
+    findColor(num dueDays, src, target) {
       //Eg: An annual requirement, anything above a month
-      if (frequency > 35) {
+      if (target['frequency'] > 35) {
         if (dueDays < 0) return Colors.red[100];
         if (dueDays < 31) return Colors.amber[100];
         if (dueDays < 365) return Colors.green[100];
       }
       //Eg: Monthly requirement
-      if (frequency > 0) {
+      if (target['frequency'] > 0) {
         if (dueDays < 0) return Colors.red[100];
         if (dueDays < 7) return Colors.amber[100];
         if (dueDays < 14) return Colors.green[100];
       }
       //Eg: No annual/monthly requirement. Only take the most recent version
-      if (frequency < 0) {
+      if (target['frequency'] < 0) {
         if (dueDays < 0) return Colors.red[100];
         if (dueDays < 7) return Colors.amber[100];
         if (dueDays < 14) return Colors.green[100];
       }
     }
 
-    calcSummary(List results){
+    calcSummary(List results) {
       var lowestDue = 99999999;
-      var lowestReq={};
+      var lowestReq = {};
       results.forEach((e) {
-        if(e['dueIn']<lowestDue)
-          lowestDue=e['dueIn'];
-          lowestReq=e;
+        if (e['dueIn'] < lowestDue) lowestDue = e['dueIn'];
+        lowestReq = e;
       });
-    return lowestReq;
+      return lowestReq;
     }
+
     List calc(List items, List rules) {
       List results = [];
       items.forEach((src) {
-        final target = rules.firstWhere((element) => element['id'] == src['id']);
+        final target =
+            rules.firstWhere((element) => element['id'] == src['id']);
         if (target != null) {
           var dueDays = findDueDays(src, target);
           final result = {
@@ -277,7 +281,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
             "frequency": target['frequency'],
             "frequencyText": target['frequencyText'],
             "dueIn": dueDays,
-            "color": findColor(dueDays, target['frequency']),
+            "color": findColor(dueDays, src, target),
             "notes": target['notes']
           };
           results.add(result);
@@ -285,8 +289,9 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       });
       return results;
     }
-final data = calc(items, rules);
-final lowest = calcSummary(data);
+
+    final data = calc(items, rules);
+    final lowest = calcSummary(data);
 
     return Scaffold(
         appBar: AppBar(
