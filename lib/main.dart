@@ -255,10 +255,20 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       }
     }
 
-    List calc(List user, List rules) {
-      List resp = [];
-      user.forEach((src) {
-        final target = rules.firstWhere((element) => element.id == src.id);
+    calcSummary(List results){
+      var lowestDue = 99999999;
+      var lowestReq={};
+      results.forEach((e) {
+        if(e['dueIn']<lowestDue)
+          lowestDue=e['dueIn'];
+          lowestReq=e;
+      });
+    return lowestReq;
+    }
+    List calc(List items, List rules) {
+      List results = [];
+      items.forEach((src) {
+        final target = rules.firstWhere((element) => element['id'] == src['id']);
         if (target != null) {
           var dueDays = findDueDays(src, target);
           final result = {
@@ -270,10 +280,13 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
             "color": findColor(dueDays, target['frequency']),
             "notes": target['notes']
           };
+          results.add(result);
         }
       });
-      return [];
+      return results;
     }
+final data = calc(items, rules);
+final lowest = calcSummary(data);
 
     return Scaffold(
         appBar: AppBar(
@@ -283,12 +296,12 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
         ),
         body: Column(
           children: <Widget>[
-            new Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Center(
                   child: Summary(
                 header: summary['header'],
-                eta: summary['eta'],
+                eta: lowest['dueIn'],
                 footer: summary['footer'],
                 date: summary['date'],
               )),
