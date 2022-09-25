@@ -228,8 +228,8 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       if (target.containsKey("version")) {
         return -1;
       } else {
-        final from = df.parse(src.date);
-        final to = from.add(target['duration']);
+        final from = df.parse(src['date']);
+        final to = from.add(Duration(days: target['frequency']));
         return (to.difference(from).inHours / 24).round();
       }
     }
@@ -334,7 +334,7 @@ final lowest = calcSummary(data);
 
 class Summary extends StatelessWidget {
   final String header;
-  final String eta;
+  final int eta;
   final String footer;
   final String date;
 
