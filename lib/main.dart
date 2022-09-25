@@ -248,7 +248,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       if (target['frequency'] > 0) {
         if (dueDays < 0) return Colors.red[100];
         if (dueDays < 7) return Colors.amber[100];
-        if (dueDays < 14) return Colors.green[100];
+        return Colors.green[100];
       }
       //Eg: No annual/monthly requirement. Only take the most recent version
       if (target['frequency'] < 0) {
