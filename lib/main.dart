@@ -377,14 +377,28 @@ class Requirement extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  this.map['frequency'].toString(),
+                  this.map['frequencyText'],
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               ),
               Container(
-                child: Text(
-                  "${this.map['footer']} ${this.map['date']}",
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                child: Column(
+                  children: [
+                    Container(
+                      child:Text(
+                        "${this.map['footer']} ${this.map['date']}",
+                        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                      )
+                    ),
+                    Container(
+                        child:Text(
+                          "Expires in days: ${this.map['dueIn']<0?"N/A":this.map['dueIn']} ",
+                          style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                        )
+                    ),
+
+                  ],
+
                 ),
               )
             ],
