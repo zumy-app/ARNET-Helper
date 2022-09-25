@@ -59,80 +59,46 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    Map summary = {
-      'header': "Access expires in",
-      'eta': "183",
-      'footer': "On",
-      'date': "2/22/2023"
-    };
-
     List items = [
       {
-        "title": "Sign in to ARNET",
         "id": 1,
         //Must match the corresponding ID in the rules list to find the applicable rules
-        "frequencyText": "Monthly Requirement",
-        "footer": "Last Signed in on",
         "date": "9/24/2022"
       },
       {
-        "title": "Army IT User Agreement",
         "id": 2,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last uploaded on",
         "date": "3/11/2022"
       },
       {
-        "title": "DD 2875",
         "id": 3,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last uploaded on",
         "date": "3/25/2022"
       },
       {
-        "title": "DoD Cyber Awareness Challenge Training",
         "id": 4,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last Taken On",
         "date": "3/11/2022"
       },
       {
-        "title": "Personally Identifiable Information (PII) V5",
         "id": 5,
-        "frequencyText": "Once as updated",
         "completedVersion": 3,
-        "footer": "Last Taken on",
         "date": "5/18/2021"
       },
       {
-        "title": "PED and Removable Storage ",
         "id": 6,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
         "completedVersion": 2,
         "date": "5/18/2021"
       },
       {
-        "title": "Safe Home Computing",
         "id": 7,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
         "completedVersion": 0,
         "date": "4/11/2021"
       },
       {
-        "title": "Social Networking",
         "id": 8,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
         "completedVersion": 2.1,
         "date": "12/27/2021"
       },
       {
-        "title": "Phishing Awareness ",
         "id": 9,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
         "completedVersion": 5,
         "date": "1/13/2022"
       }
@@ -144,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 1,
         "frequency": 30, //in days
         "frequencyText": "Monthly Requirement",
+        "footer": "Last Signed in on",
         "notes":
             "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
       },
@@ -152,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 2,
         "frequency": 364,
         "frequencyText": "Annual Requirement",
+        "footer": "Last uploaded on",
         "notes":
             "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
       },
@@ -160,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 3,
         "frequency": 364,
         "frequencyText": "Annual Requirement",
+        "footer": "Last uploaded on",
         "notes":
             "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
       },
@@ -168,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 4,
         "frequency": 364,
         "frequencyText": "Annual Requirement",
+        "footer": "Last Taken On",
         "notes": "https://cs.signal.army.mil OR https://jkodirect.jten.mil"
       },
       {
@@ -175,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 5,
         "frequency": 364,
         "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
         "notes": """https://iatraining.us.army.mil
 https://jkosupport.jten.mil 
 DOD-US1366 Or 
@@ -186,6 +157,7 @@ Identifying and Safeguarding Personally Identifiable Information (PII)"""
         "id": 6,
         "frequency": -1,
         "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
         "version": 2,
         "notes": "Not Currently Available"
       },
@@ -194,6 +166,7 @@ Identifying and Safeguarding Personally Identifiable Information (PII)"""
         "id": 7,
         "frequency": -1,
         "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
         "version": -1,
         "notes": "Not Currently Available"
       },
@@ -202,6 +175,7 @@ Identifying and Safeguarding Personally Identifiable Information (PII)"""
         "id": 8,
         "frequency": -1,
         "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
         "version": 4,
         "notes": """https://iatraining.us.army.mil
 https://jkosupport.jten.mil 
@@ -215,6 +189,7 @@ Social Networking and Your Online Identity"""
         "id": 9,
         "frequency": -1,
         "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
         "version": 6,
         "notes": """https://jkosupport.jten.mil 
 SOC-AFR-0100-SOCAFRICA
@@ -247,7 +222,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       //Eg: Monthly requirement
       if (target['frequency'] > 0) {
         if (dueDays < 0) return Colors.red[100];
-        if (dueDays < 7) return Colors.amber[100];
+        if (dueDays < 30) return Colors.amber[100];
         return Colors.green[100];
       }
       //Eg: No annual/monthly requirement. Only take the most recent version
@@ -280,7 +255,11 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
             "title": target['title'],
             "id": target['id'],
             "frequency": target['frequency'],
+            "date": src['date'],
+            "completedVersion": src['completedVersion'],
+            "version": src['version'],
             "frequencyText": target['frequencyText'],
+            "footer": target['footer'],
             "dueIn": dueDays,
             "color": findColor(dueDays, src, target),
             "notes": target['notes']
@@ -306,17 +285,14 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Center(
                   child: Summary(
-                header: summary['header'],
-                eta: lowest['dueIn'],
-                footer: summary['footer'],
-                date: summary['date'],
+                      map:lowest
               )),
             ),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
                 // Let the ListView know how many items it needs to build.
-                itemCount: items.length,
+                itemCount: data.length,
                 // Provide a builder function. This is where the magic happens.
                 // Convert each item into a widget based on the type of item it is.
                 itemBuilder: (context, index) {
@@ -324,10 +300,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: Center(
                         child: Requirement(
-                            title: items[index]['title'],
-                            frequency: items[index]['frequencyText'],
-                            footer: items[index]['footer'],
-                            date: items[index]['date'])),
+                          map:data[index])),
                   );
                 },
               ),
@@ -339,17 +312,11 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
 }
 
 class Summary extends StatelessWidget {
-  final String header;
-  final int eta;
-  final String footer;
-  final String date;
+  final Map map;
 
   const Summary(
       {Key? key,
-      required this.header,
-      required this.eta,
-      required this.date,
-      required this.footer})
+      required this.map})
       : super(key: key);
 
   @override
@@ -361,19 +328,19 @@ class Summary extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(3),
             child: Text(
-              this.header,
+              "Access expires in",
               style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
             ),
             alignment: Alignment.topLeft,
           ),
           Center(
               child: Text(
-            "${this.eta} days",
+            "${this.map['dueIn']} days",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           )),
           Container(
               child: Text(
-                "${this.footer} ${this.date} ",
+                "on ${this.map['date']} ",
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
               alignment: Alignment.bottomRight)
@@ -386,17 +353,11 @@ class Summary extends StatelessWidget {
 }
 
 class Requirement extends StatelessWidget {
-  final String title;
-  final String frequency;
-  final String footer;
-  final String date;
+  final Map map;
 
   const Requirement(
       {super.key,
-      required this.title,
-      required this.frequency,
-      required this.footer,
-      required this.date});
+      required this.map});
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +368,7 @@ class Requirement extends StatelessWidget {
         children: [
           Container(
             child: Text(
-              this.title,
+              this.map['title'],
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
@@ -416,13 +377,13 @@ class Requirement extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  this.frequency,
+                  this.map['frequency'].toString(),
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               ),
               Container(
                 child: Text(
-                  "${this.footer} ${this.date}",
+                  "${this.map['footer']} ${this.map['date']}",
                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                 ),
               )
