@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "id": 7,
         "frequencyText": "Once as updated",
         "footer": "Last Taken on",
-        "completedVersion": -1,
+        "completedVersion": 0,
         "date": "4/11/2021"
       },
       {
@@ -194,7 +194,7 @@ Identifying and Safeguarding Personally Identifiable Information (PII)"""
         "id": 7,
         "frequency": -1,
         "frequencyText": "Once as updated",
-        "version": "NA",
+        "version": -1,
         "notes": "Not Currently Available"
       },
       {
@@ -252,9 +252,8 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       }
       //Eg: No annual/monthly requirement. Only take the most recent version
       if (target['frequency'] < 0) {
-        if (dueDays < 0) return Colors.red[100];
-        if (dueDays < 7) return Colors.amber[100];
-        if (dueDays < 14) return Colors.green[100];
+        if (src['completedVersion'] < target['version']) return Colors.red[100];
+        return Colors.green[100];
       }
     }
 
