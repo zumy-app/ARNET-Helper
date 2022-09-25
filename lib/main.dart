@@ -347,7 +347,7 @@ class Summary extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-          color: Colors.green[100], borderRadius: BorderRadius.circular(20)),
+          color: this.map['color'], borderRadius: BorderRadius.circular(20)),
     );
   }
 }
@@ -406,7 +406,7 @@ class Requirement extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-          color: Colors.green[100], borderRadius: BorderRadius.circular(20)),
+          color: map['color'], borderRadius: BorderRadius.circular(20)),
     );
   }
 }
