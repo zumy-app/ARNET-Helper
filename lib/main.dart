@@ -261,8 +261,10 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
       var lowestDue = 99999999;
       var lowestReq = {};
       results.forEach((e) {
-        if (e['dueIn'] < lowestDue) lowestDue = e['dueIn'];
-        lowestReq = e;
+        if (e['dueIn'] < lowestDue && e['dueIn']>0) {
+          lowestDue = e['dueIn'];
+          lowestReq = e;
+        }
       });
       return lowestReq;
     }
