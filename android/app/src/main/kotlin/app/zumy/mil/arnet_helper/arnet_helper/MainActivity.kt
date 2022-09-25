@@ -1,4 +1,4 @@
-package app.zumy.mil.arnet_helper.arnet_helper
+package app.zumy.mil.arnet_helper
 
 import io.flutter.embedding.android.FlutterActivity
 
