@@ -211,24 +211,24 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
         return (to.difference(today).inHours / 24).round();
       }
     }
-
-    findColor(num dueDays, src, target) {
+//From a scale of 0 to 10
+    calcSeverity(num dueDays, src, target) {
       //Eg: An annual requirement, anything above a month
       if (target['frequency'] > 35) {
-        if (dueDays < 0) return Colors.red[100];
-        if (dueDays < 31) return Colors.amber[100];
-        if (dueDays < 365) return Colors.green[100];
+        if (dueDays < 0) return 10;
+        if (dueDays < 31) return 5;
+        if (dueDays < 365) return 0;
       }
       //Eg: Monthly requirement
       if (target['frequency'] > 0) {
-        if (dueDays < 0) return Colors.red[100];
-        if (dueDays < 30) return Colors.amber[100];
-        return Colors.green[100];
+        if (dueDays < 0) return 10;
+        if (dueDays < 30) return 5;
+        return 0;
       }
       //Eg: No annual/monthly requirement. Only take the most recent version
       if (target['frequency'] < 0) {
-        if (src['completedVersion'] < target['version']) return Colors.red[100];
-        return Colors.green[100];
+        if (src['completedVersion'] < target['version']) return 10;
+        return 0;
       }
     }
 
@@ -261,13 +261,15 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
             "frequencyText": target['frequencyText'],
             "footer": target['footer'],
             "dueIn": dueDays,
-            "color": findColor(dueDays, src, target),
+            "severity": calcSeverity(dueDays, src, target),
             "notes": target['notes']
           };
           results.add(result);
         }
       });
-      return results;
+
+       results.sort((a, b) => (b['severity']).compareTo(a['severity']));
+       return results;
     }
 
     final data = calc(items, rules);
@@ -281,13 +283,13 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
         ),
         body: Column(
           children: <Widget>[
-            Padding(
+          /*  Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Center(
                   child: Summary(
                       map:lowest
               )),
-            ),
+            ),*/
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -406,7 +408,17 @@ class Requirement extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-          color: map['color'], borderRadius: BorderRadius.circular(20)),
+          color: calcColor(map['severity']), borderRadius: BorderRadius.circular(20)),
     );
+  }
+
+  calcColor(severity) {
+    if(severity<1)
+      return Colors.green[100];
+    if(severity<6)
+      return Colors.amber[100];
+    if(severity>6)
+      return Colors.red[100];
+
   }
 }
