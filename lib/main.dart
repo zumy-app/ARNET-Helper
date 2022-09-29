@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-Future<void> main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+Future main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   // DatabaseReference ref = FirebaseDatabase.instance.ref();
   runApp(const MyApp());
