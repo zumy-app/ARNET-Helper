@@ -16,39 +16,63 @@ Future main() async {
 Future<void> writeRulesToDB(rules) async {
   final data = FirebaseFirestore.instance.collection("data");
   return data.doc("rules")
-  .update({'ruleslist1':rules})
+  .update({'ruleslist':rules})
       .then((value) => print("Rules Added"))
       .catchError((error) => print("Failed to add user: $error"));
+}
+
+Future<List<Map<String, dynamic>>> getRules() async  {
+  final data = FirebaseFirestore.instance.collection("data");
+   data
+      .doc("rules")
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print('Document exists on the database');
+      final rules = documentSnapshot.get("ruleslist");
+      return rules;
+    }
+  });
+return [];
 }
 
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'ARNET Helper'),
+    CollectionReference data = FirebaseFirestore.instance.collection('data');
+
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: getRules(),
+      builder:
+          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.isEmpty) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          List<Map<String, dynamic>> data = snapshot.data! as List<Map<String, dynamic>>;
+          return MyHomePage(title: 'ARNET Helper', rules: data);
+        }
+
+        return Text("loading");
+      },
     );
   }
 }
+            // return MyHomePage(title: 'ARNET Helper', rules: snapshot.data);
+      // home: const MyHomePage(title: 'ARNET Helper'),
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.rules});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -60,6 +84,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final List<dynamic> rules;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -121,100 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     ];
 
-    List rules = [
-      {
-        "title": "Sign in to ARNET",
-        "id": 1,
-        "frequency": 30, //in days
-        "frequencyText": "Monthly Requirement",
-        "footer": "Last Signed in on",
-        "notes":
-            "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
-      },
-      {
-        "title": "Army IT User Agreement",
-        "id": 2,
-        "frequency": 364,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last uploaded on",
-        "notes":
-            "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
-      },
-      {
-        "title": "DD 2875",
-        "id": 3,
-        "frequency": 364,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last uploaded on",
-        "notes":
-            "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
-      },
-      {
-        "title": "DoD Cyber Awareness Challenge Training",
-        "id": 4,
-        "frequency": 364,
-        "frequencyText": "Annual Requirement",
-        "footer": "Last Taken On",
-        "notes": "https://cs.signal.army.mil OR https://jkodirect.jten.mil"
-      },
-      {
-        "title": "Personally Identifiable Information (PII) V5",
-        "id": 5,
-        "frequency": 364,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
-        "notes": """https://iatraining.us.army.mil
-https://jkosupport.jten.mil 
-DOD-US1366 Or 
-https://cyber.mil/cyber-training/training-catalog/
-Identifying and Safeguarding Personally Identifiable Information (PII)"""
-      },
-      {
-        "title": "PED and Removable Storage ",
-        "id": 6,
-        "frequency": -1,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
-        "version": 2,
-        "notes": "Not Currently Available"
-      },
-      {
-        "title": "Safe Home Computing",
-        "id": 7,
-        "frequency": -1,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
-        "version": -1,
-        "notes": "Not Currently Available"
-      },
-      {
-        "title": "Social Networking",
-        "id": 8,
-        "frequency": -1,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
-        "version": 4,
-        "notes": """https://iatraining.us.army.mil
-https://jkosupport.jten.mil 
-PAC-J7-US001-08
-Or 
-https://cyber.mil/cyber-training/training-catalog/
-Social Networking and Your Online Identity"""
-      },
-      {
-        "title": "Phishing Awareness ",
-        "id": 9,
-        "frequency": -1,
-        "frequencyText": "Once as updated",
-        "footer": "Last Taken on",
-        "version": 6,
-        "notes": """https://jkosupport.jten.mil 
-SOC-AFR-0100-SOCAFRICA
-Or 
-https://cyber.mil/cyber-training/training-catalog/
-Phishing and Social Engineering: Virtual Communication Awareness Training"""
-      }
-    ];
 
     final df = DateFormat('MM/dd/yy');
     final today = new DateTime.now();
@@ -289,7 +220,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
        return results;
     }
 
-    final data = calc(items, rules);
+    final data = calc(items, widget.rules);
     final lowest = calcSummary(data);
 
     return Scaffold(
@@ -301,7 +232,7 @@ Phishing and Social Engineering: Virtual Communication Awareness Training"""
             ),
             actions: [
               IconButton(
-                onPressed: () => writeRulesToDB(rules),
+                onPressed: () => {},
                 icon: Icon(Icons.update),
               ),
               IconButton(
