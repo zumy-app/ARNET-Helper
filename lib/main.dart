@@ -13,12 +13,10 @@ Future main() async {
   runApp(const MyApp());
 }
 
-Future<void> writeRulesToDB(rules) async {
-  final data = FirebaseFirestore.instance.collection("data");
-  return data.doc("rules")
-  .update({'ruleslist':rules})
-      .then((value) => print("Rules Added"))
-      .catchError((error) => print("Failed to add user: $error"));
+Future<Map<String, dynamic>?> writeRulesToDB(rules) async {
+  var  document = await FirebaseFirestore.instance.collection('Users').doc('CXvGTxT49NUoKi9gRt96ltvljz42').get();
+  Map<String,dynamic>? value = document.data();
+  return value;
 }
 
 Future<List<Map<String, dynamic>>> getRules() async  {
@@ -43,10 +41,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference data = FirebaseFirestore.instance.collection('data');
-
+    CollectionReference data = FirebaseFirestore.instance.collection('users');
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getRules(),
+      future: FirebaseFirestore.instance.collection('Users').doc('CXvGTxT49NUoKi9gRt96ltvljz42').get();,
       builder:
           (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
 
