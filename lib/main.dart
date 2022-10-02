@@ -14,7 +14,7 @@ Future main() async {
 }
 
 Future<Map<String, dynamic>?> writeRulesToDB(rules) async {
-  var  document = await FirebaseFirestore.instance.collection('Users').doc('CXvGTxT49NUoKi9gRt96ltvljz42').get();
+  var  document = await FirebaseFirestore.instance.collection('data').doc('rules').get();
   Map<String,dynamic>? value = document.data();
   return value;
 }
