@@ -41,32 +41,54 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference data = FirebaseFirestore.instance.collection('users');
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: FirebaseFirestore.instance.collection('Users').doc('CXvGTxT49NUoKi9gRt96ltvljz42').get();,
+    CollectionReference data = FirebaseFirestore.instance.collection('data');
+    return FutureBuilder<DocumentSnapshot>(
+      future:  data.doc('rules').get(),
       builder:
-          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return Spinner(text: 'Something went wrong...');
         }
 
-        if (snapshot.hasData && !snapshot.data!.isEmpty) {
-          return Text("Document does not exist");
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return Spinner(text: 'Document does not exist...');
         }
+
 
         if (snapshot.connectionState == ConnectionState.done) {
-          List<Map<String, dynamic>> data = snapshot.data! as List<Map<String, dynamic>>;
-          return MyHomePage(title: 'ARNET Helper', rules: data);
+          Map<String, dynamic> data = snapshot.data! as Map<String, dynamic>;
+
+          return MyHomePage(title: 'ARNET Helper', rules: data['ruleslist'].entries.toList() as List<dynamic>);
         }
 
-        return Text("loading");
+        return Spinner(text: 'Loading...');
       },
     );
   }
 }
             // return MyHomePage(title: 'ARNET Helper', rules: snapshot.data);
       // home: const MyHomePage(title: 'ARNET Helper'),
+
+class Spinner extends StatelessWidget {
+  final String text;
+  const Spinner({super.key, required this.text});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title:  Text(this.text),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+
+}
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.rules});
