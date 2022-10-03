@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<DocumentSnapshot>(
-      future:  data.doc('rules').get(),
+      future:  data.doc("rules").get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
@@ -57,9 +57,9 @@ class MyApp extends StatelessWidget {
 
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data! as Map<String, dynamic>;
+          final data = snapshot.data!.get('ruleslist') ;
 
-          return MyHomePage(title: 'ARNET Helper', rules: data['ruleslist'].entries.toList() as List<dynamic>);
+          return MyHomePage(title: 'ARNET Helper', rules: data);
         }
 
         return Spinner(text: 'Loading...');
