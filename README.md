@@ -2,6 +2,11 @@
 
 Helps maintain ARNET Access
 
+#To run on Edge/Chrome
+
+`flutter channel master
+flutter upgrade`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

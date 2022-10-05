@@ -1,3 +1,4 @@
+import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -5,33 +6,34 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  // DatabaseReference ref = FirebaseDatabase.instance.ref();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
-Future<Map<String, dynamic>?> writeRulesToDB(rules) async {
-  var  document = await FirebaseFirestore.instance.collection('data').doc('rules').get();
-  Map<String,dynamic>? value = document.data();
-  return value;
+
+Future<void> writeToDB(collection, document, key, data) async {
+  final conn = FirebaseFirestore.instance.collection(collection);
+  return conn.doc(document)
+      .update({key:data})
+      .then((value) => print("Data Added $data"))
+      .catchError((error) => print("Failed to add user: $error"));
 }
 
-Future<List<Map<String, dynamic>>> getRules() async  {
-  final data = FirebaseFirestore.instance.collection("data");
-   data
-      .doc("rules")
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
-    if (documentSnapshot.exists) {
-      print('Document exists on the database');
-      final rules = documentSnapshot.get("ruleslist");
-      return rules;
-    }
-  });
-return [];
+
+List<dynamic> read(collection, document, key)  {
+  final db = FirebaseFirestore.instance;
+  final docRef = db.collection(collection).doc(document);
+  docRef.get().then(
+        (DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return data[key];
+    },
+    onError: (e) {
+          return [];
+    },
+  );
+    return [];
 }
 
 
@@ -42,24 +44,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
-    return FutureBuilder<DocumentSnapshot>(
-      future:  data.doc("rules").get(),
+    return FutureBuilder<QuerySnapshot>(
+      future:  data.get(),
       builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
         if (snapshot.hasError) {
           return Spinner(text: 'Something went wrong...');
         }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Spinner(text: 'Document does not exist...');
-        }
-
-
         if (snapshot.connectionState == ConnectionState.done) {
-          final data = snapshot.data!.get('ruleslist') ;
+          final docs = snapshot.data!.docs;
+          var items = docs.where((element) => element.id=="users");
 
-          return MyHomePage(title: 'ARNET Helper', rules: data);
+          return MyHomePage(title: 'ARNET Helper', items: [] , rules: []);
         }
 
         return Spinner(text: 'Loading...');
@@ -67,8 +65,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-            // return MyHomePage(title: 'ARNET Helper', rules: snapshot.data);
-      // home: const MyHomePage(title: 'ARNET Helper'),
+
 
 class Spinner extends StatelessWidget {
   final String text;
@@ -91,19 +88,12 @@ class Spinner extends StatelessWidget {
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.rules});
+  const MyHomePage({super.key, required this.title, required this.items, required this.rules});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
   final List<dynamic> rules;
+  final List<dynamic> items;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -112,59 +102,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final List<String> entries = <String>['A', 'B', 'C'];
-    final List<int> colorCodes = <int>[600, 500, 100];
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    List items = [
-      {
-        "id": 1,
-        //Must match the corresponding ID in the rules list to find the applicable rules
-        "date": "9/24/2022"
-      },
-      {
-        "id": 2,
-        "date": "3/11/2022"
-      },
-      {
-        "id": 3,
-        "date": "3/25/2022"
-      },
-      {
-        "id": 4,
-        "date": "3/11/2022"
-      },
-      {
-        "id": 5,
-        "completedVersion": 3,
-        "date": "5/18/2021"
-      },
-      {
-        "id": 6,
-        "completedVersion": 2,
-        "date": "5/18/2021"
-      },
-      {
-        "id": 7,
-        "completedVersion": 0,
-        "date": "4/11/2021"
-      },
-      {
-        "id": 8,
-        "completedVersion": 2.1,
-        "date": "12/27/2021"
-      },
-      {
-        "id": 9,
-        "completedVersion": 5,
-        "date": "1/13/2022"
-      }
-    ];
-
 
     final df = DateFormat('MM/dd/yy');
     final today = new DateTime.now();
@@ -239,8 +176,12 @@ class _MyHomePageState extends State<MyHomePage> {
        return results;
     }
 
-    final data = calc(items, widget.rules);
-    final lowest = calcSummary(data);
+    final data = calc(widget.items, widget.rules);
+
+
+
+    // final writeUserRules = writeToDB("data", "users", "status", data);
+
 
     return MaterialApp(
         home: Scaffold(
