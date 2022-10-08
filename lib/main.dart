@@ -21,19 +21,10 @@ Future<void> writeToDB(collection, document, key, data) async {
 }
 
 
-List<dynamic> read(collection, document, key)  {
+read(collection, document, key)  async{
   final db = FirebaseFirestore.instance;
-  final docRef = db.collection(collection).doc(document);
-  docRef.get().then(
-        (DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      return data[key];
-    },
-    onError: (e) {
-          return [];
-    },
-  );
-    return [];
+  final docRef = await db.collection(collection).doc(document).collection(key).get();
+  return docRef.docs;
 }
 
 
@@ -43,6 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<QuerySnapshot>(
       future:  data.get(),
@@ -55,7 +47,18 @@ class MyApp extends StatelessWidget {
 
         if (snapshot.connectionState == ConnectionState.done) {
           final docs = snapshot.data!.docs;
-          var items = docs.where((element) => element.id=="users");
+          docs.forEach((e) {
+            if(e.id=="config"){
+              final config = e.data() as Map<String, dynamic>;
+              final rules = config['ruleslist'] as List<dynamic>;
+              print(rules.length);
+            }
+            if(e.id=="users"){
+
+              final uhsarp = e.data() as Map<String, dynamic>;
+            print(uhsarp);
+            }
+          });
 
           return MyHomePage(title: 'ARNET Helper', items: [] , rules: []);
         }
