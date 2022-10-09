@@ -12,19 +12,31 @@ Future main() async {
 }
 
 
-Future<void> writeToDB(collection, document, key, data) async {
-  final conn = FirebaseFirestore.instance.collection(collection);
-  return conn.doc(document)
-      .update({key:data})
+Future<void> writeRulesToDB( data) async {
+  final conn = FirebaseFirestore.instance.collection("data");
+  return conn.doc("config")
+      .update({"ruleslist":data})
       .then((value) => print("Data Added $data"))
       .catchError((error) => print("Failed to add user: $error"));
 }
 
 
-read(collection, document, key)  async{
-  final db = FirebaseFirestore.instance;
-  final docRef = await db.collection(collection).doc(document).collection(key).get();
-  return docRef.docs;
+Future<void> updateUserStatus(email, data) async {
+  final conn = FirebaseFirestore.instance.collection("users");
+  return conn.doc(email)
+      .update({"status":data})
+      .then((value) => print("Data Added $data"))
+      .catchError((error) => print("Failed to add user: $error"));
+}
+
+Future<Map<String, List<dynamic>>> initialDataLoad(email) async {
+
+  var db = FirebaseFirestore.instance;
+  CollectionReference data = db.collection('data');
+
+  final rules = ((await data.doc("config").get()).data() as Map<String, dynamic>) ['ruleslist'] as List<dynamic>;
+  final user = ((await db.collection("users").doc(email).get()).data() as Map<String, dynamic>) ['status'] as List<dynamic>;
+  return {"rules":rules, "user": user};
 }
 
 
@@ -36,31 +48,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     CollectionReference data = FirebaseFirestore.instance.collection('data');
-    return FutureBuilder<QuerySnapshot>(
-      future:  data.get(),
+    return FutureBuilder<Map<dynamic, List<dynamic>>>(
+      future:  initialDataLoad("uhsarp@gmail.com"),
       builder:
-          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          (BuildContext context, AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
 
         if (snapshot.hasError) {
           return Spinner(text: 'Something went wrong...');
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          final docs = snapshot.data!.docs;
-          docs.forEach((e) {
-            if(e.id=="config"){
-              final config = e.data() as Map<String, dynamic>;
-              final rules = config['ruleslist'] as List<dynamic>;
-              print(rules.length);
-            }
-            if(e.id=="users"){
+          final docs = snapshot.data!;
 
-              final uhsarp = e.data() as Map<String, dynamic>;
-            print(uhsarp);
-            }
-          });
-
-          return MyHomePage(title: 'ARNET Helper', items: [] , rules: []);
+          return MyHomePage(title: 'ARNET Helper', items: snapshot.data!['user']! , rules: snapshot.data!['rules']!);
         }
 
         return Spinner(text: 'Loading...');
@@ -349,4 +349,150 @@ class Requirement extends StatelessWidget {
       return Colors.red[100];
 
   }
+
+  initialDataLoad(){
+
+    List items = [
+      {
+        "id": 1,
+        //Must match the corresponding ID in the rules list to find the applicable rules
+        "date": "9/24/2022"
+      },
+      {
+        "id": 2,
+        "date": "3/11/2022"
+      },
+      {
+        "id": 3,
+        "date": "3/25/2022"
+      },
+      {
+        "id": 4,
+        "date": "3/11/2022"
+      },
+      {
+        "id": 5,
+        "completedVersion": 3,
+        "date": "5/18/2021"
+      },
+      {
+        "id": 6,
+        "completedVersion": 2,
+        "date": "5/18/2021"
+      },
+      {
+        "id": 7,
+        "completedVersion": 0,
+        "date": "4/11/2021"
+      },
+      {
+        "id": 8,
+        "completedVersion": 2.1,
+        "date": "12/27/2021"
+      },
+      {
+        "id": 9,
+        "completedVersion": 5,
+        "date": "1/13/2022"
+      }
+    ];
+
+    List rules = [
+      {
+        "title": "Sign in to ARNET",
+        "id": 1,
+        "frequency": 30, //in days
+        "frequencyText": "Monthly Requirement",
+        "footer": "Last Signed in on",
+        "notes":
+        "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
+      },
+      {
+        "title": "Army IT User Agreement",
+        "id": 2,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "footer": "Last uploaded on",
+        "notes":
+        "Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
+      },
+      {
+        "title": "DD 2875",
+        "id": 3,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "footer": "Last uploaded on",
+        "notes":
+        "Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
+      },
+      {
+        "title": "DoD Cyber Awareness Challenge Training",
+        "id": 4,
+        "frequency": 364,
+        "frequencyText": "Annual Requirement",
+        "footer": "Last Taken On",
+        "notes": "https://cs.signal.army.mil OR https://jkodirect.jten.mil"
+      },
+      {
+        "title": "Personally Identifiable Information (PII) V5",
+        "id": 5,
+        "frequency": 364,
+        "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
+        "notes": """https://iatraining.us.army.mil
+https://jkosupport.jten.mil 
+DOD-US1366 Or 
+https://cyber.mil/cyber-training/training-catalog/
+Identifying and Safeguarding Personally Identifiable Information (PII)"""
+      },
+      {
+        "title": "PED and Removable Storage ",
+        "id": 6,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
+        "version": 2,
+        "notes": "Not Currently Available"
+      },
+      {
+        "title": "Safe Home Computing",
+        "id": 7,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
+        "version": -1,
+        "notes": "Not Currently Available"
+      },
+      {
+        "title": "Social Networking",
+        "id": 8,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
+        "version": 4,
+        "notes": """https://iatraining.us.army.mil
+https://jkosupport.jten.mil 
+PAC-J7-US001-08
+Or 
+https://cyber.mil/cyber-training/training-catalog/
+Social Networking and Your Online Identity"""
+      },
+      {
+        "title": "Phishing Awareness ",
+        "id": 9,
+        "frequency": -1,
+        "frequencyText": "Once as updated",
+        "footer": "Last Taken on",
+        "version": 6,
+        "notes": """https://jkosupport.jten.mil 
+SOC-AFR-0100-SOCAFRICA
+Or 
+https://cyber.mil/cyber-training/training-catalog/
+Phishing and Social Engineering: Virtual Communication Awareness Training"""
+      }
+    ];
+    writeRulesToDB(rules);
+    updateUserStatus("uhsarp@gmail.com", items);
+  }
 }
+
