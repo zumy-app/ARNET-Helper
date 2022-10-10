@@ -293,17 +293,14 @@ class Requirement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ExpansionTileCard(
+      baseColor: calcColor(map['severity']),
+      expandedColor:calcColor(map['severity']),
       title:Text(
         this.map['title'],
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
+
       children: [
-        Container(
-          child: Text(
-            this.map['title'],
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
