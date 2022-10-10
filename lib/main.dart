@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -291,52 +292,51 @@ class Requirement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      height: 100,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: Text(
-              this.map['title'],
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
+    return new ExpansionTileCard(
+      title:Text(
+        this.map['title'],
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+      children: [
+        Container(
+          child: Text(
+            this.map['title'],
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: Text(
-                  this.map['frequencyText'],
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Text(
+                this.map['frequencyText'],
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    Container(
+            ),
+            Container(
+              child: Column(
+                children: [
+                  Container(
                       child:Text(
                         "${this.map['footer']} ${this.map['date']}",
                         style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                       )
-                    ),
-                    Container(
-                        child:Text(
-                          "Expires in days: ${this.map['dueIn']<0?"N/A":this.map['dueIn']} ",
-                          style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                        )
-                    ),
+                  ),
+                  Container(
+                      child:Text(
+                        "Expires in days: ${this.map['dueIn']<0?"N/A":this.map['dueIn']} ",
+                        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                      )
+                  ),
 
-                  ],
+                ],
 
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
-      decoration: BoxDecoration(
-          color: calcColor(map['severity']), borderRadius: BorderRadius.circular(20)),
+              ),
+            )
+          ],
+        ),
+      ],
+
     );
   }
 
