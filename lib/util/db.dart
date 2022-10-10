@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+class DB{
  read(collection, document, key){
    FirebaseFirestore.instance
        .collection(collection)
@@ -12,6 +13,24 @@ import 'package:flutter/cupertino.dart';
        return documentSnapshot.get(key);
      }
    });
+}
+
+ Future<void> writeRulesToDB( data) async {
+   final conn = FirebaseFirestore.instance.collection("data");
+   return conn.doc("config")
+       .update({"ruleslist":data})
+       .then((value) => print("Data Added $data"))
+       .catchError((error) => print("Failed to add user: $error"));
+ }
+
+
+ Future<void> updateUserStatus(email, data) async {
+   final conn = FirebaseFirestore.instance.collection("users");
+   return conn.doc(email)
+       .update({"status":data})
+       .then((value) => print("Data Added $data"))
+       .catchError((error) => print("Failed to add user: $error"));
+ }
 }
 
 

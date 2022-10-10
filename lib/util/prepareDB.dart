@@ -1,24 +1,10 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'db.dart';
 
-import 'package:arnet_helper/firebase_options.dart';
-import 'package:arnet_helper/util/db.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+void initialDataLoad(){
 
-import 'package:arnet_helper/main.dart';
+final db = new DB();
 
-void main() {
-  test('Counter increments smoke test', () async {
-    // Build our app and trigger a frame.
-
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  prepareDB(){
 
     List items = [
       {
@@ -104,6 +90,7 @@ void main() {
       {
         "title": "Personally Identifiable Information (PII) V5",
         "id": 5,
+        "version": 5,
         "frequency": 364,
         "frequencyText": "Once as updated",
         "footer": "Last Taken on",
@@ -159,8 +146,7 @@ https://cyber.mil/cyber-training/training-catalog/
 Phishing and Social Engineering: Virtual Communication Awareness Training"""
       }
     ];
-    final db = new DB();
-  });
-
-
+    db.writeRulesToDB(rules);
+    db.updateUserStatus("uhsarp@gmail.com", items);
+  }
 }
