@@ -1,117 +1,44 @@
-# arnet_helper
+# Dillinger
+## Let us help you track and maintain ARNET Access!
 
-Helps maintain ARNET Access
+Tracking and Maintaining ARNET Access is a pain. This app allows US Army Reserve soldiers maintain their ARNET Access by providing them a way to track the various training requirements
 
-#To run on Edge/Chrome
+- See all of the training requirements in one place
+- User driven - Put in the date you completed a given training and the app will help you track it
+- ✨Magic ✨
 
-`flutter channel master
-flutter upgrade`
+## Development
+Want to contribute? Great! Here's how to setup  your environment (IDE/Workstation):
 
-## Getting Started
+- [Firebase setup] - Create a new database in Firebase and download the google-services.json file to your /android/app folder
+- Run the prepareDB() method in the preapreDB.dart file to populate the initial data in the db
 
-This project is a starting point for a Flutter application.
+## Data Model
+- [Config - Rules](https://postimg.cc/CRxtLvwj)
+- [User Data](https://postimg.cc/jwsz61C5)
 
-A few resources to get you started if this is your first Flutter project:
+## Plugins
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Dillinger is currently extended with the following plugins.
+Instructions on how to use them in your own application are linked below.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Plugin | README |
+| ------ | ------ |
+| Dropbox | [plugins/dropbox/README.md][PlDb] |
+| GitHub | [plugins/github/README.md][PlGh] |
 
 
-List rules = [
-{
-"title": "Sign in to ARNET",
-"id": 1,
-"frequency": 30, //in days
-"frequencyText": "Monthly Requirement",
-"footer": "Last Signed in on",
-"notes":
-"Sign in to ARNET from any Army Reserve location or remotely through Citrix"
-},
-{
-"title": "Army IT User Agreement",
-"id": 2,
-"frequency": 364,
-"frequencyText": "Annual Requirement",
-"footer": "Last uploaded on",
-"notes":
-"Upload 75-R annually on https://atcts.army.mil/iastar/login.php"
-},
-{
-"title": "DD 2875",
-"id": 3,
-"frequency": 364,
-"frequencyText": "Annual Requirement",
-"footer": "Last uploaded on",
-"notes":
-"Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"
-},
-{
-"title": "DoD Cyber Awareness Challenge Training",
-"id": 4,
-"frequency": 364,
-"frequencyText": "Annual Requirement",
-"footer": "Last Taken On",
-"notes": "https://cs.signal.army.mil OR https://jkodirect.jten.mil"
-},
-{
-"title": "Personally Identifiable Information (PII) V5",
-"id": 5,
-"frequency": 364,
-"frequencyText": "Once as updated",
-"footer": "Last Taken on",
-"notes": """https://iatraining.us.army.mil
-https://jkosupport.jten.mil
-DOD-US1366 Or
-https://cyber.mil/cyber-training/training-catalog/
-Identifying and Safeguarding Personally Identifiable Information (PII)"""
-},
-{
-"title": "PED and Removable Storage ",
-"id": 6,
-"frequency": -1,
-"frequencyText": "Once as updated",
-"footer": "Last Taken on",
-"version": 2,
-"notes": "Not Currently Available"
-},
-{
-"title": "Safe Home Computing",
-"id": 7,
-"frequency": -1,
-"frequencyText": "Once as updated",
-"footer": "Last Taken on",
-"version": -1,
-"notes": "Not Currently Available"
-},
-{
-"title": "Social Networking",
-"id": 8,
-"frequency": -1,
-"frequencyText": "Once as updated",
-"footer": "Last Taken on",
-"version": 4,
-"notes": """https://iatraining.us.army.mil
-https://jkosupport.jten.mil
-PAC-J7-US001-08
-Or
-https://cyber.mil/cyber-training/training-catalog/
-Social Networking and Your Online Identity"""
-},
-{
-"title": "Phishing Awareness ",
-"id": 9,
-"frequency": -1,
-"frequencyText": "Once as updated",
-"footer": "Last Taken on",
-"version": 6,
-"notes": """https://jkosupport.jten.mil
-SOC-AFR-0100-SOCAFRICA
-Or
-https://cyber.mil/cyber-training/training-catalog/
-Phishing and Social Engineering: Virtual Communication Awareness Training"""
-}
-];
+## License
+
+MIT
+
+**Open Source Software, Hell Yeah!**
+
+
+[Firebase Setup]: <https://www.youtube.com/watch?v=Wa0rdbb53I8>
+[PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
+[PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
+[PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
+[PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
+[PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
+[PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
