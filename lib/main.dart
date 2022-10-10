@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
             "frequency": target['frequency'],
             "date": src['date'],
             "completedVersion": src['completedVersion'],
-            "version": src['version'],
+            "version": target['version'],
             "frequencyText": target['frequencyText'],
             "footer": target['footer'],
             "dueIn": dueDays,
@@ -482,6 +482,7 @@ class Requirement extends StatelessWidget {
       {
         "title": "Personally Identifiable Information (PII) V5",
         "id": 5,
+        "version": 5,
         "frequency": 364,
         "frequencyText": "Once as updated",
         "footer": "Last Taken on",
