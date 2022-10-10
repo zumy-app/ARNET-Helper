@@ -17,16 +17,6 @@ Want to contribute? Great! Here's how to setup  your environment (IDE/Workstatio
 - [Config - Rules](https://postimg.cc/CRxtLvwj)
 - [User Data](https://postimg.cc/jwsz61C5)
 
-## Plugins
-
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
-
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-
 
 ## License
 
