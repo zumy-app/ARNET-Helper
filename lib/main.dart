@@ -299,17 +299,59 @@ class Requirement extends StatelessWidget {
         this.map['title'],
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
+      subtitle:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+              child:Text(
+                "Expires in days: ${this.map['dueIn']<0?"N/A":this.map['dueIn']} ",
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+              )
+          ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                    child:Text(
+                      "${this.map['footer']} ${this.map['date']}",
+                      style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                    )
+                ),
+
+
+              ],
+
+            ),
+          )
+        ],
+      ),
 
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              child: Text(
-                this.map['frequencyText'],
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-              ),
-            ),
+           Column(
+             children: [
+               Container(
+                 child: Text(
+                   "Frequency: ${this.map['frequencyText']}",
+                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                 ),
+               ),
+               Container(
+                 child: Text(
+                   "Completed Version: ${this.map['completedVersion']}",
+                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                 ),
+               ),
+               Container(
+                 child: Text(
+                   "Required Version: ${this.map['version']}",
+                   style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                 ),
+               )
+             ],
+           ),
             Container(
               child: Column(
                 children: [
@@ -332,6 +374,13 @@ class Requirement extends StatelessWidget {
             )
           ],
         ),
+        Container(
+          child: Text(
+            "Notes: ${this.map['notes']}",
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+          ),
+        )
+
       ],
 
     );
