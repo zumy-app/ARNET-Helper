@@ -91,7 +91,13 @@ class FirebaseAuthMethods {
 
         await _auth.signInWithPopup(googleProvider);
       } else {
-        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        final GoogleSignInAccount? googleUser = await GoogleSignIn(
+          clientId: 'xyx',
+            scopes: <String>[
+              'email',
+              'https://www.googleapis.com/auth/contacts.readonly',
+            ]
+        ).signIn();
 
         final GoogleSignInAuthentication? googleAuth =
             await googleUser?.authentication;
