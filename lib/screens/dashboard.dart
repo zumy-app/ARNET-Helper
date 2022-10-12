@@ -1,3 +1,4 @@
+import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -217,47 +218,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Summary extends StatelessWidget {
-  final Map map;
-
-  const Summary(
-      {Key? key,
-        required this.map})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(3),
-            child: Text(
-              "Access expires in",
-              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-            ),
-            alignment: Alignment.topLeft,
-          ),
-          Center(
-              child: Text(
-                "${this.map['dueIn']} days",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-              )),
-          Container(
-              child: Text(
-                "on ${this.map['date']} ",
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-              ),
-              alignment: Alignment.bottomRight)
-        ],
-      ),
-      decoration: BoxDecoration(
-          color: this.map['color'], borderRadius: BorderRadius.circular(20)),
-    );
-  }
-}
-
 class Requirement extends StatelessWidget {
   final Map map;
 
@@ -310,9 +270,21 @@ class Requirement extends StatelessWidget {
                child:  IconButton(
                    icon: Icon(Icons.edit),
                    onPressed: () {
-
-                   }),
+                     showDialog(
+                       context: context,
+                       builder: (context) {
+                         return Dialog(
+                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                           elevation: 16,
+                           child: Container(
+                             child: ReqEditForm(map: map),
+                           ),
+                         );
+                       },
+                     );
+                   },
              ),
+           )
            )
          ],
        )
