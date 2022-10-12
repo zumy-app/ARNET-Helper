@@ -92,7 +92,7 @@ class FirebaseAuthMethods {
         await _auth.signInWithPopup(googleProvider);
       } else {
         final GoogleSignInAccount? googleUser = await GoogleSignIn(
-          clientId: 'xyx',
+          clientId: '383929334656-jk9ef0f1ucbh470im618bsrf5bv25djo.apps.googleusercontent.com',
             scopes: <String>[
               'email',
               'https://www.googleapis.com/auth/contacts.readonly',
@@ -116,9 +116,11 @@ class FirebaseAuthMethods {
           // for google sign in and google sign up, only one as of now),
           // do the following:
 
-          // if (userCredential.user != null) {
-          //   if (userCredential.additionalUserInfo!.isNewUser) {}
-          // }
+          if (userCredential.user != null) {
+            if (userCredential.additionalUserInfo!.isNewUser) {
+              print(userCredential.user);
+            }
+          }
         }
       }
     } on FirebaseAuthException catch (e) {

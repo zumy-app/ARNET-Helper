@@ -302,6 +302,21 @@ class Requirement extends StatelessWidget {
       ),
 
       children: [
+       Row(
+         children: [
+           Expanded(
+             child: Align(
+               alignment: Alignment.centerRight,
+               child:  IconButton(
+                   icon: Icon(Icons.edit),
+                   onPressed: () {
+
+                   }),
+             ),
+           )
+         ],
+       )
+        ,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
