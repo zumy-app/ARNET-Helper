@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
+import 'screens/requirement_edit.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -41,7 +43,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const AuthWrapper(),
+        home: ReqEditForm(map: {}),
+        // home: const AuthWrapper(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
           const EmailPasswordSignup(),

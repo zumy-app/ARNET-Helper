@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -157,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final data = calc(widget.items, widget.rules);
-
+    print(JsonEncoder().convert(data));
 
 
     // final writeUserRules = writeToDB("data", "users", "status", data);

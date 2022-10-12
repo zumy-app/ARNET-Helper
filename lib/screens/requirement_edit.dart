@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReqEditForm extends StatefulWidget {
 
   final Map map;
-  const ReqEditForm({super.key, required this.map});
+   ReqEditForm({super.key, required this.map});
+  final  test =[{"title":"Personally Identifiable Information (PII) V5","id":5,"frequency":364,"date":"5/18/2021","completedVersion":3,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"severity":10,"notes":"https://iatraining.us.army.mil\nhttps://jkosupport.jten.mil \nDOD-US1366 Or \nhttps://cyber.mil/cyber-training/training-catalog/\nIdentifying and Safeguarding Personally Identifiable Information (PII)"},{"title":"Social Networking","id":8,"frequency":-1,"date":"12/27/2021","completedVersion":2.1,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"severity":10,"notes":"https://iatraining.us.army.mil\nhttps://jkosupport.jten.mil \nPAC-J7-US001-08\nOr \nhttps://cyber.mil/cyber-training/training-catalog/\nSocial Networking and Your Online Identity"},{"title":"Phishing Awareness ","id":9,"frequency":-1,"date":"1/13/2022","completedVersion":5,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"severity":10,"notes":"https://jkosupport.jten.mil \nSOC-AFR-0100-SOCAFRICA\nOr \nhttps://cyber.mil/cyber-training/training-catalog/\nPhishing and Social Engineering: Virtual Communication Awareness Training"},{"title":"Sign in to ARNET","id":1,"frequency":30,"date":"9/24/2022","completedVersion":null,"frequencyText":"Monthly Requirement","footer":"Last Signed in on","dueIn":11,"severity":5,"notes":"Sign in to ARNET from any Army Reserve location or remotely through Citrix"},{"title":"Army IT User Agreement","id":2,"frequency":364,"date":"3/11/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last uploaded on","dueIn":148,"severity":0,"notes":"Upload 75-R annually on https://atcts.army.mil/iastar/login.php"},{"title":"DD 2875","id":3,"frequency":364,"date":"3/25/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last uploaded on","dueIn":162,"severity":0,"notes":"Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"},{"title":"DoD Cyber Awareness Challenge Training","id":4,"frequency":364,"date":"3/11/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last Taken On","dueIn":148,"severity":0,"notes":"https://cs.signal.army.mil OR https://jkodirect.jten.mil"},{"title":"PED and Removable Storage ","id":6,"frequency":-1,"date":"5/18/2021","completedVersion":2,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"severity":0,"notes":"Not Currently Available"},{"title":"Safe Home Computing","id":7,"frequency":-1,"date":"4/11/2021","completedVersion":0,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"severity":0,"notes":"Not Currently Available"}];
+
 
   @override
-  State<ReqEditForm> createState() => _ReqEditFormState(map);
+  State<ReqEditForm> createState() => _ReqEditFormState(test[0]);
 }
 
 // Define a corresponding State class.
@@ -15,6 +18,7 @@ class _ReqEditFormState extends State<ReqEditForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final myController = TextEditingController();
+  TextEditingController dateInput = TextEditingController();
    final map;
   _ReqEditFormState( this.map);
 
@@ -26,35 +30,97 @@ class _ReqEditFormState extends State<ReqEditForm> {
   }
 
   @override
+  void initState() {
+    dateInput.text = ""; //set the initial value of text field
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Edit'),
+        title: Text(map['title']),
+        leading: Icon(Icons.filter_vintage),
       ),
+      //body
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          controller: myController,
+        //form
+        child: Form(
+          child: Column(
+            children: <Widget>[
+              Text(
+               "Enter the last completion date",
+                style: TextStyle(fontSize: 14),
+              ),
+              //styling
+
+              Container(
+                  padding: EdgeInsets.all(15),
+                  height: MediaQuery.of(context).size.width / 3,
+                  child: Center(
+                      child: TextField(
+                        controller: dateInput,
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.calendar_today), //icon of text field
+                            labelText: "Enter Date" //label text of field
+                        ),
+                        readOnly: true,
+                        //set it true, so that user will not able to edit text
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2100));
+
+                          if (pickedDate != null) {
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                            DateFormat('MM/dd/yyyy').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
+                            setState(() {
+                              dateInput.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          } else {}
+                        },
+                      ))),
+
+             Row(
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: [
+                 TextButton(
+                   child: Text(
+                     "Cancel",
+                     style: TextStyle(
+                       fontSize: 24.0,
+                     ),
+                   ),
+                   onPressed: () => _submit(),
+                 ),
+                 TextButton(
+                   child: Text(
+                     "Update",
+                     style: TextStyle(
+                       fontSize: 24.0,
+                     ),
+                   ),
+                   onPressed: () => _submit(),
+                 )
+               ],
+             ),
+
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                // Retrieve the text the that user has entered by using the
-                // TextEditingController.
-                content: Text(myController.text),
-              );
-            },
-          );
-        },
-        tooltip: 'Show me the value!',
-        child: const Icon(Icons.text_fields),
       ),
     );
   }
+
+  _submit() {}
 }
