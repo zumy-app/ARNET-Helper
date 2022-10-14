@@ -88,14 +88,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final df = DateFormat('MM/dd/yy');
     final today = new DateTime.now();
-    num findDueDays(src, target) {
+    Map<String, dynamic> findDueDays(src, target) {
       //No due date
       if (target.containsKey("version")) {
-        return -1;
+        return {
+          "dueDate": "N/A",
+          "dueDays": -1
+        };
       } else {
         final from = df.parse(src['date']);
         final to = from.add(Duration(days: target['frequency']));
-        return (to.difference(today).inHours / 24).round();
+        return {
+          "dueDate": df.format(to),
+          "dueDays": (to.difference(today).inHours / 24).round()
+        };
       }
     }
 //From a scale of 0 to 10
@@ -137,7 +143,9 @@ class _MyHomePageState extends State<MyHomePage> {
         final target =
         rules.firstWhere((element) => element['id'] == src['id']);
         if (target != null) {
-          var dueDays = findDueDays(src, target);
+          final Map<String, dynamic> due = findDueDays(src, target);
+          final dueDays = due['dueDays'];
+          final dueDate = due['dueDate'];
           final result = {
             "title": target['title'],
             "id": target['id'],
@@ -147,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             "frequencyText": target['frequencyText'],
             "footer": target['footer'],
             "dueIn": dueDays,
+            "dueDate": dueDate,
             "severity": calcSeverity(dueDays, src, target),
             "notes": target['notes']
           };
@@ -159,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final data = calc(widget.items, widget.rules);
-    print(JsonEncoder().convert(data));
+    print(json.encode(data));
 
 
     // final writeUserRules = writeToDB("data", "users", "status", data);

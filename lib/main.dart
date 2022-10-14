@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ReqEditForm(map: {}),
+        home: Dashboard(),
+        // home: ReqEditForm(map: {}),
         // home: const AuthWrapper(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
