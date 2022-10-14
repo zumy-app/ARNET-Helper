@@ -8,7 +8,7 @@ class ReqEditForm extends StatefulWidget {
   final  test =[{"title":"Personally Identifiable Information (PII) V5","id":5,"frequency":-1,"date":"5/18/2021","completedVersion":3,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"dueDate":"N/A","severity":10,"notes":"https://iatraining.us.army.mil\nhttps://jkosupport.jten.mil \nDOD-US1366 Or \nhttps://cyber.mil/cyber-training/training-catalog/\nIdentifying and Safeguarding Personally Identifiable Information (PII)"},{"title":"Social Networking","id":8,"frequency":-1,"date":"12/27/2021","completedVersion":2.1,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"dueDate":"N/A","severity":10,"notes":"https://iatraining.us.army.mil\nhttps://jkosupport.jten.mil \nPAC-J7-US001-08\nOr \nhttps://cyber.mil/cyber-training/training-catalog/\nSocial Networking and Your Online Identity"},{"title":"Phishing Awareness ","id":9,"frequency":-1,"date":"1/13/2022","completedVersion":5,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"dueDate":"N/A","severity":10,"notes":"https://jkosupport.jten.mil \nSOC-AFR-0100-SOCAFRICA\nOr \nhttps://cyber.mil/cyber-training/training-catalog/\nPhishing and Social Engineering: Virtual Communication Awareness Training"},{"title":"Sign in to ARNET","id":1,"frequency":30,"date":"9/24/2022","completedVersion":null,"frequencyText":"Monthly Requirement","footer":"Last Signed in on","dueIn":9,"dueDate":"10/24/22","severity":5,"notes":"Sign in to ARNET from any Army Reserve location or remotely through Citrix"},{"title":"Army IT User Agreement","id":2,"frequency":364,"date":"3/11/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last uploaded on","dueIn":146,"dueDate":"03/10/23","severity":0,"notes":"Upload 75-R annually on https://atcts.army.mil/iastar/login.php"},{"title":"DD 2875","id":3,"frequency":364,"date":"3/25/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last uploaded on","dueIn":160,"dueDate":"03/24/23","severity":0,"notes":"Upload DD 2875 annually on https://atcts.army.mil/iastar/login.php"},{"title":"DoD Cyber Awareness Challenge Training","id":4,"frequency":364,"date":"3/11/2022","completedVersion":null,"frequencyText":"Annual Requirement","footer":"Last Taken On","dueIn":146,"dueDate":"03/10/23","severity":0,"notes":"https://cs.signal.army.mil OR https://jkodirect.jten.mil"},{"title":"PED and Removable Storage ","id":6,"frequency":-1,"date":"5/18/2021","completedVersion":2,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"dueDate":"N/A","severity":0,"notes":"Not Currently Available"},{"title":"Safe Home Computing","id":7,"frequency":-1,"date":"4/11/2021","completedVersion":0,"frequencyText":"Once as updated","footer":"Last Taken on","dueIn":-1,"dueDate":"N/A","severity":0,"notes":"Not Currently Available"}];
 
 @override
-  State<ReqEditForm> createState() => _ReqEditFormState(test[3]);
+  State<ReqEditForm> createState() => _ReqEditFormState(map);
 }
 
 // Define a corresponding State class.
@@ -82,7 +82,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
         children: <Widget>[
           Container(
               child:Text(
-                "Expires in days: ${map['dueIn']<0?"N/A":map['dueIn']} on ${map['date']}",
+                "Expires in days: ${map['dueIn']<0?"N/A":map['dueIn']} on ${map['dueDate']}",
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               )
           ),
@@ -97,12 +97,6 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               )
           ),
-          Container(
-              child:Text(
-                "Enter the updated date below",
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-              )
-          ),
           //styling
           Container(
               padding: EdgeInsets.all(15),
@@ -113,7 +107,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
                     //editing controller of this TextField
                     decoration: InputDecoration(
                         icon: Icon(Icons.calendar_today), //icon of text field
-                        labelText: "Enter Date" //label text of field
+                        labelText: "Enter the new completion date" //label text of field
                     ),
                     readOnly: true,
                     //set it true, so that user will not able to edit text
@@ -150,7 +144,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
                     fontSize: 24.0,
                   ),
                 ),
-                onPressed: () => _submit(),
+                onPressed: () => Navigator.pop(context),
               ),
               TextButton(
                 child: Text(
@@ -177,11 +171,14 @@ class VersionRequirement extends StatefulWidget {
   const VersionRequirement({Key? key, required this.map}) : super(key: key);
 
   @override
-  State<VersionRequirement> createState() => _VersionRequirementState();
+  State<VersionRequirement> createState() => _VersionRequirementState(map);
 }
 
 class _VersionRequirementState extends State<VersionRequirement> {
+  final Map map;
   TextEditingController dateInput = TextEditingController();
+
+  _VersionRequirementState(this.map);
   @override
   void initState() {
     dateInput.text = ""; //set the initial value of text field
@@ -193,14 +190,22 @@ class _VersionRequirementState extends State<VersionRequirement> {
       child: Column(
         children: <Widget>[
           Text(
+            "Completed Version: ${map['completedVersion']}",
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+          ),
+          Text(
             "Update the last completed version",
             style: TextStyle(fontSize: 14),
+          ),
+          Text(
+            "Required Version: ${map['version']}",
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
           ),
           //styling
 
           Container(
               padding: EdgeInsets.all(15),
-              height: MediaQuery.of(context).size.width / 3,
+
               child: Center(
                   child: TextField(
                     controller: dateInput,
@@ -244,7 +249,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
                     fontSize: 24.0,
                   ),
                 ),
-                onPressed: () => _submit(),
+                onPressed: () => Navigator.pop(context),
               ),
               TextButton(
                 child: Text(
