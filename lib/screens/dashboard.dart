@@ -22,12 +22,13 @@ Future<Map<String, List<dynamic>>> initialDataLoad(email) async {
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
+    final email = "uhsarp@gmail.com";
 
   @override
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
-      future: initialDataLoad("uhsarp@gmail.com"),
+      future: initialDataLoad(email),
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {
@@ -40,7 +41,9 @@ class Dashboard extends StatelessWidget {
           return MyHomePage(
               title: 'ARNET Helper',
               items: snapshot.data!['user']!,
-              rules: snapshot.data!['rules']!);
+              rules: snapshot.data!['rules']!,
+            email: email
+          );
         }
 
         return Spinner(text: 'Loading...');
@@ -72,11 +75,13 @@ class MyHomePage extends StatefulWidget {
       {super.key,
       required this.title,
       required this.items,
-      required this.rules});
+      required this.rules,
+      required this.email});
 
   final String title;
   final List<dynamic> rules;
   final List<dynamic> items;
+  final String email;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -210,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: Center(child: Requirement(map: data[index])),
+                        child: Center(child: Requirement(map: data[index], email: widget.email)),
                       );
                     },
                   ),
@@ -224,7 +229,9 @@ class _MyHomePageState extends State<MyHomePage> {
 class Requirement extends StatelessWidget {
   final Map map;
 
-  const Requirement({super.key, required this.map});
+  final String email;
+
+  const Requirement({super.key, required this.map, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +280,7 @@ class Requirement extends StatelessWidget {
                             borderRadius: BorderRadius.circular(40)),
                         elevation: 16,
                         child: Container(
-                          child: ReqEditForm(map: map),
+                          child: ReqEditForm(map: map, email:email),
                         ),
                       );
                     },
@@ -339,6 +346,6 @@ class Requirement extends StatelessWidget {
   calcColor(severity) {
     if (severity < 1) return Colors.green[100];
     if (severity < 6) return Colors.amber[100];
-    if (severity > 6) return Colors.red[100];
+    return Colors.red[100];
   }
 }

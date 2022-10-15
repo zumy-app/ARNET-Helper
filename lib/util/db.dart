@@ -1,7 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-
 class DB{
  read(collection, document, key){
    FirebaseFirestore.instance
@@ -30,6 +29,17 @@ class DB{
        .update({"status":data})
        .then((value) => print("Data Added $data"))
        .catchError((error) => print("Failed to add user: $error"));
+ }
+
+ Future<void> updateReqStatus(email, key, oldVal, newVal) async {
+   final conn = FirebaseFirestore.instance.collection("users")
+       .doc(email);
+   conn.update({
+     "status": FieldValue.arrayUnion([{
+       "date":"10/15/2022",
+       "id":1
+     }]),
+   });
  }
 }
 

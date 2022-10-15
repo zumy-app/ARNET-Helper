@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 class ReqEditForm extends StatefulWidget {
   final Map map;
-
-  ReqEditForm({super.key, required this.map});
+  final String email;
+  ReqEditForm({super.key, required this.map, required this.email});
 
   final test = [
     {
@@ -135,35 +135,15 @@ class ReqEditForm extends StatefulWidget {
   State<ReqEditForm> createState() => _ReqEditFormState(map);
 }
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
 class _ReqEditFormState extends State<ReqEditForm> {
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-  final myController = TextEditingController();
-  TextEditingController dateInput = TextEditingController();
   final map;
-
   _ReqEditFormState(this.map);
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    dateInput.text = ""; //set the initial value of text field
-    super.initState();
-  }
-
 /*
 possible edit types
 1. recurring requirement (monthly/annual)
 2. version
  */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,8 +156,8 @@ possible edit types
         padding: const EdgeInsets.all(16.0),
         //form
         child: map['frequency'] > 0
-            ? RecurringRequirement(map: map)
-            : VersionRequirement(map: map),
+            ? RecurringRequirement(map: map,email:widget.email)
+            : VersionRequirement(map: map, email:widget.email)
       ),
     );
   }
@@ -187,8 +167,9 @@ possible edit types
 
 class RecurringRequirement extends StatefulWidget {
   final Map map;
+  final String email;
 
-  const RecurringRequirement({Key? key, required this.map}) : super(key: key);
+  const RecurringRequirement({Key? key, required this.map, required this.email}) : super(key: key);
 
   @override
   State<RecurringRequirement> createState() => _RecurringRequirementState(map);
@@ -202,7 +183,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
 
   @override
   void initState() {
-    dateInput.text = ""; //set the initial value of text field
+    dateInput.text = DateFormat("MM/dd/yyyy").format(DateTime.now()); //set the initial value of text field
     super.initState();
   }
 
@@ -282,7 +263,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
                     fontSize: 24.0,
                   ),
                 ),
-                onPressed: () => _submit(),
+                onPressed: () => _submit(dateInput.text),
               )
             ],
           ),
@@ -291,13 +272,14 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
     );
   }
 
-  _submit() {}
+  _submit(date) {print(date);
+  Navigator.pop(context);}
 }
 
 class VersionRequirement extends StatefulWidget {
   final Map map;
-
-  const VersionRequirement({Key? key, required this.map}) : super(key: key);
+  final String email;
+  const VersionRequirement({Key? key, required this.map, required this.email}) : super(key: key);
 
   @override
   State<VersionRequirement> createState() => _VersionRequirementState(map);
@@ -311,7 +293,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   @override
   void initState() {
-    dateInput.text = ""; //set the initial value of text field
+    dateInput.text = DateFormat("MM/dd/yyyy").format(DateTime.now()); //set the initial value of text field
     super.initState();
   }
 
@@ -332,8 +314,6 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
           DropdownButton<int>(
             value: map['completedVersion'].toInt(), //selected
-            icon: Icon(Icons.arrow_downward),
-            iconSize: 24,
             elevation: 16,
             style: TextStyle(color: Theme.of(context).accentColor),
             underline: Container(
@@ -369,7 +349,9 @@ class _VersionRequirementState extends State<VersionRequirement> {
                     fontSize: 24.0,
                   ),
                 ),
-                onPressed: () => _submit(),
+                onPressed: (){
+                  _submit({});
+                },
               )
             ],
           ),
@@ -378,5 +360,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
     );
   }
 
-  _submit() {}
+  _submit(Map map) {
+
+  }
 }
