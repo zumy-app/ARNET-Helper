@@ -287,13 +287,13 @@ class VersionRequirement extends StatefulWidget {
 
 class _VersionRequirementState extends State<VersionRequirement> {
   final Map map;
-  TextEditingController dateInput = TextEditingController();
+  TextEditingController versionInput = TextEditingController();
 
   _VersionRequirementState(this.map);
 
   @override
   void initState() {
-    dateInput.text = DateFormat("MM/dd/yyyy").format(DateTime.now()); //set the initial value of text field
+    versionInput.text = map['completedVersion'].toString(); //set the initial value of text field
     super.initState();
   }
 
