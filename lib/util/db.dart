@@ -31,15 +31,25 @@ class DB{
        .catchError((error) => print("Failed to add user: $error"));
  }
 
- Future<void> updateReqStatus(email, key, oldVal, newVal) async {
+ Future<void> updateVersionStatus(email, key,int oldVal,int newVal, oldDate, newDate) async {
    final conn = FirebaseFirestore.instance.collection("users")
        .doc(email);
+
+   conn.update({
+     "status": FieldValue.arrayRemove([{
+       "completedVersion":oldVal,
+       "date":oldDate,
+       "id":key
+     }]),
+   }).then((value) => print("value"));
+
    conn.update({
      "status": FieldValue.arrayUnion([{
-       "date":"10/15/2022",
-       "id":1
+       "completedVersion":newVal,
+       "date":newDate,
+       "id":key
      }]),
-   });
+   }).then((value) => print("value"));
  }
 }
 

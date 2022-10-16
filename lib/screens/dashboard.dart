@@ -171,7 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final data = calc(widget.items, widget.rules);
-    print(json.encode(data));
+ /*   print(json.encode(widget.items));
+    print(json.encode(widget.rules));*/
 
     // final writeUserRules = writeToDB("data", "users", "status", data);
 
