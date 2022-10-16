@@ -5,30 +5,18 @@ import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
-Future<Map<String, List<dynamic>>> initialDataLoad(email) async {
-  var db = FirebaseFirestore.instance;
-  CollectionReference data = db.collection('data');
-
-  final rules = ((await data.doc("config").get()).data()
-      as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
-  final user = ((await db.collection("users").doc(email).get()).data()
-      as Map<String, dynamic>)['status'] as List<dynamic>;
-  return {"rules": rules, "user": user};
-}
-
 class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+   Dashboard({super.key});
     final email = "uhsarp@gmail.com";
-
+  final DB db = DB();
   @override
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
-      future: initialDataLoad(email),
+      future: db.initialDataLoad(email),
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {
