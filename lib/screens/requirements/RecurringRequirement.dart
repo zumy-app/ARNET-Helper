@@ -1,6 +1,7 @@
 
 import 'dart:ui';
 
+import 'package:arnet_helper/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -118,6 +119,8 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
     print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text}");
     db.updateReqStatus(widget.email, widget.map['id'],widget.map['date'], dateInput.text);
   Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
   }
 }
 

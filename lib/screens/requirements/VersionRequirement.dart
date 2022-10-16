@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../util/db.dart';
+import '../dashboard.dart';
 
 class VersionRequirement extends StatefulWidget {
   final Map map;
@@ -137,7 +138,9 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   _submit(newVal) {
     print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text} and version ${widget.map['completedVersion']} to ${newVal}");
-    db.updateVersionStatus(widget.email, widget.map['id'], widget.map['completedVersion'], int.parse(newVal),widget.map['date'], dateInput.text);
+    db.updateVersionStatus(widget.email, widget.map['id'], widget.map['completedVersion'].toInt(), int.parse(newVal),widget.map['date'], dateInput.text);
     Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
   }
 }

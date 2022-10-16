@@ -127,18 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    calcSummary(List results) {
-      var lowestDue = 99999999;
-      var lowestReq = {};
-      results.forEach((e) {
-        if (e['dueIn'] < lowestDue && e['dueIn'] > 0) {
-          lowestDue = e['dueIn'];
-          lowestReq = e;
-        }
-      });
-      return lowestReq;
-    }
-
     List calc(List items, List rules) {
       List results = [];
       items.forEach((src) {
@@ -186,13 +174,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.update),
+                    onPressed: () => {
+
+                    },
+                    icon: Icon(Icons.sync),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.more_vert),
-                  ),
+
                 ],
                 // Here we take the value from the MyHomePage object that was created by
                 // the App.build method, and use it to set our appbar title.
