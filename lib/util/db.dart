@@ -51,7 +51,29 @@ class DB{
      }]),
    }).then((value) => print("value"));
  }
+
+ Future<void> updateReqStatus(email, id, oldDate, newDate) async {
+   final conn = FirebaseFirestore.instance.collection("users")
+       .doc(email);
+
+   conn.update({
+     "status": FieldValue.arrayRemove([{
+       "date":oldDate,
+       "id":id
+     }]),
+   }).then((value) => print("value"));
+
+   conn.update({
+     "status": FieldValue.arrayUnion([{
+       "date":newDate,
+       "id":id
+     }]),
+   }).then((value) => print("value"));
+
+ }
+
 }
+
 
 
 

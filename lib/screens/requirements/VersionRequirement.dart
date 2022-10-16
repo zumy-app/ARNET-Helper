@@ -14,6 +14,7 @@ class VersionRequirement extends StatefulWidget {
 
 class _VersionRequirementState extends State<VersionRequirement> {
   final Map map;
+  final DB db = DB();
   TextEditingController versionInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
 
@@ -135,7 +136,8 @@ class _VersionRequirementState extends State<VersionRequirement> {
   }
 
   _submit(newVal) {
-    final DB db = DB();
+    print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text} and version ${widget.map['completedVersion']} to ${newVal}");
     db.updateVersionStatus(widget.email, widget.map['id'], widget.map['completedVersion'], int.parse(newVal),widget.map['date'], dateInput.text);
+    Navigator.pop(context);
   }
 }

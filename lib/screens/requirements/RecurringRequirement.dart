@@ -4,11 +4,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../util/db.dart';
+
 class RecurringRequirement extends StatefulWidget {
   final Map map;
   final String email;
 
-  const RecurringRequirement({Key? key, required this.map, required this.email}) : super(key: key);
+
+   RecurringRequirement({Key? key, required this.map, required this.email}) : super(key: key);
 
   @override
   State<RecurringRequirement> createState() => _RecurringRequirementState(map);
@@ -17,7 +20,7 @@ class RecurringRequirement extends StatefulWidget {
 class _RecurringRequirementState extends State<RecurringRequirement> {
   final Map map;
   TextEditingController dateInput = TextEditingController();
-
+  final DB db = DB();
   _RecurringRequirementState(this.map);
 
   @override
@@ -111,7 +114,10 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
     );
   }
 
-  _submit(date) {print(date);
-  Navigator.pop(context);}
+  _submit(date) {
+    print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text}");
+    db.updateReqStatus(widget.email, widget.map['id'],widget.map['date'], dateInput.text);
+  Navigator.pop(context);
+  }
 }
 
