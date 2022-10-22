@@ -30,6 +30,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +69,12 @@ class _VersionRequirementState extends State<VersionRequirement> {
                     child: Text(value.toString()),
                   );
                 }).toList(),
-              )
+              ),
+
             ],
-          ),Container(
+          ),
+          DropdownButtonApp(),
+          Container(
               padding: EdgeInsets.all(15),
               child: Center(
                   child: TextField(
@@ -144,3 +148,43 @@ class _VersionRequirementState extends State<VersionRequirement> {
         MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
   }
 }
+class DropdownButtonApp extends StatelessWidget {
+  const DropdownButtonApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      DropdownButtonExample();
+  }
+}
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+var number_tickets_total = 1;
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<int>(
+        hint: Text("Pick"),
+        value: number_tickets_total,
+        items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((int value) {
+          return new DropdownMenuItem<int>(
+            value: value,
+            child: new Text(value.toString()),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            number_tickets_total = newVal!;
+          });
+        });
+  }
+}
+
