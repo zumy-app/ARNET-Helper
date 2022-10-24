@@ -16,6 +16,7 @@ class VersionRequirement extends StatefulWidget {
 class _VersionRequirementState extends State<VersionRequirement> {
   final Map map;
   final DB db = DB();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController versionInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
 
@@ -32,6 +33,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
  var newVersion = map['completedVersion'];
 
     return Form(
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -161,46 +163,6 @@ class _VersionDropdownState extends State<VersionDropdown> {
         onChanged: (newVal) {
           setState(() {
             selectedVersion = newVal!;
-          });
-        });
-  }
-}
-
-
-class DropdownButtonApp extends StatelessWidget {
-  const DropdownButtonApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return
-      DropdownButtonExample();
-  }
-}
-
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
-
-  @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
-}
-
-var number_tickets_total = 1;
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<int>(
-        hint: Text("Pick"),
-        value: number_tickets_total,
-        items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((int value) {
-          return new DropdownMenuItem<int>(
-            value: value,
-            child: new Text(value.toString()),
-          );
-        }).toList(),
-        onChanged: (newVal) {
-          setState(() {
-            number_tickets_total = newVal!;
           });
         });
   }
