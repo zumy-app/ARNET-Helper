@@ -27,9 +27,9 @@ class _VersionRequirementState extends State<VersionRequirement> {
     dateInput.text = DateFormat("MM/dd/yyyy").format(DateTime.now()); //set the initial value of text field
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
+ var newVersion = map['completedVersion'];
 
     return Form(
       child: Column(
@@ -52,28 +52,11 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 "Enter the last  completed version    ",
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
+              VersionDropdown(map:map)
 
-              DropdownButton<int>(
-                value: map['completedVersion'].toInt(), //selected
-                elevation: 16,
-                style: TextStyle(color: Theme.of(context).accentColor),
-                underline: Container(
-                  height: 2,
-                  color: Colors.blueAccent,
-                ),
-                onChanged: (int? newValue) {versionInput.text = newValue.toString();},
-                items: [for (var i = map['completedVersion'].toInt() as int; i <= map['requiredVersion']; i++) i]
-                    .map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-              ),
 
             ],
           ),
-          DropdownButtonApp(),
           Container(
               padding: EdgeInsets.all(15),
               child: Center(
@@ -148,6 +131,42 @@ class _VersionRequirementState extends State<VersionRequirement> {
         MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
   }
 }
+
+
+
+
+class VersionDropdown extends StatefulWidget {
+  final Map map;
+  const VersionDropdown({super.key, required this.map});
+
+  @override
+  State<VersionDropdown> createState() => _VersionDropdownState();
+}
+
+var selectedVersion = 1;
+class _VersionDropdownState extends State<VersionDropdown> {
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<int>(
+        hint: Text("Pick"),
+        value: selectedVersion,
+        items: <int>[for (var i = widget.map['completedVersion'].toInt() as int; i <= widget.map['requiredVersion']; i++) i]
+            .map((int value) {
+          return new DropdownMenuItem<int>(
+            value: value,
+            child: new Text(value.toString()),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            selectedVersion = newVal!;
+          });
+        });
+  }
+}
+
+
 class DropdownButtonApp extends StatelessWidget {
   const DropdownButtonApp({super.key});
 
@@ -157,7 +176,7 @@ class DropdownButtonApp extends StatelessWidget {
       DropdownButtonExample();
   }
 }
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
 class DropdownButtonExample extends StatefulWidget {
   const DropdownButtonExample({super.key});
 
@@ -167,7 +186,6 @@ class DropdownButtonExample extends StatefulWidget {
 
 var number_tickets_total = 1;
 class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
