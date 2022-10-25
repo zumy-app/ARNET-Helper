@@ -249,12 +249,14 @@ class Requirement extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 onPressed: () {
                   showDialog(
+
                     context: context,
                     builder: (context) {
                       return Dialog(
+                          insetPadding: EdgeInsets.all(30),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
-                        elevation: 16,
+                        elevation: 3,
                         child: Container(
                           child: ReqEditForm(map: map, email:email),
                         ),
