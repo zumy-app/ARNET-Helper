@@ -58,7 +58,11 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 width: 100.0,
                 child:  DropdownButtonFormField<int>(
 
-
+                    validator: (value) {
+                      if (value == map['completedVersion']) {
+                        return 'You have already completed this version';
+                      }
+                    },
                     hint: Text("Pick"),
                     value: selectedVersion,
                     items: <int>[for (var i = widget.map['completedVersion'].toInt() as int; i <= widget.map['requiredVersion']; i++) i]
@@ -138,7 +142,8 @@ class _VersionRequirementState extends State<VersionRequirement> {
                   ),
                 ),
                 onPressed: (){
-                  _submit(versionInput.text);
+                  _formKey.currentState!.validate();
+                  // _submit(versionInput.text);
                 },
               )
             ],
