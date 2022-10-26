@@ -15,21 +15,20 @@ class VersionRequirement extends StatefulWidget {
   State<VersionRequirement> createState() => _VersionRequirementState(map);
 }
 
-var selectedVersion = 1;
+var selectedVersion;
 
 class _VersionRequirementState extends State<VersionRequirement> {
   final Map map;
   final DB db = DB();
   final _formKey = GlobalKey<FormState>();
-  TextEditingController versionInput = TextEditingController();
+
   TextEditingController dateInput = TextEditingController();
 
   _VersionRequirementState(this.map);
 
   @override
   void initState() {
-    versionInput.text = map['completedVersion']
-        .toString(); //set the initial value of text field
+
     dateInput.text = DateFormat("MM/dd/yyyy")
         .format(DateTime.now()); //set the initial value of text field
     super.initState();
@@ -94,9 +93,8 @@ class _VersionRequirementState extends State<VersionRequirement> {
                       );
                     }).toList(),
                     onChanged: (newVal) {
-                      setState(() {
-                        print("selected ${newVal}");
-                      });
+                      selectedVersion=newVal;
+                      print("Selected a new Version ${newVal}");
                     }),
               )
             ],
@@ -159,7 +157,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 ),
                 onPressed: () {
                   _formKey.currentState!.validate();
-                  _submit(versionInput.text);
+                   _submit();
                 },
               )
             ],
@@ -169,14 +167,14 @@ class _VersionRequirementState extends State<VersionRequirement> {
     );
   }
 
-  _submit(newVal) {
+  _submit() {
     print(
-        "updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text} and version ${widget.map['completedVersion']} to ${newVal}");
+        "updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text} and version ${widget.map['completedVersion']} to ${ selectedVersion}");
     db.updateVersionStatus(
         widget.email,
         widget.map['id'],
         widget.map['completedVersion'].toInt(),
-        int.parse(newVal),
+       selectedVersion,
         widget.map['date'],
         dateInput.text);
     Navigator.pop(context);
