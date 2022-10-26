@@ -37,24 +37,22 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   @override
   Widget build(BuildContext context) {
-
     bool isInteger(num value) => (value % 1) == 0;
 
     List<dynamic> list = [];
 
-    if(widget.map['requiredVersion']<0){
-       list = [widget.map['completedVersion']];
-    }
-    else{
-       list = <dynamic>[
+    if (widget.map['requiredVersion'] < 0) {
+      list = [widget.map['completedVersion']];
+    } else {
+      list = <dynamic>[
         for (var i = widget.map['completedVersion'].toInt() as int;
-        i <= widget.map['requiredVersion'];
-        i++)
+            i <= widget.map['requiredVersion'];
+            i++)
           i
       ];
     }
-    if(!isInteger(widget.map['completedVersion'])){
-list[0]=widget.map['completedVersion'];
+    if (!isInteger(widget.map['completedVersion'])) {
+      list[0] = widget.map['completedVersion'];
     }
 
     print(list.toString());
@@ -97,7 +95,7 @@ list[0]=widget.map['completedVersion'];
                     }).toList(),
                     onChanged: (newVal) {
                       setState(() {
-                       print("selected ${newVal}");
+                        print("selected ${newVal}");
                       });
                     }),
               )
@@ -161,7 +159,7 @@ list[0]=widget.map['completedVersion'];
                 ),
                 onPressed: () {
                   _formKey.currentState!.validate();
-                   _submit(versionInput.text);
+                  _submit(versionInput.text);
                 },
               )
             ],

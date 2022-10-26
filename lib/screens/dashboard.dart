@@ -306,6 +306,12 @@ class Requirement extends StatelessWidget {
                     "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   )),
+                  Container(
+                    child: Text(
+                      "id: ${this.map['id']}",
+                      style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                    ),
+                  ),
                 ],
               ),
             )
