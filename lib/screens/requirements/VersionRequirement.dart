@@ -37,12 +37,26 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   @override
   Widget build(BuildContext context) {
-    final list = <int>[
-      for (var i = widget.map['completedVersion'].toInt() as int;
-          i <= widget.map['requiredVersion'];
-          i++)
-        i
-    ];
+
+    bool isInteger(num value) => (value % 1) == 0;
+
+    List<dynamic> list = [];
+
+    if(widget.map['requiredVersion']<0){
+       list = [widget.map['completedVersion']];
+    }
+    else{
+       list = <dynamic>[
+        for (var i = widget.map['completedVersion'].toInt() as int;
+        i <= widget.map['requiredVersion'];
+        i++)
+          i
+      ];
+    }
+    if(!isInteger(widget.map['completedVersion'])){
+list[0]=widget.map['completedVersion'];
+    }
+
     print(list.toString());
     return Form(
       key: _formKey,
@@ -67,7 +81,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
               ),
               SizedBox(
                 width: 100.0,
-                child: DropdownButtonFormField<int>(
+                child: DropdownButtonFormField<dynamic>(
                     validator: (value) {
                       if (value == map['completedVersion']) {
                         return 'You have already completed this version';
@@ -75,8 +89,8 @@ class _VersionRequirementState extends State<VersionRequirement> {
                     },
                     hint: Text("Pick"),
                     value: list[0],
-                    items: list.map((int value) {
-                      return new DropdownMenuItem<int>(
+                    items: list.map((dynamic value) {
+                      return new DropdownMenuItem<dynamic>(
                         value: value,
                         child: new Text(value.toString()),
                       );
@@ -147,7 +161,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 ),
                 onPressed: () {
                   _formKey.currentState!.validate();
-                  // _submit(versionInput.text);
+                   _submit(versionInput.text);
                 },
               )
             ],
