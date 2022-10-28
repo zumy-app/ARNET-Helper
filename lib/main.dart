@@ -21,7 +21,7 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
-
+final dbRef = DB();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

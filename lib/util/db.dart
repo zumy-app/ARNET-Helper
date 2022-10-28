@@ -18,7 +18,7 @@ class DB {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  Future checkIfUserExistsAndCreateUser(String email) async {
+  Future<String> checkIfUserExistsAndCreateUser(String email) async {
     final snapShot = await FirebaseFirestore.instance
         .collection('users')
         .doc(email) // varuId in your case
@@ -29,11 +29,12 @@ class DB {
       print('New user. Creating a starter record');
       final data = createNewUserData(email);
       final writeNewUser  = await writeNewUserToDB(email, data);
-      print("Created new user ${email} with data ${data}");
-      return writeNewUser;
+      var userCreated = "Created new user ${email} with data ${data}";
+      print(userCreated);
+      return userCreated;
     } else {
       print("id really exists");
-      return "User already exists";
+      return "User ${email} already exists. Skipping new user creation process";
     }
   }
 
@@ -56,8 +57,6 @@ class DB {
   }
 
   Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
-
-    final createUser = await checkIfUserExistsAndCreateUser(loggedInUser.email!);
     CollectionReference data = db.collection('data');
 
     final rules = ((await data.doc("config").get()).data()

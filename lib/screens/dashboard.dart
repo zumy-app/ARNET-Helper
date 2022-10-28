@@ -6,9 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:provider/provider.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-
+import 'package:arnet_helper/services/firebase_auth_methods.dart';
 class Dashboard extends StatelessWidget {
   final User user;
    Dashboard({Key? key, required this.user})
@@ -16,7 +16,7 @@ class Dashboard extends StatelessWidget {
   final DB db = DB();
   @override
   Widget build(BuildContext context) {
-    CollectionReference data = FirebaseFirestore.instance.collection('data');
+
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
       future: db.initialDataLoad(user),
       builder: (BuildContext context,
@@ -165,9 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 actions: [
                   IconButton(
                     onPressed: () => {
+                      context.read<FirebaseAuthMethods>().signOut(context)
 
                     },
-                    icon: Icon(Icons.sync),
+                    icon: Icon(Icons.logout),
                   ),
 
                 ],

@@ -1,3 +1,4 @@
+import 'package:arnet_helper/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:arnet_helper/util/showOTPDialog.dart';
 import 'package:arnet_helper/util/showSnackbar.dart';
@@ -11,7 +12,7 @@ import '../util/db.dart';
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
-
+  final dbRef= DB();
 
 
   // FOR EVERY FUNCTION HERE
@@ -93,7 +94,8 @@ class FirebaseAuthMethods {
         googleProvider
             .addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-        await _auth.signInWithPopup(googleProvider);
+       final userCredential =  await _auth.signInWithPopup(googleProvider);
+        await dbRef.checkIfUserExistsAndCreateUser(userCredential.user!.email!);
       } else {
         final GoogleSignInAccount? googleUser = await GoogleSignIn(
           clientId: '383929334656-jk9ef0f1ucbh470im618bsrf5bv25djo.apps.googleusercontent.com',
@@ -115,6 +117,7 @@ class FirebaseAuthMethods {
           UserCredential userCredential =
               await _auth.signInWithCredential(credential);
 
+           await dbRef.checkIfUserExistsAndCreateUser(user!.email!);
           // if you want to do specific task like storing information in firestore
           // only for new users using google sign in (since there are no two options
           // for google sign in and google sign up, only one as of now),
@@ -221,6 +224,10 @@ class FirebaseAuthMethods {
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
+
+      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => AuthWrapper()), (r) => false);
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!); // Displaying the error message
     }
