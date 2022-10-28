@@ -1,8 +1,57 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class DB {
+
+  final df = DateFormat('MM/dd/yy');
+  final today = new DateTime.now();
+
   final db = FirebaseFirestore.instance;
+
+  Future<void> writeNewUserToDB(email, data) async {
+    final conn = db.collection("users");
+    return conn
+        .doc(email)
+        .set(data)
+        .then((value) => print("Data Added $data"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future checkIfUserExistsAndCreateUser(String email) async {
+    final snapShot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(email) // varuId in your case
+        .get();
+
+    if (snapShot == null || !snapShot.exists) {
+      // docuement is not exist
+      print('New user. Creating a starter record');
+      final data = createNewUserData(email);
+      final writeNewUser  = await writeNewUserToDB(email, data);
+      print("Created new user ${email} with data ${data}");
+    } else {
+      print("id is really exist");
+    }
+  }
+
+  createNewUserData(email){
+    final oneYearAgo = DateTime(today.year-1,today.month, today.day);
+    final date = df.format(oneYearAgo);
+    List items = [
+      {"date":date,"id":1},
+      {"id":2,"date":date},
+      {"date":date,"id":3},
+      {"date":date,"id":4},
+      {"id":5,"date":date,"completedVersion":1},
+      {"id":6,"date":date,"completedVersion":1},
+      {"completedVersion":0,"date":date,"id":7},
+      {"id":8,"date":date,"completedVersion":1},
+      {"id":9,"completedVersion":1,"date":date}
+    ];
+
+    return {"status": items};
+  }
 
   Future<Map<String, List<dynamic>>> initialDataLoad(email) async {
     CollectionReference data = db.collection('data');
@@ -34,6 +83,8 @@ class DB {
         .then((value) => print("Data Added $data"))
         .catchError((error) => print("Failed to add user: $error"));
   }
+
+
 
   Future<void> updateUserStatus(email, data) async {
     final conn = db.collection("users");
