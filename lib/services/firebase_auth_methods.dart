@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../util/db.dart';
+
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
+
+  final db = new DB();
 
   // FOR EVERY FUNCTION HERE
   // POP THE ROUTE USING: Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
@@ -119,6 +123,7 @@ class FirebaseAuthMethods {
           if (userCredential.user != null) {
             if (userCredential.additionalUserInfo!.isNewUser) {
               print(userCredential.user);
+              final createUser = await db.checkIfUserExistsAndCreateUser(user.email!);
             }
           }
         }

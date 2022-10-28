@@ -1,12 +1,13 @@
 import 'package:arnet_helper/screens/requirements/RecurringRequirement.dart';
 import 'package:arnet_helper/screens/requirements/VersionRequirement.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ReqEditForm extends StatefulWidget {
   final Map map;
-  final String email;
-  ReqEditForm({super.key, required this.map, required this.email});
+  final User user;
+  ReqEditForm({super.key, required this.map, required this.user});
 
   final test = [
     {
@@ -158,8 +159,8 @@ possible edit types
         padding: const EdgeInsets.all(16.0),
         //form
         child: map['frequency'] > 0
-            ? RecurringRequirement(map: map,email:widget.email)
-            : VersionRequirement(map: map, email:widget.email)
+            ? RecurringRequirement(map: map,user:widget.user)
+            : VersionRequirement(map: map, user:widget.user)
       ),
     );
   }

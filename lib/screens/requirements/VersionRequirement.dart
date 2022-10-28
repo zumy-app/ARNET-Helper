@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,9 +7,9 @@ import '../dashboard.dart';
 
 class VersionRequirement extends StatefulWidget {
   final Map map;
-  final String email;
+  final User user;
 
-  const VersionRequirement({Key? key, required this.map, required this.email})
+  const VersionRequirement({Key? key, required this.map, required this.user})
       : super(key: key);
 
   @override
@@ -36,6 +37,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
 
   @override
   Widget build(BuildContext context) {
+
     bool isInteger(num value) => (value % 1) == 0;
 
     List<dynamic> list = [];
@@ -171,7 +173,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
     print(
         "updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text} and version ${widget.map['completedVersion']} to ${ selectedVersion}");
     db.updateVersionStatus(
-        widget.email,
+        widget.user.email,
         widget.map['id'],
         widget.map['completedVersion'].toInt(),
        selectedVersion,
@@ -179,6 +181,6 @@ class _VersionRequirementState extends State<VersionRequirement> {
         dateInput.text);
     Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
+        MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
   }
 }

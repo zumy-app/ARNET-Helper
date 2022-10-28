@@ -25,13 +25,15 @@ class DB {
         .get();
 
     if (snapShot == null || !snapShot.exists) {
-      // docuement is not exist
+      // document does not exist
       print('New user. Creating a starter record');
       final data = createNewUserData(email);
       final writeNewUser  = await writeNewUserToDB(email, data);
       print("Created new user ${email} with data ${data}");
+      return writeNewUser;
     } else {
-      print("id is really exist");
+      print("id really exists");
+      return "User already exists";
     }
   }
 

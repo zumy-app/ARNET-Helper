@@ -3,20 +3,22 @@ import 'dart:convert';
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
 class Dashboard extends StatelessWidget {
-   Dashboard({super.key});
-    final email = "uhsarp@gmail.com";
+  final User user;
+   Dashboard({Key? key, required this.user})
+      : super(key: key);
   final DB db = DB();
   @override
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
-      future: db.initialDataLoad(email),
+      future: db.initialDataLoad(user.email),
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {
@@ -30,7 +32,7 @@ class Dashboard extends StatelessWidget {
               title: 'ARNET Helper',
               items: snapshot.data!['user']!,
               rules: snapshot.data!['rules']!,
-            email: email
+            user: user
           );
         }
 
@@ -64,12 +66,12 @@ class MyHomePage extends StatefulWidget {
       required this.title,
       required this.items,
       required this.rules,
-      required this.email});
+      required this.user});
 
   final String title;
   final List<dynamic> rules;
   final List<dynamic> items;
-  final String email;
+  final User user;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -191,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: Center(child: Requirement(map: data[index], email: widget.email)),
+                        child: Center(child: Requirement(map: data[index], user: widget.user)),
                       );
                     },
                   ),
@@ -205,9 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
 class Requirement extends StatelessWidget {
   final Map map;
 
-  final String email;
+  final User user;
 
-  const Requirement({super.key, required this.map, required this.email});
+  const Requirement({super.key, required this.map, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +260,7 @@ class Requirement extends StatelessWidget {
                             borderRadius: BorderRadius.circular(40)),
                         elevation: 3,
                         child: Container(
-                          child: ReqEditForm(map: map, email:email),
+                          child: ReqEditForm(map: map, user:user),
                         ),
                       );
                     },

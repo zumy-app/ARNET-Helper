@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:arnet_helper/screens/dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,10 +10,10 @@ import '../../util/db.dart';
 
 class RecurringRequirement extends StatefulWidget {
   final Map map;
-  final String email;
+  final User user;
 
 
-   RecurringRequirement({Key? key, required this.map, required this.email}) : super(key: key);
+   RecurringRequirement({Key? key, required this.map, required this.user}) : super(key: key);
 
   @override
   State<RecurringRequirement> createState() => _RecurringRequirementState(map);
@@ -117,10 +118,10 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
 
   _submit(date) {
     print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text}");
-    db.updateReqStatus(widget.email, widget.map['id'],widget.map['date'], dateInput.text);
+    db.updateReqStatus(widget.user.email, widget.map['id'],widget.map['date'], dateInput.text);
   Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Dashboard()), (r) => false);
+        MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
   }
 }
 

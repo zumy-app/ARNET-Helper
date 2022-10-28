@@ -43,9 +43,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Dashboard(),
+        // home: Dashboard(),
         // home: ReqEditForm(map: {}),
-        // home: const AuthWrapper(),
+        home: const AuthWrapper(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
           const EmailPasswordSignup(),
@@ -66,7 +66,7 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return  Dashboard();
+      return  Dashboard(user:firebaseUser);
     }
     return const LoginScreen();
   }

@@ -20,23 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            CustomButton(
-              onTap: () {
-                Navigator.pushNamed(context, EmailPasswordSignup.routeName);
-              },
-              text: 'Email/Password Sign Up',
-            ),
-            CustomButton(
-              onTap: () {
-                Navigator.pushNamed(context, EmailPasswordLogin.routeName);
-              },
-              text: 'Email/Password Login',
-            ),
-            CustomButton(
-                onTap: () {
-                  Navigator.pushNamed(context, PhoneScreen.routeName);
-                },
-                text: 'Phone Sign In'),
+
             CustomButton(
               onTap: () {
                 context.read<FirebaseAuthMethods>().signInWithGoogle(context);
@@ -48,12 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 context.read<FirebaseAuthMethods>().signInWithFacebook(context);
               },
               text: 'Facebook Sign In',
-            ),
-            CustomButton(
-              onTap: () {
-                context.read<FirebaseAuthMethods>().signInAnonymously(context);
-              },
-              text: 'Anonymous Sign In',
             ),
           ],
         ),
