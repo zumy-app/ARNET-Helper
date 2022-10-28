@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -8,7 +9,6 @@ class DB {
   final today = new DateTime.now();
 
   final db = FirebaseFirestore.instance;
-
   Future<void> writeNewUserToDB(email, data) async {
     final conn = db.collection("users");
     return conn
@@ -55,12 +55,14 @@ class DB {
     return {"status": items};
   }
 
-  Future<Map<String, List<dynamic>>> initialDataLoad(email) async {
+  Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
+
+    final createUser = await checkIfUserExistsAndCreateUser(loggedInUser.email!);
     CollectionReference data = db.collection('data');
 
     final rules = ((await data.doc("config").get()).data()
         as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
-    final user = ((await db.collection("users").doc(email).get()).data()
+    final user = ((await db.collection("users").doc(loggedInUser.email!).get()).data()
         as Map<String, dynamic>)['status'] as List<dynamic>;
     return {"rules": rules, "user": user};
   }

@@ -18,7 +18,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     CollectionReference data = FirebaseFirestore.instance.collection('data');
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
-      future: db.initialDataLoad(user.email),
+      future: db.initialDataLoad(user),
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {

@@ -12,7 +12,7 @@ class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
 
-  final db = new DB();
+
 
   // FOR EVERY FUNCTION HERE
   // POP THE ROUTE USING: Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
@@ -123,7 +123,6 @@ class FirebaseAuthMethods {
           if (userCredential.user != null) {
             if (userCredential.additionalUserInfo!.isNewUser) {
               print(userCredential.user);
-              final createUser = await db.checkIfUserExistsAndCreateUser(user.email!);
             }
           }
         }
