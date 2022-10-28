@@ -48,7 +48,7 @@ class DB {
       {"date":date,"id":4},
       {"id":5,"date":date,"completedVersion":1},
       {"id":6,"date":date,"completedVersion":1},
-      {"completedVersion":0,"date":date,"id":7},
+      {"completedVersion":-2,"date":date,"id":7},
       {"id":8,"date":date,"completedVersion":1},
       {"id":9,"completedVersion":1,"date":date}
     ];
