@@ -43,7 +43,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
     List<dynamic> list = [];
 
     if (widget.map['requiredVersion'] < 0) {
-      list = [widget.map['completedVersion']];
+      list = [widget.map['completedVersion'], widget.map['requiredVersion']].toSet().toList();
     } else {
       list = <dynamic>[
         for (var i = widget.map['completedVersion'].toInt() as int;
@@ -154,12 +154,13 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 child: const Text(
                   "Update",
                   style: TextStyle(
-                    fontSize: 24.0,
-                  ),
+                    fontSize: 24.0),
                 ),
                 onPressed: () {
                   _formKey.currentState!.validate();
-                   _submit();
+                  if(selectedVersion==null)
+                      selectedVersion = map['completedVersion'];
+                    _submit();
                 },
               )
             ],
