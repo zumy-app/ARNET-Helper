@@ -262,29 +262,26 @@ class Requirement extends StatelessWidget {
             ))
           ],
         ),
-        Row(
+        Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
-                Container(
-                  child: Text(
+                   Text(
                     "Frequency: ${this.map['frequencyText']}",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    "Completed Version: ${this.map['completedVersion']}",
+
+               Text(
+                    this.map['completedVersion']!=null?"Completed Version: ${this.map['completedVersion']}":"",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    "Required Version: ${this.map['requiredVersion']}",
+
+                Text(
+                  this.map['requiredVersion']!=null?"Required Version: ${this.map['requiredVersion']}":"",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
-                )
+
               ],
             ),
             Container(
