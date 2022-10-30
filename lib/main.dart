@@ -1,3 +1,4 @@
+import 'package:arnet_helper/screens/login/sign_in_1.dart';
 import 'package:arnet_helper/screens/login_email_password_screen.dart';
 import 'package:arnet_helper/screens/login_screen.dart';
 import 'package:arnet_helper/screens/phone_screen.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: Dashboard(),
         // home: ReqEditForm(map: {}),
-        home: const AuthWrapper(),
+        home: const SignInOne(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
           const EmailPasswordSignup(),
