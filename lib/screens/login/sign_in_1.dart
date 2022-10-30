@@ -56,7 +56,7 @@ class SignInOne extends StatelessWidget {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-            SignInOneSocialButton(
+         /*   SignInOneSocialButton(
               iconPath: 'images/fb.svg',
               text: 'Sign in with Facebook',
               size: size,
@@ -65,7 +65,7 @@ class SignInOne extends StatelessWidget {
                 }
             ),SizedBox(
                   height: size.height * 0.02,
-                ),
+                ),*/
               //sign up text here
               Center(
               child: footerText(),
