@@ -1,7 +1,4 @@
 import 'package:arnet_helper/screens/login/sign_in_1.dart';
-import 'package:arnet_helper/screens/login_email_password_screen.dart';
-import 'package:arnet_helper/screens/login_screen.dart';
-import 'package:arnet_helper/screens/phone_screen.dart';
 import 'package:arnet_helper/screens/signup_email_password_screen.dart';
 import 'package:arnet_helper/services/firebase_auth_methods.dart';
 import 'package:arnet_helper/util/db.dart';
@@ -46,12 +43,10 @@ class MyApp extends StatelessWidget {
         ),
         // home: Dashboard(),
         // home: ReqEditForm(map: {}),
-        home: const SignInOne(),
+        home: const AuthWrapper(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
-          const EmailPasswordSignup(),
-          EmailPasswordLogin.routeName: (context) => const EmailPasswordLogin(),
-          PhoneScreen.routeName: (context) => const PhoneScreen(),
+          const EmailPasswordSignup()
         },
       ),
     );
@@ -69,7 +64,7 @@ class AuthWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       return  Dashboard(user:firebaseUser);
     }
-    return const LoginScreen();
+    return const SignInOne();
   }
 }
 

@@ -2,6 +2,9 @@ import 'package:arnet_helper/screens/login/social_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:arnet_helper/services/firebase_auth_methods.dart';
 
 
 class SignInOne extends StatelessWidget {
@@ -21,12 +24,17 @@ class SignInOne extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //logo section
-                logo(size.height / 8, size.height / 8),
 
+                Text(
+                  "ARNET Helper",
+              style: const TextStyle(
+              fontSize: 22.0,
+              color: Colors.black,fontWeight: FontWeight.bold,
+            )
+                ),
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-
 
                 //sign in with google & apple
                 // signInGoogleButton(size),
@@ -35,6 +43,9 @@ class SignInOne extends StatelessWidget {
             iconPath: 'images/google_logo.svg',
             text: 'Sign in with Google',
             size: size,
+                onTap: () {
+                  context.read<FirebaseAuthMethods>().signInWithGoogle(context);
+                }
           ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -47,11 +58,19 @@ class SignInOne extends StatelessWidget {
               iconPath: 'images/fb.svg',
               text: 'Sign in with Facebook',
               size: size,
+                onTap: () {
+                  context.read<FirebaseAuthMethods>().signInWithFacebook(context);
+                }
             ),
-                //sign up text here
-                Center(
-                  child: footerText(),
-                )
+              //sign up text here
+              Center(
+              child: footerText(),
+        ),
+
+                SizedBox(
+                  height: size.height * 0.1,
+                ),
+                logo(size.height / 16, size.height / 16)
               ],
             ),
           ),
