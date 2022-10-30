@@ -28,7 +28,7 @@ class SignInOne extends StatelessWidget {
                 Text(
                   "ARNET Helper",
               style: const TextStyle(
-              fontSize: 22.0,
+              fontSize: 30.0,
               color: Colors.black,fontWeight: FontWeight.bold,
             )
                 ),
@@ -61,7 +61,9 @@ class SignInOne extends StatelessWidget {
                 onTap: () {
                   context.read<FirebaseAuthMethods>().signInWithFacebook(context);
                 }
-            ),
+            ),SizedBox(
+                  height: size.height * 0.02,
+                ),
               //sign up text here
               Center(
               child: footerText(),
@@ -80,10 +82,13 @@ class SignInOne extends StatelessWidget {
   }
 
   Widget logo(double height_, double width_) {
-    return SvgPicture.asset(
-      'images/logo.svg',
-      height: height_,
-      width: width_,
+    return InkWell(
+      child: SvgPicture.asset(
+        'images/logo.svg',
+        height: height_,
+        width: width_,
+      ),
+      onTap: _launchURL("https://zumy.app/mil/arnet"),
     );
   }
 
