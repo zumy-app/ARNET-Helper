@@ -98,7 +98,7 @@ class FirebaseAuthMethods {
         await dbRef.checkIfUserExistsAndCreateUser(userCredential.user!.email!);
       } else {
         final GoogleSignInAccount? googleUser = await GoogleSignIn(
-          clientId: '383929334656-jk9ef0f1ucbh470im618bsrf5bv25djo.apps.googleusercontent.com',
+            serverClientId: '383929334656-jk9ef0f1ucbh470im618bsrf5bv25djo.apps.googleusercontent.com',
             scopes: <String>[
               'email',
               'https://www.googleapis.com/auth/contacts.readonly',

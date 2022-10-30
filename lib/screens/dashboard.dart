@@ -221,24 +221,16 @@ class Requirement extends StatelessWidget {
         this.map['title'],
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
-      subtitle: Row(
+      subtitle: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-              child: Text(
+               Text(
             "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
             style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-          )),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                    child: Text(
-                  "${this.map['footer']} ${this.map['date']}",
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                )),
-              ],
-            ),
+          ),
+          Text(
+            "${this.map['footer']} ${this.map['date']}",
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
           )
         ],
       ),
@@ -252,7 +244,6 @@ class Requirement extends StatelessWidget {
                 icon: Icon(Icons.edit),
                 onPressed: () {
                   showDialog(
-
                     context: context,
                     builder: (context) {
                       return Dialog(
@@ -301,9 +292,9 @@ class Requirement extends StatelessWidget {
                 children: [
                   Container(
                       child: Text(
-                    "${this.map['footer']} ${this.map['date']}",
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                  )),
+                        "${this.map['footer']} ${this.map['date']}",
+                        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                      )),
                   Container(
                       child: Text(
                     "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
