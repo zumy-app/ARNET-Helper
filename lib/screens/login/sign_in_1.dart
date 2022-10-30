@@ -42,7 +42,7 @@ class SignInOne extends StatelessWidget {
                 // signInGoogleButton(size),
 
             SignInOneSocialButton(
-            iconPath: 'images/google_logo.svg',
+            iconPath: 'assets/images/google_logo.svg',
             text: 'Sign in with Google',
             size: size,
                 onTap: () {
@@ -57,7 +57,7 @@ class SignInOne extends StatelessWidget {
                   height: size.height * 0.03,
                 ),
          /*   SignInOneSocialButton(
-              iconPath: 'images/fb.svg',
+              iconPath: 'assets/images/fb.svg',
               text: 'Sign in with Facebook',
               size: size,
                 onTap: () {
@@ -86,7 +86,7 @@ class SignInOne extends StatelessWidget {
   Widget logo(double height_, double width_) {
     return InkWell(
       child: SvgPicture.asset(
-        'images/logo.svg',
+        'assets/images/logo.svg',
         height: height_,
         width: width_,
       ),
