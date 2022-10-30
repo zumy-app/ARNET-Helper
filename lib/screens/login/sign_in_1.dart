@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:arnet_helper/services/firebase_auth_methods.dart';
 
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../util/utils.dart';
 class SignInOne extends StatelessWidget {
   const SignInOne({Key? key}) : super(key: key);
 
@@ -88,7 +90,7 @@ class SignInOne extends StatelessWidget {
         height: height_,
         width: width_,
       ),
-      onTap: _launchURL("https://zumy.app/mil/arnet"),
+      onTap: ()=>{ launchUrl(Uri.parse("https://zumy.app/mil/arnet"))},
     );
   }
 
