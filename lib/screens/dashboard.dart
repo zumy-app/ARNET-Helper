@@ -219,6 +219,7 @@ class Requirement extends StatelessWidget {
       expandedColor: calcColor(map['severity']),
       title: Text(
         this.map['title'],
+        textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       subtitle: Column(
@@ -271,14 +272,14 @@ class Requirement extends StatelessWidget {
                     "Frequency: ${this.map['frequencyText']}",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
-
+        if(this.map['completedVersion']!=null)
                Text(
-                    this.map['completedVersion']!=null?"Completed Version: ${this.map['completedVersion']}":"",
+                    "Completed Version: ${this.map['completedVersion']}",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
-
+if(this.map['requiredVersion']!=null)
                 Text(
-                  this.map['requiredVersion']!=null?"Required Version: ${this.map['requiredVersion']}":"",
+                 "Required Version: ${this.map['requiredVersion']}",
                     style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
                   ),
 
