@@ -22,9 +22,9 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-            <inten 4xt-filter>
-                <  v;b p,pt android:name="android.intent.action.MAIN"/>
-                <c ategory                  .';/x n [pandroid:name="android.intent.category.LAUNCHER"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
        <!-- FACEBOOK CONFIGURATION\xcfo9; tf8cx -->
