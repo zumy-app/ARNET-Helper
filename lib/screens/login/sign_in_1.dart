@@ -54,9 +54,9 @@ class SignInOne extends StatelessWidget {
                 ),
                 // signInAppleButton(size),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.01,
                 ),
-         /*   SignInOneSocialButton(
+            SignInOneSocialButton(
               iconPath: 'assets/images/fb.svg',
               text: 'Sign in with Facebook',
               size: size,
@@ -65,7 +65,7 @@ class SignInOne extends StatelessWidget {
                 }
             ),SizedBox(
                   height: size.height * 0.02,
-                ),*/
+                ),
               //sign up text here
               Center(
               child: footerText(),
@@ -140,14 +140,15 @@ class SignInOne extends StatelessWidget {
         ),
         children: const [
           TextSpan(
-            text: 'Built with ❤ in Wood Ridge, NJ',
+            text: 'Built with ',
           ),
           TextSpan(
-            text: ' ',
-            style: TextStyle(
-              color: Color(0xFF21899C),
-            ),
+            text: '❤',
+            style: TextStyle(color: Color(0xFFB71C1C))
           ),
+          TextSpan(
+            text: ' in Wood Ridge, NJ',
+          )
 
         ],
       ),
