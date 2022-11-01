@@ -62,14 +62,13 @@ class DB {
     final rules = ((await data.doc("config").get()).data()
         as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
     var email;
-    if(loggedInUser.email!=null || !loggedInUser.email!.isEmpty){
+    if(!loggedInUser.email!.isEmpty){
       email = loggedInUser.email!;
       print(loggedInUser);
     }
     else
       {
-        print(loggedInUser);
-        print(loggedInUser);
+       email=loggedInUser.providerData[0].email;
       }
     final user = ((await db.collection("users").doc(email).get()).data()
         as Map<String, dynamic>)['status'] as List<dynamic>;
