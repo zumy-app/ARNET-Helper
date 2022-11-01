@@ -147,12 +147,40 @@ class FirebaseAuthMethods {
   // FACEBOOK SIGN IN
   Future<void> signInWithFacebook(BuildContext context) async {
     try {
+
+     if (kIsWeb || defaultTargetPlatform == TargetPlatform.macOS) {
+        // initialiaze the facebook javascript SDK
+        await FacebookAuth.instance.webAndDesktopInitialize(
+          appId: "1482692755576106",
+          cookie: true,
+          xfbml: true,
+          version: "v14.0",
+        );
+      }
+
+
       final LoginResult loginResult = await FacebookAuth.instance.login();
 
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      if (loginResult.status == LoginStatus.success) {
+        final AccessToken accessToken = loginResult.accessToken!;
+        final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        try {
+          final userCredential = await _auth.signInWithCredential(facebookAuthCredential);
+           await dbRef.checkIfUserExistsAndCreateUser(userCredential!.user!.email!);
+        } on FirebaseAuthException catch (e) {
+          print(e);
+        } catch (e) {
+          // manage other exceptions
+          print(e);
+        }
+      }
+      else {
+        print(loginResult.status);
+        print(loginResult.message);
+      }
 
-      await _auth.signInWithCredential(facebookAuthCredential);
+
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!); // Displaying the error message
     }
