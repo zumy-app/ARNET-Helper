@@ -108,7 +108,7 @@ class DB {
   }
 
   Future<void> updateVersionStatus(
-      email, key, int oldVal, dynamic newVal, oldDate, newDate) async {
+      email, key, dynamic oldVal, dynamic newVal, oldDate, newDate) async {
     final conn = db.collection("users").doc(email);
 
     conn.update({

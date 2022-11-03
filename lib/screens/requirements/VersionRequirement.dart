@@ -176,7 +176,7 @@ class _VersionRequirementState extends State<VersionRequirement> {
     db.updateVersionStatus(
         widget.user.email,
         widget.map['id'],
-        widget.map['completedVersion'].toInt(),
+        widget.map['completedVersion'],
        selectedVersion,
         widget.map['date'],
         dateInput.text);
