@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:arnet_helper/screens/feedback/feedback.dart';
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:arnet_helper/services/firebase_auth_methods.dart';
+
 class Dashboard extends StatelessWidget {
   final User user;
    Dashboard({Key? key, required this.user})
@@ -175,6 +177,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Here we take the value from the MyHomePage object that was created by
                 // the App.build method, and use it to set our appbar title.
                 title: Text(widget.title)),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showDialog(context: context, builder: (context){
+                return Dialog(
+                  child: Container(
+                    child: FeedbackOne(),
+                  ),
+                );
+              });
+            },
+            backgroundColor: Colors.red,
+            child: const Icon(Icons.feedback),
+          ),
             body: Column(
               children: <Widget>[
                 /*  Padding(
