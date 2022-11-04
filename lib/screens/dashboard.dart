@@ -4,13 +4,17 @@ import 'package:arnet_helper/screens/feedback/feedback.dart';
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feedback/feedback.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:arnet_helper/services/firebase_auth_methods.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'feedback/custom_feedback.dart';
+import 'feedback/feedback_functions.dart';
 class Dashboard extends StatelessWidget {
   final User user;
    Dashboard({Key? key, required this.user})
@@ -77,6 +81,76 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+}
+bool _useCustomFeedback = false;
+
+class DashboardPage extends StatelessWidget {
+  const DashboardPage(this.toggleCustomizedFeedback, this.title, this.data, this.user, {Key? key}) : super(key: key);
+  final VoidCallback toggleCustomizedFeedback;
+  final title;
+  final data;
+  final user;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Scaffold(
+          appBar: AppBar(
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.home),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () => {
+                    context.read<FirebaseAuthMethods>().signOut(context)
+
+                  },
+                  icon: Icon(Icons.logout),
+                ),
+
+              ],
+              // Here we take the value from the MyHomePage object that was created by
+              // the App.build method, and use it to set our appbar title.
+              title: Text(title)),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              BetterFeedback.of(context).show(
+                    (feedback) async {
+                  // upload to server, share whatever
+                  // for example purposes just show it to the user
+                  alertFeedbackFunction(
+                    context,
+                    feedback,
+                  );
+                },
+              );
+            },
+            backgroundColor: Colors.red,
+            child: const Icon(Icons.feedback),
+          ),
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  // Let the ListView know how many items it needs to build.
+                  itemCount: data.length,
+                  // Provide a builder function. This is where the magic happens.
+                  // Convert each item into a widget based on the type of item it is.
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Center(child: Requirement(map: data[index], user: user)),
+                    );
+                  },
+                ),
+              )
+            ],
+          ) // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -151,72 +225,39 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final data = calc(widget.items, widget.rules);
- /*   print(json.encode(widget.items));
-    print(json.encode(widget.rules));*/
+    void _toggleCustomizedFeedback() =>
+        setState(() => _useCustomFeedback = !_useCustomFeedback);
+    return BetterFeedback(
+        child: MaterialApp(
+        home: DashboardPage(_toggleCustomizedFeedback,widget.title, data, widget.user),
 
-    // final writeUserRules = writeToDB("data", "users", "status", data);
-
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-                centerTitle: true,
-                leading: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.home),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () => {
-                      context.read<FirebaseAuthMethods>().signOut(context)
-
-                    },
-                    icon: Icon(Icons.logout),
-                  ),
-
-                ],
-                // Here we take the value from the MyHomePage object that was created by
-                // the App.build method, and use it to set our appbar title.
-                title: Text(widget.title)),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              showDialog(context: context, builder: (context){
-                return Dialog(
-                  child: Container(
-                    child: FeedbackOne(),
-                  ),
-                );
-              });
-            },
-            backgroundColor: Colors.red,
-            child: const Icon(Icons.feedback),
-          ),
-            body: Column(
-              children: <Widget>[
-                /*  Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: Center(
-                  child: Summary(
-                      map:lowest
-              )),
-            ),*/
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    // Let the ListView know how many items it needs to build.
-                    itemCount: data.length,
-                    // Provide a builder function. This is where the magic happens.
-                    // Convert each item into a widget based on the type of item it is.
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: Center(child: Requirement(map: data[index], user: widget.user)),
-                      );
-                    },
-                  ),
-                )
-              ],
-            ) // This trailing comma makes auto-formatting nicer for build methods.
-            ));
+    ),
+      feedbackBuilder: _useCustomFeedback
+          ? (context, onSubmit, scrollController) => CustomFeedbackForm(
+        onSubmit: onSubmit,
+        scrollController: scrollController,
+      )
+          : null,
+      theme: FeedbackThemeData(
+        background: Colors.grey,
+        feedbackSheetColor: Colors.grey[50]!,
+        drawColors: [
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.yellow,
+        ],
+      ),
+      localizationsDelegates: [
+        GlobalFeedbackLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeOverride: const Locale('en'),
+      mode: FeedbackMode.draw,
+      pixelRatio: 1,
+    );
   }
 }
 

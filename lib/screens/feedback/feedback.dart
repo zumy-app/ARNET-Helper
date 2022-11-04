@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 
 import 'package:feedback/feedback.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -18,7 +19,9 @@ import 'custom_feedback.dart';
 import 'feedback_functions.dart';
 
 class FeedbackOne extends StatefulWidget {
-  const FeedbackOne({Key? key}) : super(key: key);
+  final User user;
+  FeedbackOne({Key? key, required this.user})
+      : super(key: key);
 
   @override
   _FeedbackState createState() => _FeedbackState();
@@ -29,13 +32,13 @@ bool _useCustomFeedback = false;
 class _FeedbackState extends State<FeedbackOne> {
   @override
   Widget build(BuildContext context) {
-    return BetterFeedback(
+   return  BetterFeedback(
       child: MaterialApp(
         title: 'FeedbackOne Demo',
         theme: ThemeData(
           primarySwatch: _useCustomFeedback ? Colors.green : Colors.blue,
         ),
-        home: MyHomePage(_toggleCustomizedFeedback),
+        home: MyHomePage1(_toggleCustomizedFeedback),
       ),
       // If custom feedback is not enabled, supply null and the default text
       // feedback form will be used.
@@ -71,8 +74,8 @@ class _FeedbackState extends State<FeedbackOne> {
       setState(() => _useCustomFeedback = !_useCustomFeedback);
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage(this.toggleCustomizedFeedback, {Key? key}) : super(key: key);
+class MyHomePage1 extends StatelessWidget {
+  const MyHomePage1(this.toggleCustomizedFeedback, {Key? key}) : super(key: key);
 
   final VoidCallback toggleCustomizedFeedback;
 
