@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +40,18 @@ class DB {
     }
   }
 
+  provideFeedback(user, feedback) async {
+print("Providing feedback ${feedback} for ${user}");
+    final email = getEmail(user);
+    final conn = db.collection("users").doc(email);
+    conn.update({
+      "feedback": FieldValue.arrayUnion([
+        feedback
+      ]),
+    }).then((value) => print("value"));
+
+  }
+
   createNewUserData(email){
     final oneYearAgo = DateTime(today.year-1,today.month, today.day);
     final date = df.format(oneYearAgo);
@@ -53,7 +67,7 @@ class DB {
       {"id":9,"completedVersion":1,"date":date}
     ];
 
-    return {"status": items};
+    return {"status": items,"feedback":[]};
   }
 
   Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
@@ -61,18 +75,17 @@ class DB {
 
     final rules = ((await data.doc("config").get()).data()
         as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
-    var email;
-    if(loggedInUser.email!=null && !loggedInUser.email!.isEmpty){
-      email = loggedInUser.email!;
-      print(loggedInUser);
-    }
-    else
-      {
-       email=loggedInUser.providerData[0].email;
-      }
+    final email = getEmail(loggedInUser);
     final user = ((await db.collection("users").doc(email).get()).data()
         as Map<String, dynamic>)['status'] as List<dynamic>;
     return {"rules": rules, "user": user};
+  }
+
+  getEmail(User loggedInUser){
+    if(loggedInUser.email!=null && !loggedInUser.email!.isEmpty)
+      return loggedInUser.email!;
+    else
+      return loggedInUser.providerData[0].email;
   }
 
   read(collection, document, key) {
