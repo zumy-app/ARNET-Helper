@@ -48,10 +48,11 @@ print("Providing feedback ${feedback} for ${user}");
     final name = '${date}.png';
     final screenshot = await storeScreenshot(feedback, name);
     print('Uploaded screenshot ${screenshot}');
-    final conn = db.collection("users").doc(email);
+    final conn = db.collection("data").doc("other");
     var data = {
       "feedback": FieldValue.arrayUnion([
         {
+          "email":email,
           "timestamp": date,
           "message" : feedback.text as String,
           "screenshot": screenshot
