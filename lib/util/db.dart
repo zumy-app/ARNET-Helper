@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -43,12 +44,28 @@ class DB {
   provideFeedback(user, feedback) async {
 print("Providing feedback ${feedback} for ${user}");
     final email = getEmail(user);
+    final  date = DateTime.now().toIso8601String();
+    final name = '${date}.png';
+    final screenshot = await storeScreenshot(feedback, name);
+    print('Uploaded screenshot ${screenshot}');
     final conn = db.collection("users").doc(email);
-    conn.update({
+    var data = {
       "feedback": FieldValue.arrayUnion([
-        feedback
+        {
+          "timestamp": date,
+          "message" : feedback.text as String,
+          "screenshot": screenshot
+        }
       ]),
-    }).then((value) => print("value"));
+    };
+    print(data);
+    conn.update(data).then((value) => print("value"));
+
+  }
+  storeScreenshot(feedback, name) async{
+    final storageRef = FirebaseStorage.instance.ref().child('images').child(name);
+     var snapshot = await storageRef.putData(feedback.screenshot);
+     return snapshot.ref.getDownloadURL();
 
   }
 
