@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:arnet_helper/main.dart';
-import 'package:arnet_helper/screens/feedback/feedback.dart';
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feedback/feedback.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,10 +118,11 @@ class DashboardPage extends StatelessWidget {
                     (feedback) async {
                   // upload to server, share whatever
                   // for example purposes just show it to the user
-                      dbRef.provideFeedback(user,feedback);
+                      final feedbackId = await dbRef.provideFeedback(user,feedback);
                   alertFeedbackFunction(
                     context,
                     feedback,
+                    feedbackId
                   );
                 },
               );

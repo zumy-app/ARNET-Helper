@@ -21,17 +21,19 @@ void consoleFeedbackFunction(
 /// This is useful for debugging purposes.
 void alertFeedbackFunction(
   BuildContext outerContext,
-  UserFeedback feedback,
+  UserFeedback feedback, feedbackId,
 ) {
   showDialog<void>(
     context: outerContext,
     builder: (context) {
       return AlertDialog(
-        title: Text(feedback.text),
+        title: Text(feedbackId),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min, ,
             children: [
+              Text("Submitted the following feedback. We appreciate it."),
+              Text("${feedback.text}"),
               if (feedback.extra != null) Text(feedback.extra!.toString()),
               Image.memory(
                 feedback.screenshot,

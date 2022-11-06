@@ -61,7 +61,7 @@ print("Providing feedback ${feedback} for ${user}");
     };
     print(data);
     conn.update(data).then((value) => print("value"));
-
+    return date;
   }
   storeScreenshot(feedback, name) async{
     final storageRef = FirebaseStorage.instance.ref().child('images').child(name);
