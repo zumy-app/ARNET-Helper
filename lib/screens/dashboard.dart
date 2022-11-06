@@ -91,15 +91,75 @@ class DashboardPage extends StatelessWidget {
   final user;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Scaffold(
+
+      return Scaffold(
+          drawer: Drawer(
+            // Add a ListView to the drawer. This ensures the user can scroll
+            // through the options in the drawer if there isn't enough vertical
+            // space to fit everything.
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: [
+                 UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: const Color(0xff764abc)),
+                  accountName: Text(
+                    this.user!.displayName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  accountEmail: Text(
+                    this.user!.email,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  currentAccountPicture: FlutterLogo(),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: const Text('Home'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.train,
+                  ),
+                  title: const Text('Page 2'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                AboutListTile( // <-- SEE HERE
+                  icon: Icon(
+                    Icons.info,
+                  ),
+                  child: Text('About app'),
+                  applicationIcon: Icon(
+                    Icons.local_play,
+                  ),
+                  applicationName: 'US Army Reserve Network (ARNET) Helper',
+                  applicationVersion: '1.0.0',
+                  applicationLegalese: '© 2022 Zumy LLC',
+                  aboutBoxChildren: [
+                    ///Content goes here...
+                  ],
+                ),
+              ],
+            ),
+          ),
           appBar: AppBar(
               centerTitle: true,
-              leading: IconButton(
+              /*       leading: IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.home),
               ),
-              actions: [
+            actions: [
                 IconButton(
                   onPressed: () => {
                     context.read<FirebaseAuthMethods>().signOut(context)
@@ -108,7 +168,7 @@ class DashboardPage extends StatelessWidget {
                   icon: Icon(Icons.logout),
                 ),
 
-              ],
+              ],*/
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
               title: Text(title)),
@@ -149,8 +209,8 @@ class DashboardPage extends StatelessWidget {
               )
             ],
           ) // This trailing comma makes auto-formatting nicer for build methods.
-      ),
-    );
+      );
+
   }
 }
 

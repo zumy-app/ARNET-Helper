@@ -30,7 +30,7 @@ void alertFeedbackFunction(
         title: Text(feedbackId),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min, ,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text("Submitted the following feedback. We appreciate it."),
               Text("${feedback.text}"),
