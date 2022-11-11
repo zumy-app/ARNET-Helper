@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:arnet_helper/main.dart';
+import 'package:arnet_helper/screens/profile/profile_page.dart';
 import 'package:arnet_helper/screens/requirement_edit.dart';
 import 'package:arnet_helper/util/db.dart';
+
 import 'package:feedback/feedback.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -130,9 +132,22 @@ class DashboardPage extends StatelessWidget {
                   leading: Icon(
                     Icons.train,
                   ),
-                  title: const Text('Page 2'),
+                  title: const Text('Profile'),
                   onTap: () {
-                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          insetPadding: EdgeInsets.all(30),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40)),
+                          elevation: 3,
+                          child: Container(
+                            // child: ProfilePage(user,data),
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
                 AboutListTile( // <-- SEE HERE
