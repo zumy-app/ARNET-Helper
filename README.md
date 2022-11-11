@@ -1,5 +1,6 @@
-# Dillinger
-## Let us help you track and maintain ARNET Access!
+
+# ARNET Helper
+## Let us help you track and maintain U.S Army Reserve Network (ARNET) Access!
 
 Tracking and Maintaining ARNET Access is a pain. This app allows US Army Reserve soldiers maintain their ARNET Access by providing them a way to track the various training requirements
 
@@ -12,12 +13,28 @@ Want to contribute? Great! Here's how to setup  your environment (IDE/Workstatio
 
 - [Firebase setup] - Create a new database in Firebase and download the google-services.json file to your /android/app folder
 - Run the prepareDB() method in the preapreDB.dart file to populate the initial data in the db
+- Setup Firebase Storage (Storage Tab in Firebase console)
+- Configure Login with Google and Facebook.
+- Enable Auth for Google and FB in Firebase
+- Make sure to put in Facebook credentials in Firebase Auth settings
+- Generate SHA-1 public key and add it to firebase
+- Generate public key and add it to Facebook DEV console
+-  Facebook - `keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64`
 
 ## Data Model
 - [Config - Rules](https://postimg.cc/CRxtLvwj)
 - [User Data](https://postimg.cc/jwsz61C5)
 
+Legend:
+Square = Collection
+Circle = Document
+```mermaid  
+graph LR  
+A[data] -- app config--> B((config)) -- contains rules --> C[ruleslist]
+A[data] -- other app data including feedback --> D((other))  --> E[feedback]
 
+F[users]  -- each user has a separate doc. doc name is email--> H((email)) --> I[ruleslist]
+```  
 ## License
 
 MIT
