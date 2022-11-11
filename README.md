@@ -17,6 +17,9 @@ Want to contribute? Great! Here's how to setup  your environment (IDE/Workstatio
 - Configure Login with Google and Facebook.
 - Enable Auth for Google and FB in Firebase
 - Make sure to put in Facebook credentials in Firebase Auth settings
+- Generate SHA-1 public key and add it to firebase
+- Generate public key and add it to Facebook DEV console
+-  Facebook - `keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64`
 
 ## Data Model
 - [Config - Rules](https://postimg.cc/CRxtLvwj)
