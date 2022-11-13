@@ -118,7 +118,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
 
   _submit(date) {
     print("updating ${widget.map['id']} from ${widget.map['date']} to ${dateInput.text}");
-    db.updateReqStatus(widget.user.email, widget.map['id'],widget.map['date'], dateInput.text);
+    db.updateReqStatus(db.getEmail(widget.user), widget.map['id'],widget.map['date'], dateInput.text);
   Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
