@@ -3,30 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../util/db.dart';
-import '../dashboard.dart';
 
 class ProfilePage extends StatefulWidget {
-  final dynamic data;
-  final User user;
 
-  const ProfilePage({Key? key, required this.data, required this.user})
+  final dynamic user;
+  //User data in Firebase
+  final dynamic userData;
+
+  const ProfilePage({Key? key, required this.user, required this.userData})
       : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState(data, user);
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 var selectedVersion;
 
 class _ProfilePageState extends State<ProfilePage> {
-  final Map map;
+
   final DB db = DB();
-  final User user;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController dateInput = TextEditingController();
-
-  _ProfilePageState(this.map, this.user);
 
   @override
   void initState() {
@@ -40,6 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     bool isInteger(num value) => (value % 1) == 0;
+print(widget.user);
+print("userData:");
+print(widget.userData);
 
     List<dynamic> list = [];
 
@@ -48,12 +49,9 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+
           Text(
-            "Completed Version: ${map['completedVersion']}",
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-          ),
-          Text(
-            "Required Version: ${map['requiredVersion']}",
+            "Required Version: ",
             style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
           ),
           //styling
@@ -66,24 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(
                 width: 100.0,
-                child: DropdownButtonFormField<dynamic>(
-                    validator: (value) {
-                      if (value == map['completedVersion']) {
-                        return 'You have already completed this version';
-                      }
-                    },
-                    hint: Text("Pick"),
-                    value: list[0],
-                    items: list.map((dynamic value) {
-                      return new DropdownMenuItem<dynamic>(
-                        value: value,
-                        child: new Text(value.toString()),
-                      );
-                    }).toList(),
-                    onChanged: (newVal) {
-                      selectedVersion=newVal;
-                      print("Selected a new Version ${newVal}");
-                    }),
+                child: Container(),
               )
             ],
           ),
@@ -144,9 +125,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 onPressed: () {
                   _formKey.currentState!.validate();
-                  if(selectedVersion==null)
-                    selectedVersion = map['completedVersion'];
-                  _submit();
                 },
               )
             ],

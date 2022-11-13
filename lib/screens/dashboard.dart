@@ -21,6 +21,8 @@ class Dashboard extends StatelessWidget {
    Dashboard({Key? key, required this.user})
       : super(key: key);
   final DB db = DB();
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +39,7 @@ class Dashboard extends StatelessWidget {
 
           return MyHomePage(
               title: 'ARNET Helper',
-              items: snapshot.data!['user']!,
+              userData: snapshot.data!['user']!,
               rules: snapshot.data!['rules']!,
             user: user
           );
@@ -71,13 +73,13 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage(
       {super.key,
       required this.title,
-      required this.items,
+      required this.userData,
       required this.rules,
       required this.user});
 
   final String title;
   final List<dynamic> rules;
-  final List<dynamic> items;
+  final List<dynamic> userData;
   final User user;
 
   @override
@@ -130,7 +132,7 @@ class DashboardPage extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(
-                    Icons.train,
+                    Icons.person,
                   ),
                   title: const Text('Profile'),
                   onTap: () {
@@ -230,6 +232,44 @@ class DashboardPage extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void _showDialog(dynamic user, dynamic userData) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return Dialog(
+          insetPadding: EdgeInsets.all(30),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40)),
+          elevation: 3,
+          child: Container(
+            child: ProfilePage( user:user,userData:userData),
+          ),
+        );
+      },
+    );
+  }
+  @override
+  void initState() {
+    super.initState();
+    // Use either of them.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => Dialog(
+          insetPadding: EdgeInsets.all(30),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          elevation: 10,
+          child: Container(
+            child: ProfilePage( user:widget.user,userData:widget.userData),
+          ),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final df = DateFormat('MM/dd/yy');
@@ -300,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return results;
     }
 
-    final data = calc(widget.items, widget.rules);
+    final data = calc(widget.userData, widget.rules);
     void _toggleCustomizedFeedback() =>
         setState(() => _useCustomFeedback = !_useCustomFeedback);
     return BetterFeedback(

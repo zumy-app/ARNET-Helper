@@ -85,7 +85,7 @@ print("Providing feedback ${feedback} for ${user}");
       {"id":9,"completedVersion":1,"date":date}
     ];
 
-    return {"status": items,"feedback":[]};
+    return {"status": items,"feedback":[],"profile":{}};
   }
 
   Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
