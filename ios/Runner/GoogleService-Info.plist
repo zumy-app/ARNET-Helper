@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>78392494851-rfsdflm8anc1akjvp32d9j88aori8310.apps.googleusercontent.com</string>
+	<string>383929334656-3t3ueeqqdid7acdka723vgd90g0pl6d3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.78392494851-rfsdflm8anc1akjvp32d9j88aori8310</string>
+	<string>com.googleusercontent.apps.383929334656-3t3ueeqqdid7acdka723vgd90g0pl6d3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>383929334656-127ceup0nfbog8d0t5oo1mkt2v3fp0t4.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD4ldigZdLA9kuPeAF2tKcizBnH6zsHRf8</string>
+	<string>AIzaSyD4XJzs-raO_0jHR_V6khBYt9_PHaduv0U</string>
 	<key>GCM_SENDER_ID</key>
-	<string>78392494851</string>
+	<string>383929334656</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>app.zumy.mil.arnethelper.arnetHelper</string>
 	<key>PROJECT_ID</key>
-	<string>education-49fc2</string>
+	<string>mil-arnet-helper-ec885</string>
 	<key>STORAGE_BUCKET</key>
-	<string>education-49fc2.appspot.com</string>
+	<string>mil-arnet-helper-ec885.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:78392494851:ios:cbc0adf74a4f1f89eef736</string>
+	<string>1:383929334656:ios:e89c90c241829282af9f65</string>
 </dict>
 </plist>

@@ -31,7 +31,9 @@ class Dashboard extends StatelessWidget {
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {
-          return Spinner(text: 'Something went wrong...');
+          return Spinner(
+              text: 'Something went wrong...'
+          );
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -62,6 +64,18 @@ class Spinner extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text(this.text),
+          leading: MaterialButton(
+            padding: const EdgeInsets.all(10),
+            color: Colors.green,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: const Text(
+              'LOG OUT',
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
+            onPressed: () {
+             FirebaseAuth.instance.signOut();
+            },
+          ),
         ),
       ),
       debugShowCheckedModeBanner: false,
@@ -114,7 +128,8 @@ class DashboardPage extends StatelessWidget {
                     ),
                   ),
                   accountEmail: Text(
-                    this.user!.email,
+                    dbRef.getEmail(user),
+                    // this.user!.email,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -344,9 +359,8 @@ class _MyHomePageState extends State<MyHomePage> {
     void _toggleCustomizedFeedback() =>
         setState(() => _useCustomFeedback = !_useCustomFeedback);
     return BetterFeedback(
-        child: MaterialApp(
-        home: DashboardPage(_toggleCustomizedFeedback,widget.title, data, widget.user),
-
+        child: Container(
+        child: DashboardPage(_toggleCustomizedFeedback,widget.title, data, widget.user),
     ),
       feedbackBuilder: _useCustomFeedback
           ? (context, onSubmit, scrollController) => CustomFeedbackForm(
