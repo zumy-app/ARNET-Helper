@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
 import '../../util/db.dart';
@@ -20,10 +22,41 @@ class ProfilePage extends StatefulWidget {
 var selectedVersion;
 
 class _ProfilePageState extends State<ProfilePage> {
-
+  bool _unitHasError = false;
   final DB db = DB();
   final _formKey = GlobalKey<FormState>();
-
+  List<String> rankOptions = [
+    "PVT - Private",
+    "PV2 - Private Second Class",
+    "PFC - Private First Class",
+    "SPC - Specialist",
+    "CPL - Corporal",
+    "SGT - Sergeant",
+    "SSG - Staff Sergeant",
+    "SFC - Sergeant First Class",
+    "MSG - Master Sergeant",
+    "1SG - First Sergeant",
+    "SGM - Sergeant Major",
+    "CSM - Command Sergeant Major",
+    "SMA - Sergeant Major of the Army",
+    "WO1 - Warrant Officer 1",
+    "CW2 - Chief Warrant Officer 2",
+    "CW3 - Chief Warrant Officer 3",
+    "CW4 - Chief Warrant Officer 4",
+    "CW5 - Chief Warrant Officer 5",
+    "2LT - Second Lieutenant",
+    "1LT - First Lieutenant",
+    "CPT - Captain",
+    "MAJ - Major",
+    "LTC - Lieutenant Colonel",
+    "COL - Colonel",
+    "BG - Brigadier General",
+    "MG - Major General",
+    "LTG - Lieutenant General",
+    "GEN - General",
+    "GA - General of the Army"
+  ];
+  final  initalRank = "1LT - First Lieutenant";
   TextEditingController dateInput = TextEditingController();
 
   @override
@@ -44,93 +77,61 @@ print(widget.userData);
 
     List<dynamic> list = [];
 
-    return Form(
+    return  FormBuilder(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        autovalidateMode: AutovalidateMode.disabled,
+        initialValue: const {
+          'unit': '13',
+        },
+        skipDisabled: true,
+        child: Column(
+          children: [
+            FormBuilderDropdown<String>(
+              name: 'rank',
+              decoration: InputDecoration(
+                labelText: 'Rank',
+                suffix: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
 
-          Text(
-            "Required Version: ",
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-          ),
-          //styling
-
-          Row(
-            children: [
-              Text(
-                "Enter the last  completed version    ",
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-              ),
-              SizedBox(
-                width: 100.0,
-                child: Container(),
-              )
-            ],
-          ),
-          Container(
-              width: 250,
-              child: Center(
-                child: TextField(
-                  controller: dateInput,
-                  //editing controller of this TextField
-                  decoration: InputDecoration(
-                      icon: Icon(Icons.calendar_today), //icon of text field
-                      labelText:
-                      "Enter the new completion date" //label text of field
-                  ),
-                  readOnly: true,
-                  //set it true, so that user will not able to edit text
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2022),
-                        //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime.now());
-
-                    if (pickedDate != null) {
-                      print(
-                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate =
-                      DateFormat('MM/dd/yyyy').format(pickedDate);
-                      print(
-                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                      setState(() {
-                        dateInput.text =
-                            formattedDate; //set output date to TextField value.
-                      });
-                    } else {}
                   },
                 ),
-              )),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                    fontSize: 24.0,
-                  ),
-                ),
-                onPressed: () => Navigator.pop(context),
+                hintText: 'Select Gender',
               ),
-              TextButton(
-                child: const Text(
-                  "Update",
-                  style: TextStyle(
-                      fontSize: 24.0),
-                ),
-                onPressed: () {
-                  _formKey.currentState!.validate();
-                },
-              )
-            ],
-          ),
-        ],
-      ),
+              items: rankOptions
+                  .map((gender) => DropdownMenuItem(
+                alignment: AlignmentDirectional.center,
+                value: gender,
+                child: Text(gender),
+              ))
+                  .toList(),
+            ),
+            FormBuilderTextField(
+              autovalidateMode: AutovalidateMode.always,
+              name: 'Unit',
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Unit Info',
+                helperText: "Please include Company/Battery/Troop and the Battalion/Brigade/Division info",
+                suffixIcon: _unitHasError
+                    ? const Icon(Icons.error, color: Colors.red)
+                    : const Icon(Icons.check, color: Colors.green),
+              ),
+              onChanged: (val) {
+
+              },
+              // valueTransformer: (text) => num.tryParse(text),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(),
+                FormBuilderValidators.max(200),
+              ]),
+              // initialValue: '12',
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+            )
+          ],
+
+        )
     );
   }
 
