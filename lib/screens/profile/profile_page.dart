@@ -86,6 +86,10 @@ print(widget.userData);
         skipDisabled: true,
         child: Column(
           children: [
+            Text(
+              "Please update your profile",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+            ),
             FormBuilderDropdown<String>(
               name: 'rank',
               decoration: InputDecoration(
@@ -96,7 +100,7 @@ print(widget.userData);
 
                   },
                 ),
-                hintText: 'Select Gender',
+                hintText: 'Select Rank',
               ),
               items: rankOptions
                   .map((gender) => DropdownMenuItem(
@@ -107,12 +111,14 @@ print(widget.userData);
                   .toList(),
             ),
             FormBuilderTextField(
-              autovalidateMode: AutovalidateMode.always,
-              name: 'Unit',
-              maxLines: 3,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              name: 'job_title',
+              maxLines: 1,
               decoration: InputDecoration(
-                labelText: 'Unit Info',
-                helperText: "Please include Company/Battery/Troop and the Battalion/Brigade/Division info",
+                labelText: 'Job Title',
+                hintText: "Eg: Supply Sergeant",
+                // helperText: "Describe your current job in the Army",
+                errorStyle: TextStyle(color: Colors.black),
                 suffixIcon: _unitHasError
                     ? const Icon(Icons.error, color: Colors.red)
                     : const Icon(Icons.check, color: Colors.green),
@@ -128,7 +134,40 @@ print(widget.userData);
               // initialValue: '12',
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
-            )
+            ),
+            FormBuilderTextField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              name: 'Unit',
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Unit Info',
+                hintText: "Eg: 360 PSYCHOLOGICAL OPERATIONS COMPANY",
+                errorStyle: TextStyle(color: Colors.black),
+                // helperText: "Please include Company/Battery/Troop and the Battalion/Brigade/Division info",
+                suffixIcon: _unitHasError
+                    ? const Icon(Icons.error, color: Colors.black)
+                    : const Icon(Icons.check, color: Colors.green),
+              ),
+              onChanged: (val) {
+
+              },
+              // valueTransformer: (text) => num.tryParse(text),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(),
+                FormBuilderValidators.max(200),
+              ]),
+              // initialValue: '12',
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+            ),
+           SizedBox(
+             width: double.infinity,
+             child:  ElevatedButton(
+               child: const Text('Complete my profile!'),
+               onPressed: () async {
+               },
+             ),
+           ),
           ],
 
         )
