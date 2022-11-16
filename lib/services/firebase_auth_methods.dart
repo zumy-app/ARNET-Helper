@@ -117,13 +117,14 @@ class FirebaseAuthMethods {
           UserCredential userCredential =
               await _auth.signInWithCredential(credential);
 
-           await dbRef.checkIfUserExistsAndCreateUser(user!.email!);
+
           // if you want to do specific task like storing information in firestore
           // only for new users using google sign in (since there are no two options
           // for google sign in and google sign up, only one as of now),
           // do the following:
 
           if (userCredential.user != null) {
+            await dbRef.checkIfUserExistsAndCreateUser(dbRef.getEmail(userCredential.user!!));
             if (userCredential.additionalUserInfo!.isNewUser) {
               print(userCredential.user);
             }
