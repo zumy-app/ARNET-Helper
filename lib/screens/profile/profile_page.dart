@@ -77,8 +77,9 @@ print(widget.userData);
 
     List<dynamic> list = [];
 
-    return  FormBuilder(
-      key: _formKey,
+    return  Padding(padding: EdgeInsets.all(30.0),child:
+    FormBuilder(
+        key: _formKey,
         autovalidateMode: AutovalidateMode.disabled,
         initialValue: const {
           'unit': '13',
@@ -87,7 +88,7 @@ print(widget.userData);
         child: Column(
           children: [
             Text(
-              "Please update your profile",
+                "Please update your profile",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
             ),
             FormBuilderDropdown<String>(
@@ -160,17 +161,18 @@ print(widget.userData);
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
             ),
-           SizedBox(
-             width: double.infinity,
-             child:  ElevatedButton(
-               child: const Text('Complete my profile!'),
-               onPressed: () async {
-               },
-             ),
-           ),
+            SizedBox(
+              width: double.infinity,
+              child:  ElevatedButton(
+                child: const Text('Complete my profile!'),
+                onPressed: () async {
+                },
+              ),
+            ),
           ],
 
         )
+    )
     );
   }
 
