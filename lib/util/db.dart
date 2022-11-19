@@ -137,7 +137,14 @@ print("Providing feedback ${feedback} for ${user}");
         .then((value) => print("Data Added $data"))
         .catchError((error) => print("Failed to add user: $error"));
   }
-
+  Future<void> updateUserProfile(email, data) async {
+    final conn = db.collection("users");
+    return conn
+        .doc(email)
+        .update({"profile": data})
+        .then((value) => print("Profile Added $data"))
+        .catchError((error) => print("Failed to update profile: $error"));
+  }
   Future<void> updateVersionStatus(
       email, key, dynamic oldVal, dynamic newVal, oldDate, newDate) async {
     final conn = db.collection("users").doc(email);

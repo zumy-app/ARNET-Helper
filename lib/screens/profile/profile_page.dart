@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
 import '../../util/db.dart';
+import '../dashboard.dart';
 
 class ProfilePage extends StatefulWidget {
 
@@ -87,7 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             FormBuilderDropdown<String>(
               onChanged: (val){
-                profile['rank']=val!;
+                setState(() {
+                  profile['rank']=val!;
+                });
               },
               name: 'rank',
               decoration: InputDecoration(
@@ -104,6 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   .toList(),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
+                  FormBuilderValidators.max(200),
                 ])
             ),
             FormBuilderTextField(
@@ -154,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // valueTransformer: (text) => num.tryParse(text),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
-                FormBuilderValidators.max(200),
+                FormBuilderValidators.max(400),
               ]),
               // initialValue: '12',
               keyboardType: TextInputType.text,
@@ -164,8 +168,14 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child:  ElevatedButton(
                 child: const Text('Complete my profile!'),
-                onPressed: () async {
-                },
+                onPressed: isValid()? () async {
+                var email = db.getEmail(widget.user);
+                final updated = await db.updateUserProfile(email, profile);
+                print("Updated user profile for ${email} with ${profile.toString()}");
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
+                }:null,
               ),
             ),
           ],
@@ -178,4 +188,8 @@ class _ProfilePageState extends State<ProfilePage> {
   _submit() {
 
   }
+}
+
+isValid() {
+return (!profile['rank']!.isEmpty && !profile['job_title']!.isEmpty && !profile['unit']!.isEmpty);
 }
