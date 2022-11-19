@@ -19,8 +19,11 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-var selectedVersion;
-
+final profile = {
+  "rank":"",
+  "job_title":"",
+  "unit":""
+};
 class _ProfilePageState extends State<ProfilePage> {
   bool _unitHasError = false;
   final DB db = DB();
@@ -70,20 +73,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    bool isInteger(num value) => (value % 1) == 0;
-print(widget.user);
-print("userData:");
-print(widget.userData);
-
-    List<dynamic> list = [];
 
     return  Padding(padding: EdgeInsets.all(30.0),child:
     FormBuilder(
         key: _formKey,
         autovalidateMode: AutovalidateMode.disabled,
-        initialValue: const {
-          'unit': '13',
-        },
         skipDisabled: true,
         child: Column(
           children: [
@@ -92,15 +86,13 @@ print(widget.userData);
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
             ),
             FormBuilderDropdown<String>(
+              onChanged: (val){
+                profile['rank']=val!;
+              },
               name: 'rank',
               decoration: InputDecoration(
                 labelText: 'Rank',
-                suffix: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-
-                  },
-                ),
+                suffix: Icon(Icons.check,color: Colors.green),
                 hintText: 'Select Rank',
               ),
               items: rankOptions
@@ -110,9 +102,12 @@ print(widget.userData);
                 child: Text(gender),
               ))
                   .toList(),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                ])
             ),
             FormBuilderTextField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              autovalidateMode: AutovalidateMode.disabled,
               name: 'job_title',
               maxLines: 1,
               decoration: InputDecoration(
@@ -120,12 +115,14 @@ print(widget.userData);
                 hintText: "Eg: Supply Sergeant",
                 // helperText: "Describe your current job in the Army",
                 errorStyle: TextStyle(color: Colors.black),
-                suffixIcon: _unitHasError
-                    ? const Icon(Icons.error, color: Colors.red)
+                suffixIcon: profile['job_title']!.isEmpty
+                    ? const Icon(Icons.error, color: Colors.black)
                     : const Icon(Icons.check, color: Colors.green),
               ),
               onChanged: (val) {
-
+                setState(() {
+                  profile['job_title']=val!;
+                });
               },
               // valueTransformer: (text) => num.tryParse(text),
               validator: FormBuilderValidators.compose([
@@ -145,12 +142,14 @@ print(widget.userData);
                 hintText: "Eg: 360 PSYCHOLOGICAL OPERATIONS COMPANY",
                 errorStyle: TextStyle(color: Colors.black),
                 // helperText: "Please include Company/Battery/Troop and the Battalion/Brigade/Division info",
-                suffixIcon: _unitHasError
+                suffixIcon: profile['unit']!.isEmpty
                     ? const Icon(Icons.error, color: Colors.black)
                     : const Icon(Icons.check, color: Colors.green),
               ),
               onChanged: (val) {
-
+                setState(() {
+                  profile['unit']=val!;
+                });;
               },
               // valueTransformer: (text) => num.tryParse(text),
               validator: FormBuilderValidators.compose([
