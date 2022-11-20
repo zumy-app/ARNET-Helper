@@ -54,8 +54,10 @@ print("Providing feedback ${feedback} for ${user}");
         {
           "email":email,
           "timestamp": date,
-          "message" : feedback.text as String,
-          "screenshot": screenshot
+          "screenshot": screenshot,
+          "rating": feedback.extra['rating'],
+          "type": feedback.extra['feedback_type'],
+          "message": feedback.extra['feedback_text']
         }
       ]),
     };

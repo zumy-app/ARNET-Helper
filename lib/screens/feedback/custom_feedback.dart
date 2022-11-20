@@ -135,7 +135,7 @@ class _CustomFeedbackFormState extends State<CustomFeedbackForm> {
                     extras: _customFeedback.toMap(),
                   )
               : null,
-          child: const Text('submit'),
+          child: const Text('Submit'),
         ),
         const SizedBox(height: 8),
       ],

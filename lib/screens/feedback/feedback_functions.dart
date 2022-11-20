@@ -33,7 +33,6 @@ void alertFeedbackFunction(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text("Submitted the following feedback. We appreciate it."),
-              Text("${feedback.text}"),
               if (feedback.extra != null) Text(feedback.extra!.toString()),
               Image.memory(
                 feedback.screenshot,

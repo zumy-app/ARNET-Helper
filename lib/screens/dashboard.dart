@@ -99,7 +99,7 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-bool _useCustomFeedback = false;
+bool _useCustomFeedback = true;
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage(this.toggleCustomizedFeedback, this.title, this.data, this.user, {Key? key}) : super(key: key);
@@ -187,10 +187,10 @@ class DashboardPage extends StatelessWidget {
           ),
           appBar: AppBar(
               centerTitle: true,
-              /*       leading: IconButton(
+                 /*    leading: IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.home),
-              ),
+              ),*/
             actions: [
                 IconButton(
                   onPressed: () => {
@@ -200,7 +200,7 @@ class DashboardPage extends StatelessWidget {
                   icon: Icon(Icons.logout),
                 ),
 
-              ],*/
+              ],
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
               title: Text(title)),
