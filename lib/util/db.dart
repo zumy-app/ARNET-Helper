@@ -127,7 +127,13 @@ print("Providing feedback ${feedback} for ${user}");
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-
+  Future<bool> checkIfProfileEmpty(email) async {
+    CollectionReference data = db.collection('users');
+    final profile = ((await data.doc(email).get()).data()
+    as Map<String, dynamic>)['profile'] as Map<String, dynamic>;
+    if(profile==null || profile.length==0) return true;
+    else return false;
+  }
 
   Future<void> updateUserStatus(email, data) async {
     final conn = db.collection("users");

@@ -247,41 +247,28 @@ class DashboardPage extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _showDialog(dynamic user, dynamic userData) {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return Dialog(
-          insetPadding: EdgeInsets.all(30),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40)),
-          elevation: 3,
-          child: Container(
-            child: ProfilePage( user:user,userData:userData),
-          ),
-        );
-      },
-    );
-  }
   @override
   void initState() {
     super.initState();
     // Use either of them.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => Dialog(
-          insetPadding: EdgeInsets.all(30),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)),
-          elevation: 10,
-          child: Container(
-            child: ProfilePage( user:widget.user,userData:widget.userData),
-          ),
-        ),
-      );
+      final isProfileEmpty = await dbRef.checkIfProfileEmpty(dbRef.getEmail(widget.user));
+      if(isProfileEmpty) {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) =>
+              Dialog(
+                insetPadding: EdgeInsets.all(30),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 10,
+                child: Container(
+                  child: ProfilePage(
+                      user: widget.user, userData: widget.userData),
+                ),
+              ),
+        );
+      }
     });
   }
 
