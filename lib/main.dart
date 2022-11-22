@@ -38,9 +38,18 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Firebase Auth Demo',
+        title: 'ARNET Helper',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+            primarySwatch: Colors.green,
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(fontFamily: 'OpenSans', fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            fontFamily: 'OpenSans',
+            textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: const TextStyle(fontFamily: 'OpenSans', fontSize: 20, fontWeight: FontWeight.bold),
+              titleMedium: const TextStyle(fontFamily: 'OpenSans', fontSize: 18, fontWeight: FontWeight.bold),
+              titleSmall: const TextStyle(fontFamily: 'OpenSans', fontSize: 16, fontWeight: FontWeight.w400),
+            )
         ),
         // home: Dashboard(),
         // home: ReqEditForm(map: {}),

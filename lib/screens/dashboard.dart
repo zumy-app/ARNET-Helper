@@ -16,22 +16,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'feedback/custom_feedback.dart';
 import 'feedback/feedback_functions.dart';
+
 class Dashboard extends StatelessWidget {
   final User user;
-   Dashboard({Key? key, required this.user})
-      : super(key: key);
+
+  Dashboard({Key? key, required this.user}) : super(key: key);
   final DB db = DB();
+
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<Map<dynamic, List<dynamic>>>(
       future: db.initialDataLoad(user),
       builder: (BuildContext context,
           AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
         if (snapshot.hasError) {
-          return Spinner(
-              text: 'Something went wrong...'
-          );
+          return Spinner(text: 'Something went wrong...');
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -41,8 +40,7 @@ class Dashboard extends StatelessWidget {
               title: 'ARNET Helper',
               items: snapshot.data!['user']!,
               rules: snapshot.data!['rules']!,
-            user: user
-          );
+              user: user);
         }
 
         return Spinner(text: 'Loading...');
@@ -65,13 +63,14 @@ class Spinner extends StatelessWidget {
           leading: MaterialButton(
             padding: const EdgeInsets.all(10),
             color: Colors.green,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: const Text(
               'LOG OUT',
               style: TextStyle(color: Colors.white, fontSize: 15),
             ),
             onPressed: () {
-             FirebaseAuth.instance.signOut();
+              FirebaseAuth.instance.signOut();
             },
           ),
         ),
@@ -97,95 +96,101 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 bool _useCustomFeedback = false;
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage(this.toggleCustomizedFeedback, this.title, this.data, this.user, {Key? key}) : super(key: key);
+  const DashboardPage(
+      this.toggleCustomizedFeedback, this.title, this.data, this.user,
+      {Key? key})
+      : super(key: key);
   final VoidCallback toggleCustomizedFeedback;
   final title;
   final data;
   final user;
+
   @override
   Widget build(BuildContext context) {
-
-      return Scaffold(
-          drawer: Drawer(
-            // Add a ListView to the drawer. This ensures the user can scroll
-            // through the options in the drawer if there isn't enough vertical
-            // space to fit everything.
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: [
-                 UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: const Color(0xff764abc)),
-                  accountName: Text(
-                    this.user!.displayName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  accountEmail: Text(
-                    dbRef.getEmail(user),
-                    // this.user!.email,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  currentAccountPicture: FlutterLogo(),
+    return Scaffold(
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              UserAccountsDrawerHeader(
+                decoration: BoxDecoration(color: const Color(0xff764abc)),
+                accountName: Text(
+                  this.user!.displayName,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.home,
-                  ),
-                  title: const Text('Home'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                accountEmail: Text(
+                  dbRef.getEmail(user),
+                  // this.user!.email,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.train,
-                  ),
-                  title: const Text('Profile'),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          insetPadding: EdgeInsets.all(30),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40)),
-                          elevation: 3,
-                          child: Container(
+                currentAccountPicture: FlutterLogo(),
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.home,
+                ),
+                title: Text(
+                  'Home',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.train,
+                ),
+                title: Text('Profile',
+                    style: Theme.of(context).textTheme.titleMedium),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.all(30),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40)),
+                        elevation: 3,
+                        child: Container(
                             // child: ProfilePage(user,data),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                            ),
+                      );
+                    },
+                  );
+                },
+              ),
+              AboutListTile(
+                // <-- SEE HERE
+                icon: const Icon(
+                  Icons.info,
                 ),
-                AboutListTile( // <-- SEE HERE
-                  icon: Icon(
-                    Icons.info,
-                  ),
-                  child: Text('About app'),
-                  applicationIcon: Icon(
-                    Icons.local_play,
-                  ),
-                  applicationName: 'US Army Reserve Network (ARNET) Helper',
-                  applicationVersion: '1.0.0',
-                  applicationLegalese: '© 2022 Zumy LLC',
-                  aboutBoxChildren: [
-                    ///Content goes here...
-                  ],
+                applicationIcon: const Icon(
+                  Icons.local_play,
                 ),
-              ],
-            ),
+                applicationName: 'US Army Reserve Network (ARNET) Helper',
+                applicationVersion: '1.0.0',
+                applicationLegalese: '© 2022 Zumy LLC',
+                aboutBoxChildren: [
+                  ///Content goes here...
+                ],
+                child: Text('About app',
+                    style: Theme.of(context).textTheme.titleMedium),
+              ),
+            ],
           ),
-          appBar: AppBar(
-              centerTitle: true,
-              /*       leading: IconButton(
+        ),
+        appBar: AppBar(
+            centerTitle: true,
+            /*       leading: IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.home),
               ),
@@ -199,48 +204,58 @@ class DashboardPage extends StatelessWidget {
                 ),
 
               ],*/
-              // Here we take the value from the MyHomePage object that was created by
-              // the App.build method, and use it to set our appbar title.
-              title: Text(title)),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              BetterFeedback.of(context).show(
-                    (feedback) async {
-                  // upload to server, share whatever
-                  // for example purposes just show it to the user
-                      final feedbackId = await dbRef.provideFeedback(user,feedback);
-                  alertFeedbackFunction(
-                    context,
-                    feedback,
-                    feedbackId
+            // Here we take the value from the MyHomePage object that was created by
+            // the App.build method, and use it to set our appbar title.
+            title: Text(title, style: Theme.of(context).textTheme.titleMedium)),
+        floatingActionButton: FeedbackWidget(user: user),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                // Let the ListView know how many items it needs to build.
+                itemCount: data.length,
+                // Provide a builder function. This is where the magic happens.
+                // Convert each item into a widget based on the type of item it is.
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Center(
+                        child: Requirement(map: data[index], user: user)),
                   );
                 },
-              );
-            },
-            backgroundColor: Colors.red,
-            child: const Icon(Icons.feedback),
-          ),
-          body: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  // Let the ListView know how many items it needs to build.
-                  itemCount: data.length,
-                  // Provide a builder function. This is where the magic happens.
-                  // Convert each item into a widget based on the type of item it is.
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Center(child: Requirement(map: data[index], user: user)),
-                    );
-                  },
-                ),
-              )
-            ],
-          ) // This trailing comma makes auto-formatting nicer for build methods.
-      );
+              ),
+            )
+          ],
+        ) // This trailing comma makes auto-formatting nicer for build methods.
+        );
+  }
+}
 
+class FeedbackWidget extends StatelessWidget {
+  final User user;
+
+  const FeedbackWidget({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        BetterFeedback.of(context).show(
+          (feedback) async {
+            // upload to server, share whatever
+            // for example purposes just show it to the user
+            final feedbackId = await dbRef.provideFeedback(user, feedback);
+            alertFeedbackFunction(context, feedback, feedbackId);
+          },
+        );
+      },
+      backgroundColor: Colors.red,
+      child: const Icon(Icons.feedback),
+    );
   }
 }
 
@@ -300,7 +315,7 @@ class _MyHomePageState extends State<MyHomePage> {
             "date": src['date'],
             "completedVersion": src['completedVersion'],
             "frequencyText": target['frequencyText'],
-            "requiredVersion":target['version'],
+            "requiredVersion": target['version'],
             "footer": target['footer'],
             "dueIn": dueDays,
             "dueDate": dueDate,
@@ -319,14 +334,15 @@ class _MyHomePageState extends State<MyHomePage> {
     void _toggleCustomizedFeedback() =>
         setState(() => _useCustomFeedback = !_useCustomFeedback);
     return BetterFeedback(
-        child: Container(
-        child: DashboardPage(_toggleCustomizedFeedback,widget.title, data, widget.user),
-    ),
+      child: Container(
+        child: DashboardPage(
+            _toggleCustomizedFeedback, widget.title, data, widget.user),
+      ),
       feedbackBuilder: _useCustomFeedback
           ? (context, onSubmit, scrollController) => CustomFeedbackForm(
-        onSubmit: onSubmit,
-        scrollController: scrollController,
-      )
+                onSubmit: onSubmit,
+                scrollController: scrollController,
+              )
           : null,
       theme: FeedbackThemeData(
         background: Colors.grey,
@@ -360,108 +376,89 @@ class Requirement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ExpansionTileCard(
-      baseColor: calcColor(map['severity']),
-      expandedColor: calcColor(map['severity']),
-      title: Text(
-        this.map['title'],
-        textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-      ),
-      subtitle: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-               Text(
-            "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-          ),
-          Text(
-            "${this.map['footer']} ${this.map['date']}",
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-          )
-        ],
-      ),
-      children: [
-        Row(
-          children: [
-            Expanded(
-                child: Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                icon: Icon(Icons.edit),
+    return Card(
+      elevation: 5,
+      child: ExpansionTileCard(
+        baseColor: calcColor(map['severity']),
+        expandedColor: calcColor(map['severity']),
+        title: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  this.map['title'],
+                  // overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit),
+                alignment: Alignment.centerRight,
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return Dialog(
-                          insetPadding: EdgeInsets.all(30),
+                        insetPadding: EdgeInsets.all(30),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40)),
                         elevation: 3,
                         child: Container(
-                          child: ReqEditForm(map: map, user:user),
+                          child: ReqEditForm(map: map, user: user),
                         ),
                       );
                     },
                   );
                 },
               ),
-            ))
-          ],
+            ],
+          ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                   Text(
-                    "Frequency: ${this.map['frequencyText']}",
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                  ),
-        if(this.map['completedVersion']!=null)
-               Text(
-                    "Completed Version: ${this.map['completedVersion']}",
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                  ),
-if(this.map['requiredVersion']!=null)
                 Text(
-                 "Required Version: ${this.map['requiredVersion']}",
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
+                  "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(
+                  "${this.map['footer']} ${this.map['date']}",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(
+                  "Frequency: ${this.map['frequencyText']}",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Text(
+                  "id: ${this.map['id']}",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                if (this.map['completedVersion'] != null)
+                  Text(
+                    "Completed Version: ${this.map['completedVersion']}",
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-
+                if (this.map['requiredVersion'] != null)
+                  Text(
+                    "Required Version: ${this.map['requiredVersion']}",
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                Text(
+                  "Notes: ${this.map['notes']}",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ],
             ),
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                      child: Text(
-                        "${this.map['footer']} ${this.map['date']}",
-                        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                      )),
-                  Container(
-                      child: Text(
-                    "Expires in days: ${this.map['dueIn'] < 0 ? "N/A" : this.map['dueIn']} ",
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                  )),
-                  Container(
-                    child: Text(
-                      "id: ${this.map['id']}",
-                      style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-        Container(
-          child: Text(
-            "Notes: ${this.map['notes']}",
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
