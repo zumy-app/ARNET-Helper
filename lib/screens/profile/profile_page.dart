@@ -20,15 +20,12 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-final profile = {
-  "rank":"",
-  "job_title":"",
-  "unit":""
-};
+
 class _ProfilePageState extends State<ProfilePage> {
   bool _unitHasError = false;
   final DB db = DB();
   final _formKey = GlobalKey<FormState>();
+
   List<String> rankOptions = [
     "PVT - Private",
     "PV2 - Private Second Class",
@@ -70,20 +67,33 @@ class _ProfilePageState extends State<ProfilePage> {
         .format(DateTime.now()); //set the initial value of text field
     super.initState();
   }
-
+  var profile ={
+  };
   @override
   Widget build(BuildContext context) {
+     profile = {
+      "rank":widget.fbUserData['profile']['rank'],
+      "job_title":widget.fbUserData['profile']['job_title'],
+      "unit":widget.fbUserData['profile']['unit']
+    };
 
-
+    isValid() {
+      return (!profile['rank']!.isEmpty && !profile['job_title']!.isEmpty && !profile['unit']!.isEmpty);
+    }
     return  Padding(padding: EdgeInsets.all(30.0),child:
     FormBuilder(
+      initialValue: {
+        "rank":widget.fbUserData['profile']['rank'],
+        "job_title":widget.fbUserData['profile']['job_title'],
+        "unit":widget.fbUserData['profile']['unit']
+      },
         key: _formKey,
         autovalidateMode: AutovalidateMode.disabled,
         skipDisabled: true,
         child: Column(
           children: [
             Text(
-                "Please update your profile",
+                "Update your profile",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
             ),
             FormBuilderDropdown<String>(
@@ -139,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             FormBuilderTextField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              name: 'Unit',
+              name: 'unit',
               maxLines: 3,
               decoration: InputDecoration(
                 labelText: 'Unit Info',
@@ -152,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               onChanged: (val) {
                 setState(() {
-                  profile['unit']=val!;
+                  profile.update("unit", (value) => val!);
                 });;
               },
               // valueTransformer: (text) => num.tryParse(text),
@@ -167,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               width: double.infinity,
               child:  ElevatedButton(
-                child: const Text('Complete my profile!'),
+                child: const Text('Submit'),
                 onPressed: isValid()? () async {
                 var email = db.getEmail(widget.ssoUserData);
                 final updated = await db.updateUserProfile(email, profile);
@@ -185,11 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  _submit() {
 
-  }
 }
 
-isValid() {
-return (!profile['rank']!.isEmpty && !profile['job_title']!.isEmpty && !profile['unit']!.isEmpty);
-}
+

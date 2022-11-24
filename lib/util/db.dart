@@ -90,15 +90,15 @@ print("Providing feedback ${feedback} for ${user}");
     return {"status": items,"feedback":[],"profile":{}};
   }
 
-  Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
+  Future<Map<String, dynamic>> initialDataLoad(User loggedInUser) async {
     CollectionReference data = db.collection('data');
 
     final rules = ((await data.doc("config").get()).data()
         as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
     final email = getEmail(loggedInUser);
-    final user = ((await db.collection("users").doc(email).get()).data()
-        as Map<String, dynamic>)['status'] as List<dynamic>;
-    return {"rules": rules, "user": user};
+    final fbUserData = ((await db.collection("users").doc(email).get()).data()
+        as Map<String, dynamic>);
+    return {"rules": rules, "fbUserData": fbUserData};
   }
 
   getEmail(User loggedInUser){

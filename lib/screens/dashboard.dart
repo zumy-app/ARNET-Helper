@@ -26,10 +26,10 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<Map<dynamic, List<dynamic>>>(
+    return FutureBuilder<Map<dynamic, dynamic>>(
       future: db.initialDataLoad(ssoUserData),
       builder: (BuildContext context,
-          AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
+          AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
         if (snapshot.hasError) {
           return Spinner(
               text: 'Something went wrong...'
@@ -41,7 +41,7 @@ class Dashboard extends StatelessWidget {
 
           return MyHomePage(
               title: 'ARNET Helper',
-              fbUserData: snapshot.data!['user']!,
+              fbUserData: snapshot.data!['fbUserData']!,
               rules: snapshot.data!['rules']!,
             ssoUserData: ssoUserData
           );
@@ -93,7 +93,7 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
   final List<dynamic> rules;
-  final List<dynamic> fbUserData;
+  final Map<dynamic, dynamic> fbUserData;
   final User ssoUserData;
 
   @override
@@ -310,8 +310,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    List calc(List items, List rules) {
+    List calc(Map fbUserData, List rules) {
       List results = [];
+      final items = fbUserData['status'] as List<dynamic>;
       items.forEach((src) {
         final target =
             rules.firstWhere((element) => element['id'] == src['id']);
