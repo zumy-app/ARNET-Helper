@@ -9,11 +9,11 @@ import '../dashboard.dart';
 
 class ProfilePage extends StatefulWidget {
 
-  final dynamic user;
+  final dynamic ssoUserData;
   //User data in Firebase
-  final dynamic userData;
+  final dynamic fbUserData;
 
-  const ProfilePage({Key? key, required this.user, required this.userData})
+  const ProfilePage({Key? key, required this.ssoUserData, required this.fbUserData})
       : super(key: key);
 
   @override
@@ -169,12 +169,12 @@ class _ProfilePageState extends State<ProfilePage> {
               child:  ElevatedButton(
                 child: const Text('Complete my profile!'),
                 onPressed: isValid()? () async {
-                var email = db.getEmail(widget.user);
+                var email = db.getEmail(widget.ssoUserData);
                 final updated = await db.updateUserProfile(email, profile);
                 print("Updated user profile for ${email} with ${profile.toString()}");
                 Navigator.pop(context);
                 Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
+                    MaterialPageRoute(builder: (context) => Dashboard(ssoUserData:widget.ssoUserData)), (r) => false);
                 }:null,
               ),
             ),

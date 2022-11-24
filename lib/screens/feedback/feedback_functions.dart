@@ -32,7 +32,7 @@ void alertFeedbackFunction(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Submitted the following feedback. We appreciate it."),
+              Text("We have received your feedback. We are a small business run by a service member and created this app to help fellow soldiers. We may not have resources to implement every feature but we will prioritize those that are most impactful."),
               if (feedback.extra != null) Text(feedback.extra!.toString()),
               Image.memory(
                 feedback.screenshot,

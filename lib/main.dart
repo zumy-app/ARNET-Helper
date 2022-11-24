@@ -65,7 +65,7 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return  Dashboard(user:firebaseUser);
+      return  Dashboard(ssoUserData:firebaseUser);
     }
     return const SignInOne();
   }
