@@ -22,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool _unitHasError = false;
   final DB db = DB();
   final _formKey = GlobalKey<FormState>();
 
@@ -71,11 +70,14 @@ class _ProfilePageState extends State<ProfilePage> {
   };
   @override
   Widget build(BuildContext context) {
-     profile = {
-      "rank":widget.fbUserData['profile']['rank'],
-      "job_title":widget.fbUserData['profile']['job_title'],
-      "unit":widget.fbUserData['profile']['unit']
-    };
+    if(profile.isEmpty){
+      profile = {
+        "rank":widget.fbUserData['profile']['rank'],
+        "job_title":widget.fbUserData['profile']['job_title'],
+        "unit":widget.fbUserData['profile']['unit']
+      };
+    }
+
 
     isValid() {
       return (!profile['rank']!.isEmpty && !profile['job_title']!.isEmpty && !profile['unit']!.isEmpty);
