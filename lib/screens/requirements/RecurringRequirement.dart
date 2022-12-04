@@ -1,7 +1,7 @@
 
 import 'dart:ui';
 
-import 'package:arnet_helper/screens/dashboard.dart';
+import 'package:battle_buddy/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

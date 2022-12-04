@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:arnet_helper/main.dart';
-import 'package:arnet_helper/screens/profile/profile_page.dart';
-import 'package:arnet_helper/screens/requirement_edit.dart';
-import 'package:arnet_helper/util/db.dart';
+import 'package:battle_buddy/main.dart';
+import 'package:battle_buddy/screens/profile/profile_page.dart';
+import 'package:battle_buddy/screens/requirement_edit.dart';
+import 'package:battle_buddy/util/db.dart';
 
 import 'package:feedback/feedback.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:arnet_helper/services/firebase_auth_methods.dart';
+import 'package:battle_buddy/services/firebase_auth_methods.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'feedback/custom_feedback.dart';
@@ -40,7 +40,7 @@ class Dashboard extends StatelessWidget {
           final docs = snapshot.data!;
 
           return MyHomePage(
-              title: 'ARNET Helper',
+              title: 'Battle Buddy',
               fbUserData: snapshot.data!['fbUserData']!,
               rules: snapshot.data!['rules']!,
             ssoUserData: ssoUserData
@@ -135,7 +135,7 @@ class DashboardPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  currentAccountPicture: FlutterLogo(),
+                  currentAccountPicture: Image.asset('icons/1024.png'),
                 ),
                 ListTile(
                   leading: Icon(
@@ -174,7 +174,7 @@ class DashboardPage extends StatelessWidget {
                   applicationIcon: Icon(
                     Icons.local_play,
                   ),
-                  applicationName: 'US Army Reserve Network (ARNET) Helper',
+                  applicationName: 'Battle Buddy ',
                   applicationVersion: '1.0.0',
                   applicationLegalese: '© 2022 Zumy LLC',
                   aboutBoxChildren: [

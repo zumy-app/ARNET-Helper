@@ -1,9 +1,9 @@
-import 'package:arnet_helper/screens/login/sign_in_1.dart';
-import 'package:arnet_helper/screens/profile/profile_page.dart';
-import 'package:arnet_helper/screens/signup_email_password_screen.dart';
-import 'package:arnet_helper/services/firebase_auth_methods.dart';
-import 'package:arnet_helper/util/db.dart';
-import 'package:arnet_helper/screens/dashboard.dart';
+import 'package:battle_buddy/screens/login/sign_in_1.dart';
+import 'package:battle_buddy/screens/profile/profile_page.dart';
+import 'package:battle_buddy/screens/signup_email_password_screen.dart';
+import 'package:battle_buddy/services/firebase_auth_methods.dart';
+import 'package:battle_buddy/util/db.dart';
+import 'package:battle_buddy/screens/dashboard.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Firebase Auth Demo',
+        title: 'Battle Buddy',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

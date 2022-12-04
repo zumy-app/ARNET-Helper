@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ARNET Helper by Zumy</string>
+    <string name="app_name">Battle Buddy by Zumy</string>
     <string name="facebook_app_id">1482692755576106</string>
     <string name="fb_login_protocol_scheme">fb1482692755576106</string>
     <string name="facebook_client_token">bce308ef153a9b40c921246ea5fd0262</string>

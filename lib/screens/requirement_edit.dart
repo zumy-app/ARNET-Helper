@@ -1,5 +1,5 @@
-import 'package:arnet_helper/screens/requirements/RecurringRequirement.dart';
-import 'package:arnet_helper/screens/requirements/VersionRequirement.dart';
+import 'package:battle_buddy/screens/requirements/RecurringRequirement.dart';
+import 'package:battle_buddy/screens/requirements/VersionRequirement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -53,7 +53,7 @@ class ReqEditForm extends StatefulWidget {
           "https://jkosupport.jten.mil \nSOC-AFR-0100-SOCAFRICA\nOr \nhttps://cyber.mil/cyber-training/training-catalog/\nPhishing and Social Engineering: Virtual Communication Awareness Training"
     },
     {
-      "title": "Sign in to ARNET",
+      "title": "Sign in to Battle Buddy ",
       "id": 1,
       "frequency": 30,
       "date": "9/24/2022",
@@ -64,7 +64,7 @@ class ReqEditForm extends StatefulWidget {
       "dueDate": "10/24/22",
       "severity": 5,
       "notes":
-          "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
+          "Sign in to Battle Buddy  from any Army Reserve location or remotely through Citrix"
     },
     {
       "title": "Army IT User Agreement",

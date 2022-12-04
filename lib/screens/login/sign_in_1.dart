@@ -1,10 +1,10 @@
-import 'package:arnet_helper/screens/login/social_button.dart';
+import 'package:battle_buddy/screens/login/social_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arnet_helper/services/firebase_auth_methods.dart';
+import 'package:battle_buddy/services/firebase_auth_methods.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +28,7 @@ class SignInOne extends StatelessWidget {
                 //logo section
 
                 Text(
-                  "ARNET Helper",
+                  "Battle Buddy",
               style: const TextStyle(
               fontSize: 30.0,
               color: Colors.black,fontWeight: FontWeight.bold,

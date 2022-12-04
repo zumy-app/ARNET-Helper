@@ -1,5 +1,5 @@
-import 'package:arnet_helper/services/firebase_auth_methods.dart';
-import 'package:arnet_helper/widgets/custom_textfield.dart';
+import 'package:battle_buddy/services/firebase_auth_methods.dart';
+import 'package:battle_buddy/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
