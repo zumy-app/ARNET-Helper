@@ -121,7 +121,7 @@ class _RecurringRequirementState extends State<RecurringRequirement> {
     db.updateReqStatus(db.getEmail(widget.user), widget.map['id'],widget.map['date'], dateInput.text);
   Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
+        MaterialPageRoute(builder: (context) => Dashboard(ssoUserData:widget.user)), (r) => false);
   }
 }
 

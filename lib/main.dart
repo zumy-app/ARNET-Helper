@@ -1,16 +1,17 @@
 import 'package:arnet_helper/screens/login/sign_in_1.dart';
+import 'package:arnet_helper/screens/profile/profile_page.dart';
 import 'package:arnet_helper/screens/signup_email_password_screen.dart';
 import 'package:arnet_helper/services/firebase_auth_methods.dart';
 import 'package:arnet_helper/util/db.dart';
 import 'package:arnet_helper/screens/dashboard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
+
 
 import 'screens/requirement_edit.dart';
 
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: Dashboard(),
+        // home: ProfilePage(),
         // home: ReqEditForm(map: {}),
         home: const AuthWrapper(),
         routes: {
@@ -63,7 +65,7 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return  Dashboard(user:firebaseUser);
+      return  Dashboard(ssoUserData:firebaseUser);
     }
     return const SignInOne();
   }

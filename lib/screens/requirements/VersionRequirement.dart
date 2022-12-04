@@ -182,6 +182,6 @@ class _VersionRequirementState extends State<VersionRequirement> {
         dateInput.text);
     Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Dashboard(user:widget.user)), (r) => false);
+        MaterialPageRoute(builder: (context) => Dashboard(ssoUserData:widget.user)), (r) => false);
   }
 }

@@ -17,17 +17,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'feedback/custom_feedback.dart';
 import 'feedback/feedback_functions.dart';
 class Dashboard extends StatelessWidget {
-  final User user;
-   Dashboard({Key? key, required this.user})
+  final User ssoUserData;
+   Dashboard({Key? key, required this.ssoUserData})
       : super(key: key);
   final DB db = DB();
+
+
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<Map<dynamic, List<dynamic>>>(
-      future: db.initialDataLoad(user),
+    return FutureBuilder<Map<dynamic, dynamic>>(
+      future: db.initialDataLoad(ssoUserData),
       builder: (BuildContext context,
-          AsyncSnapshot<Map<dynamic, List<dynamic>>> snapshot) {
+          AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
         if (snapshot.hasError) {
           return Spinner(
               text: 'Something went wrong...'
@@ -39,9 +41,9 @@ class Dashboard extends StatelessWidget {
 
           return MyHomePage(
               title: 'ARNET Helper',
-              items: snapshot.data!['user']!,
+              fbUserData: snapshot.data!['fbUserData']!,
               rules: snapshot.data!['rules']!,
-            user: user
+            ssoUserData: ssoUserData
           );
         }
 
@@ -85,26 +87,27 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage(
       {super.key,
       required this.title,
-      required this.items,
+      required this.fbUserData,
       required this.rules,
-      required this.user});
+      required this.ssoUserData});
 
   final String title;
   final List<dynamic> rules;
-  final List<dynamic> items;
-  final User user;
+  final Map<dynamic, dynamic> fbUserData;
+  final User ssoUserData;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-bool _useCustomFeedback = false;
+bool _useCustomFeedback = true;
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage(this.toggleCustomizedFeedback, this.title, this.data, this.user, {Key? key}) : super(key: key);
+  const DashboardPage(this.toggleCustomizedFeedback, this.title, this.arnetUserDataCalculated, this.ssoUserData, this.fbUserData, {Key? key}) : super(key: key);
   final VoidCallback toggleCustomizedFeedback;
   final title;
-  final data;
-  final user;
+  final arnetUserDataCalculated;
+  final ssoUserData;
+  final fbUserData;
   @override
   Widget build(BuildContext context) {
 
@@ -120,13 +123,13 @@ class DashboardPage extends StatelessWidget {
                  UserAccountsDrawerHeader(
                   decoration: BoxDecoration(color: const Color(0xff764abc)),
                   accountName: Text(
-                    this.user!.displayName,
+                    this.ssoUserData!.displayName,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   accountEmail: Text(
-                    dbRef.getEmail(user),
+                    dbRef.getEmail(ssoUserData),
                     // this.user!.email,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -145,7 +148,7 @@ class DashboardPage extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(
-                    Icons.train,
+                    Icons.person,
                   ),
                   title: const Text('Profile'),
                   onTap: () {
@@ -157,9 +160,7 @@ class DashboardPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40)),
                           elevation: 3,
-                          child: Container(
-                            // child: ProfilePage(user,data),
-                          ),
+                          child: ProfilePage(ssoUserData: ssoUserData, fbUserData: fbUserData),
                         );
                       },
                     );
@@ -185,10 +186,10 @@ class DashboardPage extends StatelessWidget {
           ),
           appBar: AppBar(
               centerTitle: true,
-              /*       leading: IconButton(
+                 /*    leading: IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.home),
-              ),
+              ),*/
             actions: [
                 IconButton(
                   onPressed: () => {
@@ -198,7 +199,7 @@ class DashboardPage extends StatelessWidget {
                   icon: Icon(Icons.logout),
                 ),
 
-              ],*/
+              ],
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
               title: Text(title)),
@@ -208,7 +209,7 @@ class DashboardPage extends StatelessWidget {
                     (feedback) async {
                   // upload to server, share whatever
                   // for example purposes just show it to the user
-                      final feedbackId = await dbRef.provideFeedback(user,feedback);
+                      final feedbackId = await dbRef.provideFeedback(ssoUserData,feedback);
                   alertFeedbackFunction(
                     context,
                     feedback,
@@ -226,13 +227,13 @@ class DashboardPage extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   // Let the ListView know how many items it needs to build.
-                  itemCount: data.length,
+                  itemCount: arnetUserDataCalculated.length,
                   // Provide a builder function. This is where the magic happens.
                   // Convert each item into a widget based on the type of item it is.
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Center(child: Requirement(map: data[index], user: user)),
+                      child: Center(child: Requirement(map: arnetUserDataCalculated[index], user: ssoUserData)),
                     );
                   },
                 ),
@@ -245,6 +246,31 @@ class DashboardPage extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    // Use either of them.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final isProfileEmpty = await dbRef.checkIfProfileEmpty(dbRef.getEmail(widget.ssoUserData));
+      if(isProfileEmpty) {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) =>
+              Dialog(
+                insetPadding: EdgeInsets.all(30),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 10,
+                child: Container(
+                  child: ProfilePage(
+                      ssoUserData: widget.ssoUserData, fbUserData: widget.fbUserData),
+                ),
+              ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final df = DateFormat('MM/dd/yy');
@@ -284,8 +310,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    List calc(List items, List rules) {
+    List calc(Map fbUserData, List rules) {
       List results = [];
+      final items = fbUserData['status'] as List<dynamic>;
       items.forEach((src) {
         final target =
             rules.firstWhere((element) => element['id'] == src['id']);
@@ -315,12 +342,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return results;
     }
 
-    final data = calc(widget.items, widget.rules);
+    final arnetUserDataCalculated = calc(widget.fbUserData, widget.rules);
     void _toggleCustomizedFeedback() =>
         setState(() => _useCustomFeedback = !_useCustomFeedback);
     return BetterFeedback(
         child: Container(
-        child: DashboardPage(_toggleCustomizedFeedback,widget.title, data, widget.user),
+        child: DashboardPage(_toggleCustomizedFeedback,widget.title, arnetUserDataCalculated, widget.ssoUserData, widget.fbUserData),
     ),
       feedbackBuilder: _useCustomFeedback
           ? (context, onSubmit, scrollController) => CustomFeedbackForm(

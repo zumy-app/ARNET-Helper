@@ -54,8 +54,10 @@ print("Providing feedback ${feedback} for ${user}");
         {
           "email":email,
           "timestamp": date,
-          "message" : feedback.text as String,
-          "screenshot": screenshot
+          "screenshot": screenshot,
+          "rating": feedback.extra['rating'],
+          "type": feedback.extra['feedback_type'],
+          "message": feedback.extra['feedback_text']
         }
       ]),
     };
@@ -85,18 +87,18 @@ print("Providing feedback ${feedback} for ${user}");
       {"id":9,"completedVersion":1,"date":date}
     ];
 
-    return {"status": items,"feedback":[]};
+    return {"status": items,"feedback":[],"profile":{}};
   }
 
-  Future<Map<String, List<dynamic>>> initialDataLoad(User loggedInUser) async {
+  Future<Map<String, dynamic>> initialDataLoad(User loggedInUser) async {
     CollectionReference data = db.collection('data');
 
     final rules = ((await data.doc("config").get()).data()
         as Map<String, dynamic>)['ruleslist'] as List<dynamic>;
     final email = getEmail(loggedInUser);
-    final user = ((await db.collection("users").doc(email).get()).data()
-        as Map<String, dynamic>)['status'] as List<dynamic>;
-    return {"rules": rules, "user": user};
+    final fbUserData = ((await db.collection("users").doc(email).get()).data()
+        as Map<String, dynamic>);
+    return {"rules": rules, "fbUserData": fbUserData};
   }
 
   getEmail(User loggedInUser){
@@ -127,7 +129,13 @@ print("Providing feedback ${feedback} for ${user}");
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-
+  Future<bool> checkIfProfileEmpty(email) async {
+    CollectionReference data = db.collection('users');
+    final profile = ((await data.doc(email).get()).data()
+    as Map<String, dynamic>)['profile'] as Map<String, dynamic>;
+    if(profile==null || profile.length==0) return true;
+    else return false;
+  }
 
   Future<void> updateUserStatus(email, data) async {
     final conn = db.collection("users");
@@ -137,7 +145,14 @@ print("Providing feedback ${feedback} for ${user}");
         .then((value) => print("Data Added $data"))
         .catchError((error) => print("Failed to add user: $error"));
   }
-
+  Future<void> updateUserProfile(email, data) async {
+    final conn = db.collection("users");
+    return conn
+        .doc(email)
+        .update({"profile": data})
+        .then((value) => print("Profile Added $data"))
+        .catchError((error) => print("Failed to update profile: $error"));
+  }
   Future<void> updateVersionStatus(
       email, key, dynamic oldVal, dynamic newVal, oldDate, newDate) async {
     final conn = db.collection("users").doc(email);
