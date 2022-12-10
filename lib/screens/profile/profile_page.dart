@@ -80,7 +80,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
     isValid() {
-      return (!profile['rank']!.isEmpty && !profile['job_title']!.isEmpty && !profile['unit']!.isEmpty);
+      return (
+          (profile['job_title']!=null && !profile['job_title'].isEmpty ) &&
+              (profile['rank']!=null && !profile['rank'].isEmpty ) &&
+              (profile['unit']!=null && !profile['unit'].isEmpty )
+
+      );
     }
     return  Padding(padding: EdgeInsets.all(30.0),child:
     FormBuilder(
@@ -131,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 hintText: "Eg: Supply Sergeant",
                 // helperText: "Describe your current job in the Army",
                 errorStyle: TextStyle(color: Colors.black),
-                suffixIcon: profile['job_title']!.isEmpty
+                suffixIcon: (profile['job_title']==null || profile['job_title'].isEmpty )
                     ? const Icon(Icons.error, color: Colors.black)
                     : const Icon(Icons.check, color: Colors.green),
               ),
@@ -158,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 hintText: "Eg: 360 PSYCHOLOGICAL OPERATIONS COMPANY",
                 errorStyle: TextStyle(color: Colors.black),
                 // helperText: "Please include Company/Battery/Troop and the Battalion/Brigade/Division info",
-                suffixIcon: profile['unit']!.isEmpty
+                suffixIcon: (profile['unit']==null || profile['unit'].isEmpty )
                     ? const Icon(Icons.error, color: Colors.black)
                     : const Icon(Icons.check, color: Colors.green),
               ),
