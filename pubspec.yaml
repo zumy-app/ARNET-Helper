@@ -1,5 +1,5 @@
 name: battle_buddy
-description: Helps maintain Battle Buddy  Access
+description: Tools to help Army Reserve Currently includes the ability to track ARNET Access. New tools such as ACFT calculator and others are planned!
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
