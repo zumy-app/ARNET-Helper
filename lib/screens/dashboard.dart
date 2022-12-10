@@ -135,7 +135,7 @@ class DashboardPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  currentAccountPicture: Image.asset('icons/1024.png'),
+                  currentAccountPicture: Image.asset('assets/icons/1024.png'),
                 ),
                 ListTile(
                   leading: Icon(
