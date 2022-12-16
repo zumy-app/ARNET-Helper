@@ -53,13 +53,13 @@ final db = new DB();
 
     List rules = [
       {
-        "title": "Sign in to ARNET",
+        "title": "Sign in to Battle Buddy ",
         "id": 1,
         "frequency": 30, //in days
         "frequencyText": "Monthly Requirement",
         "footer": "Last Signed in on",
         "notes":
-        "Sign in to ARNET from any Army Reserve location or remotely through Citrix"
+        "Sign in to Battle Buddy  from any Army Reserve location or remotely through Citrix"
       },
       {
         "title": "Army IT User Agreement",

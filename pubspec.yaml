@@ -1,5 +1,5 @@
-name: arnet_helper
-description: Helps maintain ARNET Access
+name: battle_buddy
+description: 'Tools to help Army Reserve Currently includes the ability to track ARNET Access. New tools such as ACFT calculator and others are planned!'
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -59,7 +59,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  icons_launcher: ^1.1.7
+  flutter_launcher_icons: "^0.11.0"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -67,9 +67,22 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 flutter_icons:
-  image_path: 'assets/icons/1024.png'
+  android: "launcher_icon"
   ios: true
-  android: true
+  image_path: 'assets/icons/1024.png'
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: 'assets/icons/1024.png'
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"
+  windows:
+    generate: true
+    image_path: 'assets/icons/1024.png'
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: 'assets/icons/1024.png'
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -87,6 +100,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

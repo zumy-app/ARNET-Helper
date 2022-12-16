@@ -1,7 +1,7 @@
-import 'package:arnet_helper/main.dart';
+import 'package:battle_buddy/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:arnet_helper/util/showOTPDialog.dart';
-import 'package:arnet_helper/util/showSnackbar.dart';
+import 'package:battle_buddy/util/showOTPDialog.dart';
+import 'package:battle_buddy/util/showSnackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';

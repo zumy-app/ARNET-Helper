@@ -1,8 +1,8 @@
 
-# ARNET Helper
-## Let us help you track and maintain U.S Army Reserve Network (ARNET) Access!
+# Battle Buddy
+## Let us help you track and maintain U.S Army Reserve Network (battle-buddy) Access!
 
-Tracking and Maintaining ARNET Access is a pain. This app allows US Army Reserve soldiers maintain their ARNET Access by providing them a way to track the various training requirements
+Tracking and Maintaining battle-buddy Access is a pain. This app allows US Army Reserve soldiers maintain their battle-buddy Access by providing them a way to track the various training requirements
 
 - See all of the training requirements in one place
 - User driven - Put in the date you completed a given training and the app will help you track it

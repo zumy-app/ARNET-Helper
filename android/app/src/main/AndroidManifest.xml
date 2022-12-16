@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.zumy.mil.arnet_helper">
+    package="app.zumy.mil.battle_buddy">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="arnet_helper"
+        android:label="Battle Buddy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

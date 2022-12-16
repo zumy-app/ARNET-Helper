@@ -71,6 +71,6 @@ class DefaultFirebaseOptions {
     projectId: 'mil-arnet-helper-ec885',
     storageBucket: 'mil-arnet-helper-ec885.appspot.com',
     iosClientId: '383929334656-3t3ueeqqdid7acdka723vgd90g0pl6d3.apps.googleusercontent.com',
-    iosBundleId: 'app.zumy.mil.arnethelper.arnetHelper',
+    iosBundleId: 'app.zumy.mil.battlebuddy',
   );
 }
