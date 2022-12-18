@@ -78,8 +78,8 @@ class _VersionRequirementState extends State<VersionRequirement> {
                 "Enter the last  completed version    ",
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15),
               ),
-              SizedBox(
-                width: 100.0,
+              Flexible(
+                flex: 1,
                 child: DropdownButtonFormField<dynamic>(
                     validator: (value) {
                       if (value == map['completedVersion']) {
