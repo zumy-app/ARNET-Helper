@@ -40,22 +40,22 @@ dependencies:
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.4
   firebase_auth: ^4.1.1
-  expansion_tile_card: ^2.0.0
-  flutter_facebook_auth: ^5.0.1
+  expansion_tile_card: ^3.0.0
+  flutter_facebook_auth: ^6.0.1
   google_sign_in: ^5.2.4
   provider: ^6.0.2
   flutter_svg: ^1.0.3
-  google_fonts: ^2.3.1
+  google_fonts: ^5.1.0
   animated_splash_screen: ^1.1.0
   url_launcher: ^6.1.6
-  feedback: ^2.5.0
+  feedback: ^2.6.0
   flutter_email_sender: ^5.1.0
   localization: ^2.1.0
   flutter_markdown: ^0.6.13
   share_plus: ^6.2.0
   firebase_storage: ^11.0.4
-  flutter_form_builder: ^7.7.0
-  form_builder_validators: ^8.4.0
+  flutter_form_builder: ^9.1.0
+  form_builder_validators: ^9.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
